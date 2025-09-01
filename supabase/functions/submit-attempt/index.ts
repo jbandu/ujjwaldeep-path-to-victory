@@ -5,10 +5,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-interface SubmitAttemptRequest {
-  attemptId: string;
-}
-
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -51,12 +47,15 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Parse request body
-    const { attemptId }: SubmitAttemptRequest = await req.json()
+    // Extract attempt ID from URL path
+    const url = new URL(req.url)
+    const pathParts = url.pathname.split('/')
+    const attemptIndex = pathParts.indexOf('attempts')
+    const attemptId = attemptIndex >= 0 ? pathParts[attemptIndex + 1] : null
     
     if (!attemptId) {
       return new Response(
-        JSON.stringify({ error: 'Attempt ID is required' }),
+        JSON.stringify({ error: 'Attempt ID is required in URL path' }),
         { 
           status: 400, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 

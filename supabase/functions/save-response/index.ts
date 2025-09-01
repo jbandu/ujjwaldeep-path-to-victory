@@ -6,7 +6,6 @@ const corsHeaders = {
 }
 
 interface SaveResponseRequest {
-  attemptId: string;
   questionId: number;
   selectedIndex: number;
   timeSpent?: number;
@@ -54,12 +53,28 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Parse request body
-    const { attemptId, questionId, selectedIndex, timeSpent }: SaveResponseRequest = await req.json()
+    // Extract attempt ID from URL path
+    const url = new URL(req.url)
+    const pathParts = url.pathname.split('/')
+    const attemptIndex = pathParts.indexOf('attempts')
+    const attemptId = attemptIndex >= 0 ? pathParts[attemptIndex + 1] : null
     
-    if (!attemptId || questionId === undefined || selectedIndex === undefined) {
+    if (!attemptId) {
       return new Response(
-        JSON.stringify({ error: 'Missing required fields: attemptId, questionId, selectedIndex' }),
+        JSON.stringify({ error: 'Attempt ID is required in URL path' }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      )
+    }
+
+    // Parse request body
+    const { questionId, selectedIndex, timeSpent }: SaveResponseRequest = await req.json()
+    
+    if (questionId === undefined || selectedIndex === undefined) {
+      return new Response(
+        JSON.stringify({ error: 'Missing required fields: questionId, selectedIndex' }),
         { 
           status: 400, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -88,7 +103,7 @@ Deno.serve(async (req) => {
     }
 
     // Upsert the response (insert or update if exists)
-    const { data: response, error: responseError } = await supabase
+    const { error: responseError } = await supabase
       .from('items_attempted')
       .upsert({
         attempt_id: attemptId,
@@ -97,7 +112,6 @@ Deno.serve(async (req) => {
         time_ms: timeSpent || 0,
         // correct field will be populated during submission when we compare with correct_index
       })
-      .select()
 
     if (responseError) {
       console.error('Response save error:', responseError)

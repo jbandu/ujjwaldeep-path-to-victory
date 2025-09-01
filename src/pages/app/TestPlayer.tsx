@@ -64,25 +64,32 @@ const TestPlayer: React.FC = () => {
       if (!attemptId) return;
 
       try {
-        const { data, error } = await (supabase as any).functions.invoke('get-attempt', {
-          body: { attemptId }
+        // Call GET /api/attempts/[id] endpoint
+        const response = await fetch(`https://orxjqiegmocarwdedkpu.supabase.co/functions/v1/get-attempt/${attemptId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+            'Content-Type': 'application/json',
+          },
         });
 
-        if (error) {
-          if (error.message.includes('already submitted')) {
+        const data = await response.json();
+
+        if (!response.ok) {
+          if (data.error && data.error.includes('already submitted')) {
             navigate(`/app/results/${attemptId}`);
             return;
           }
-          throw new Error(error.message);
+          throw new Error(data.error || 'Failed to load attempt');
         }
         
-        setAttempt(data.attempt);
-        setTimeRemaining(data.attempt.time_remaining);
+        setAttempt(data);
+        setTimeRemaining(data.time_remaining);
         
         // Initialize question states with existing responses
         const states = new Map<number, QuestionState>();
-        data.attempt.questions.forEach((q: Question) => {
-          const existingResponse = data.attempt.existing_responses?.[q.id];
+        data.questions.forEach((q: Question) => {
+          const existingResponse = data.existing_responses?.[q.id];
           states.set(q.id, {
             answered: existingResponse !== undefined,
             flagged: false, // Could be loaded from a separate flagged state if needed
@@ -114,11 +121,20 @@ const TestPlayer: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      const { data, error } = await (supabase as any).functions.invoke('submit-attempt', {
-        body: { attemptId }
+      // Call POST /api/attempts/[id]/submit endpoint
+      const response = await fetch(`https://orxjqiegmocarwdedkpu.supabase.co/functions/v1/submit-attempt/attempts/${attemptId}/submit`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+          'Content-Type': 'application/json',
+        },
       });
 
-      if (error) throw new Error(error.message);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit attempt');
+      }
 
       toast({
         title: "Test Submitted Successfully! 🎉",
@@ -161,14 +177,24 @@ const TestPlayer: React.FC = () => {
     if (!attemptId) return;
 
     try {
-      await (supabase as any).functions.invoke('save-response', {
-        body: {
-          attemptId,
+      // Call POST /api/attempts/[id]/response endpoint
+      const response = await fetch(`https://orxjqiegmocarwdedkpu.supabase.co/functions/v1/save-response/attempts/${attemptId}/response`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           questionId,
           selectedIndex,
           timeSpent: questionStates.get(questionId)?.timeSpent || 0
-        }
+        })
       });
+
+      const data = await response.json();
+      if (!response.ok) {
+        console.error('Failed to save response:', data.error);
+      }
     } catch (error) {
       console.error('Failed to save response:', error);
     }

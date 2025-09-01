@@ -5,10 +5,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-interface GetAttemptRequest {
-  attemptId: string;
-}
-
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -41,7 +37,7 @@ Deno.serve(async (req) => {
       )
     }
 
-    if (req.method !== 'POST') {
+    if (req.method !== 'GET') {
       return new Response(
         JSON.stringify({ error: 'Method not allowed' }),
         { 
@@ -51,8 +47,10 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Parse request body
-    const { attemptId }: GetAttemptRequest = await req.json()
+    // Extract attempt ID from URL path
+    const url = new URL(req.url)
+    const pathParts = url.pathname.split('/')
+    const attemptId = pathParts[pathParts.length - 1]
     
     if (!attemptId) {
       return new Response(
@@ -174,17 +172,14 @@ Deno.serve(async (req) => {
 
     return new Response(
       JSON.stringify({ 
-        success: true, 
-        attempt: {
-          id: attempt.id,
-          test_id: attempt.test_id,
-          started_at: attempt.started_at,
-          duration_sec: test.duration_sec,
-          time_remaining: timeRemaining,
-          questions: sortedQuestions,
-          total_questions: sortedQuestions.length,
-          existing_responses: Object.fromEntries(responseMap)
-        }
+        id: attempt.id,
+        test_id: attempt.test_id,
+        started_at: attempt.started_at,
+        duration_sec: test.duration_sec,
+        time_remaining: timeRemaining,
+        questions: sortedQuestions,
+        total_questions: sortedQuestions.length,
+        existing_responses: Object.fromEntries(responseMap)
       }),
       { 
         status: 200, 
