@@ -1,196 +1,361 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Settings, Clock, Target, BookOpen } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Slider } from '@/components/ui/slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
+import { 
+  BookOpen, 
+  Target, 
+  Clock, 
+  Settings, 
+  Play, 
+  CheckCircle,
+  ArrowRight,
+  Zap
+} from 'lucide-react';
+
+interface TestConfig {
+  subjects: string[];
+  chapters: string[];
+  difficulty: number[];
+  questionCount: number;
+  duration: number;
+}
 
 const Builder: React.FC = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [testCreated, setTestCreated] = useState(false);
+  const [createdTestId, setCreatedTestId] = useState<string>('');
+  
+  const [config, setConfig] = useState<TestConfig>({
+    subjects: [],
+    chapters: [],
+    difficulty: [3],
+    questionCount: 25,
+    duration: 60
+  });
+
+  const subjects = ['Physics', 'Chemistry', 'Biology'];
+  
+  const chaptersBySubject = {
+    Physics: ['Mechanics', 'Thermodynamics', 'Optics', 'Electricity', 'Modern Physics'],
+    Chemistry: ['Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry', 'Biochemistry'],
+    Biology: ['Cell Biology', 'Genetics', 'Evolution', 'Ecology', 'Plant Biology', 'Animal Biology']
+  };
+
+  const availableChapters = config.subjects.flatMap(subject => 
+    chaptersBySubject[subject as keyof typeof chaptersBySubject] || []
+  );
+
+  const handleSubjectChange = (subject: string, checked: boolean) => {
+    setConfig(prev => ({
+      ...prev,
+      subjects: checked 
+        ? [...prev.subjects, subject]
+        : prev.subjects.filter(s => s !== subject),
+      chapters: checked 
+        ? prev.chapters
+        : prev.chapters.filter(chapter => 
+            !chaptersBySubject[subject as keyof typeof chaptersBySubject]?.includes(chapter)
+          )
+    }));
+  };
+
+  const handleChapterChange = (chapter: string) => {
+    setConfig(prev => ({
+      ...prev,
+      chapters: prev.chapters.includes(chapter)
+        ? prev.chapters.filter(c => c !== chapter)
+        : [...prev.chapters, chapter]
+    }));
+  };
+
+  const createTest = async () => {
+    if (config.subjects.length === 0) {
+      toast({
+        title: "Select Subjects",
+        description: "Please select at least one subject to continue.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      // Simulate API call - replace with actual implementation
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Mock test ID - replace with actual API response
+      const testId = `test_${Date.now()}`;
+      setCreatedTestId(testId);
+      setTestCreated(true);
+      
+      toast({
+        title: "Test Created Successfully! 🎉",
+        description: `Your custom test with ${config.questionCount} questions is ready.`
+      });
+    } catch (error) {
+      toast({
+        title: "Creation Failed",
+        description: "Failed to create test. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const startTest = async () => {
+    setIsLoading(true);
+    
+    try {
+      // Simulate API call to create attempt - replace with actual implementation
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock attempt ID - replace with actual API response
+      const attemptId = `attempt_${Date.now()}`;
+      navigate(`/app/test/${attemptId}`);
+    } catch (error) {
+      toast({
+        title: "Failed to Start",
+        description: "Could not start the test. Please try again.",
+        variant: "destructive"
+      });
+      setIsLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setTestCreated(false);
+    setCreatedTestId('');
+    setConfig({
+      subjects: [],
+      chapters: [],
+      difficulty: [3],
+      questionCount: 25,
+      duration: 60
+    });
+  };
+
+  if (testCreated) {
+    return (
+      <div className="p-4 md:p-6 space-y-6 animate-fade-in">
+        <Card className="max-w-2xl mx-auto border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+          <CardContent className="pt-8 text-center space-y-6">
+            <div className="mx-auto w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center animate-bounce-in">
+              <CheckCircle className="w-8 h-8 text-primary" />
+            </div>
+            
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold text-foreground">Test Ready! 🚀</h2>
+              <p className="text-muted-foreground">
+                Your custom test has been created with {config.questionCount} questions
+                from {config.subjects.join(', ')} for {config.duration} minutes.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <Button
+                onClick={startTest}
+                disabled={isLoading}
+                className="flex-1 bg-gradient-primary hover:shadow-warm transition-all duration-300"
+              >
+                {isLoading ? 'Starting...' : 'Start Test Now'}
+                <Play className="w-4 h-4 ml-2" />
+              </Button>
+              
+              <Button
+                onClick={resetForm}
+                variant="outline"
+                className="flex-1"
+              >
+                Create Another
+                <Zap className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
-    <div className="p-6 space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-foreground">Test Builder</h1>
+    <div className="p-4 md:p-6 space-y-6 animate-fade-in">
+      <div className="space-y-2 text-center md:text-left">
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Test Builder ⚡</h1>
         <p className="text-muted-foreground">
-          Create custom tests tailored to your study needs
+          Create a personalized test tailored to your study needs
         </p>
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="cursor-pointer hover:shadow-card transition-all duration-300 border-primary/20 hover:border-primary/40">
+      <div className="max-w-2xl mx-auto">
+        <Card className="border-primary/20 shadow-card">
           <CardHeader className="text-center">
-            <div className="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
-              <Plus className="h-6 w-6 text-primary" />
+            <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+              <Settings className="w-6 h-6 text-primary" />
             </div>
-            <CardTitle className="text-lg">Quick Test</CardTitle>
+            <CardTitle>Customize Your Test</CardTitle>
             <CardDescription>
-              Start with a ready-made test template
+              Select subjects, difficulty, and duration for your practice session
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <Button className="w-full" variant="default">
-              Create Quick Test
-            </Button>
-          </CardContent>
-        </Card>
+          
+          <CardContent className="space-y-6">
+            {/* Subjects Selection */}
+            <div className="space-y-3">
+              <Label className="text-base font-medium flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-primary" />
+                Subjects *
+              </Label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {subjects.map(subject => (
+                  <div key={subject} className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                    <Checkbox
+                      id={subject}
+                      checked={config.subjects.includes(subject)}
+                      onCheckedChange={(checked) => handleSubjectChange(subject, checked as boolean)}
+                    />
+                    <Label 
+                      htmlFor={subject} 
+                      className="text-sm font-medium cursor-pointer flex-1"
+                    >
+                      {subject}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-        <Card className="cursor-pointer hover:shadow-card transition-all duration-300">
-          <CardHeader className="text-center">
-            <div className="mx-auto h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-2">
-              <Settings className="h-6 w-6 text-muted-foreground" />
-            </div>
-            <CardTitle className="text-lg">Custom Test</CardTitle>
-            <CardDescription>
-              Build a test with specific parameters
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button className="w-full" variant="outline">
-              Customize Test
-            </Button>
-          </CardContent>
-        </Card>
+            {/* Chapters Selection */}
+            {availableChapters.length > 0 && (
+              <div className="space-y-3">
+                <Label className="text-base font-medium">
+                  Chapters (Optional)
+                </Label>
+                <div className="border rounded-lg p-3 max-h-48 overflow-y-auto">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {availableChapters.map(chapter => (
+                      <div key={chapter} className="flex items-center space-x-2 p-2 hover:bg-muted/50 rounded transition-colors">
+                        <Checkbox
+                          id={chapter}
+                          checked={config.chapters.includes(chapter)}
+                          onCheckedChange={() => handleChapterChange(chapter)}
+                        />
+                        <Label 
+                          htmlFor={chapter} 
+                          className="text-sm cursor-pointer flex-1"
+                        >
+                          {chapter}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
 
-        <Card className="cursor-pointer hover:shadow-card transition-all duration-300">
-          <CardHeader className="text-center">
-            <div className="mx-auto h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-2">
-              <BookOpen className="h-6 w-6 text-muted-foreground" />
+            <Separator />
+
+            {/* Difficulty Slider */}
+            <div className="space-y-4">
+              <Label className="text-base font-medium flex items-center gap-2">
+                <Target className="w-4 h-4 text-primary" />
+                Difficulty Level
+              </Label>
+              <div className="space-y-3">
+                <Slider
+                  value={config.difficulty}
+                  onValueChange={(value) => setConfig(prev => ({ ...prev, difficulty: value }))}
+                  max={5}
+                  min={1}
+                  step={1}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Easy</span>
+                  <span className="font-medium text-primary">Level {config.difficulty[0]}</span>
+                  <span>Expert</span>
+                </div>
+              </div>
             </div>
-            <CardTitle className="text-lg">Topic Focus</CardTitle>
-            <CardDescription>
-              Target specific chapters or topics
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button className="w-full" variant="outline">
-              Focus Mode
+
+            {/* Question Count */}
+            <div className="space-y-3">
+              <Label className="text-base font-medium">Number of Questions</Label>
+              <div className="grid grid-cols-3 gap-2">
+                {[10, 25, 50].map(count => (
+                  <Button
+                    key={count}
+                    variant={config.questionCount === count ? "default" : "outline"}
+                    onClick={() => setConfig(prev => ({ ...prev, questionCount: count }))}
+                    className="w-full"
+                  >
+                    {count}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Duration */}
+            <div className="space-y-3">
+              <Label className="text-base font-medium flex items-center gap-2">
+                <Clock className="w-4 h-4 text-primary" />
+                Duration
+              </Label>
+              <div className="grid grid-cols-3 gap-2">
+                {[30, 60, 90].map(duration => (
+                  <Button
+                    key={duration}
+                    variant={config.duration === duration ? "default" : "outline"}
+                    onClick={() => setConfig(prev => ({ ...prev, duration }))}
+                    className="w-full"
+                  >
+                    {duration}m
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Test Summary */}
+            <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+              <h4 className="font-medium text-sm">Test Summary</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline">{config.subjects.length || 0} subjects</Badge>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline">{config.questionCount} questions</Badge>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline">{config.duration} minutes</Badge>
+                </div>
+              </div>
+            </div>
+
+            {/* Create Button */}
+            <Button
+              onClick={createTest}
+              disabled={isLoading || config.subjects.length === 0}
+              className="w-full bg-gradient-primary hover:shadow-warm transition-all duration-300 disabled:opacity-50"
+              size="lg"
+            >
+              {isLoading ? 'Creating Test...' : 'Create Test'}
+              <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </CardContent>
         </Card>
       </div>
-
-      {/* Test Templates */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Popular Templates</CardTitle>
-          <CardDescription>Pre-built test configurations based on exam patterns</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              {
-                title: 'NEET Mock Test',
-                questions: 180,
-                duration: 180,
-                subjects: ['Physics', 'Chemistry', 'Biology'],
-                difficulty: 'Mixed'
-              },
-              {
-                title: 'Physics Deep Dive',
-                questions: 45,
-                duration: 60,
-                subjects: ['Physics'],
-                difficulty: 'Hard'
-              },
-              {
-                title: 'Quick Review',
-                questions: 30,
-                duration: 30,
-                subjects: ['Biology', 'Chemistry'],
-                difficulty: 'Easy'
-              },
-              {
-                title: 'Previous Year Paper',
-                questions: 180,
-                duration: 180,
-                subjects: ['Physics', 'Chemistry', 'Biology'],
-                difficulty: 'Mixed'
-              },
-            ].map((template, index) => (
-              <div key={index} className="p-4 border rounded-lg hover:bg-muted/30 transition-colors">
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h4 className="font-semibold text-foreground">{template.title}</h4>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
-                      <span className="flex items-center gap-1">
-                        <Target className="h-3 w-3" />
-                        {template.questions} questions
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {template.duration} mins
-                      </span>
-                    </div>
-                  </div>
-                  <Badge variant={template.difficulty === 'Hard' ? 'destructive' : template.difficulty === 'Easy' ? 'secondary' : 'default'}>
-                    {template.difficulty}
-                  </Badge>
-                </div>
-                
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {template.subjects.map((subject, subIndex) => (
-                    <Badge key={subIndex} variant="outline" className="text-xs">
-                      {subject}
-                    </Badge>
-                  ))}
-                </div>
-                
-                <Button size="sm" className="w-full" variant="outline">
-                  Use Template
-                </Button>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Recent Tests */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Tests</CardTitle>
-          <CardDescription>Tests you've created recently</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {[
-              {
-                name: 'Custom Chemistry Test',
-                created: '2 hours ago',
-                questions: 50,
-                status: 'Draft'
-              },
-              {
-                name: 'Biology Practice Set',
-                created: '1 day ago',
-                questions: 30,
-                status: 'Completed'
-              },
-              {
-                name: 'Physics Mixed Bag',
-                created: '3 days ago',
-                questions: 40,
-                status: 'Completed'
-              },
-            ].map((test, index) => (
-              <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                <div>
-                  <p className="font-medium">{test.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {test.questions} questions • {test.created}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant={test.status === 'Draft' ? 'secondary' : 'default'}>
-                    {test.status}
-                  </Badge>
-                  <Button size="sm" variant="ghost">
-                    Edit
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
