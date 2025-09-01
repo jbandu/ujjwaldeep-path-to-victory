@@ -14,10 +14,275 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      attempts: {
+        Row: {
+          id: string
+          score: number | null
+          started_at: string | null
+          submitted_at: string | null
+          summary: Json | null
+          test_id: string | null
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          score?: number | null
+          started_at?: string | null
+          submitted_at?: string | null
+          summary?: Json | null
+          test_id?: string | null
+          user_id: string
+        }
+        Update: {
+          id?: string
+          score?: number | null
+          started_at?: string | null
+          submitted_at?: string | null
+          summary?: Json | null
+          test_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attempts_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_attempts_test_id"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gamification: {
+        Row: {
+          badges: string[] | null
+          last_active_date: string | null
+          points: number | null
+          streak_days: number | null
+          user_id: string
+        }
+        Insert: {
+          badges?: string[] | null
+          last_active_date?: string | null
+          points?: number | null
+          streak_days?: number | null
+          user_id: string
+        }
+        Update: {
+          badges?: string[] | null
+          last_active_date?: string | null
+          points?: number | null
+          streak_days?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      items_attempted: {
+        Row: {
+          attempt_id: string
+          correct: boolean | null
+          id: number
+          question_id: number
+          selected_index: number
+          time_ms: number | null
+        }
+        Insert: {
+          attempt_id: string
+          correct?: boolean | null
+          id?: number
+          question_id: number
+          selected_index: number
+          time_ms?: number | null
+        }
+        Update: {
+          attempt_id?: string
+          correct?: boolean | null
+          id?: number
+          question_id?: number
+          selected_index?: number
+          time_ms?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_items_attempted_attempt_id"
+            columns: ["attempt_id"]
+            isOneToOne: false
+            referencedRelation: "attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_attempted_attempt_id_fkey"
+            columns: ["attempt_id"]
+            isOneToOne: false
+            referencedRelation: "attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_attempted_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leaderboard_daily: {
+        Row: {
+          day: string
+          points: number | null
+          user_id: string
+        }
+        Insert: {
+          day: string
+          points?: number | null
+          user_id: string
+        }
+        Update: {
+          day?: string
+          points?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          board: string | null
+          class_level: string | null
+          created_at: string | null
+          district: string | null
+          full_name: string | null
+          medium: string | null
+          state: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          board?: string | null
+          class_level?: string | null
+          created_at?: string | null
+          district?: string | null
+          full_name?: string | null
+          medium?: string | null
+          state?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          board?: string | null
+          class_level?: string | null
+          created_at?: string | null
+          district?: string | null
+          full_name?: string | null
+          medium?: string | null
+          state?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      questions: {
+        Row: {
+          chapter: string
+          correct_index: number
+          created_at: string | null
+          created_by: string | null
+          difficulty: number | null
+          explanation: Json | null
+          id: number
+          language: string | null
+          options: Json
+          source: string | null
+          status: string | null
+          stem: string
+          subject: string
+          tags: string[] | null
+          topic: string | null
+        }
+        Insert: {
+          chapter: string
+          correct_index: number
+          created_at?: string | null
+          created_by?: string | null
+          difficulty?: number | null
+          explanation?: Json | null
+          id?: number
+          language?: string | null
+          options: Json
+          source?: string | null
+          status?: string | null
+          stem: string
+          subject: string
+          tags?: string[] | null
+          topic?: string | null
+        }
+        Update: {
+          chapter?: string
+          correct_index?: number
+          created_at?: string | null
+          created_by?: string | null
+          difficulty?: number | null
+          explanation?: Json | null
+          id?: number
+          language?: string | null
+          options?: Json
+          source?: string | null
+          status?: string | null
+          stem?: string
+          subject?: string
+          tags?: string[] | null
+          topic?: string | null
+        }
+        Relationships: []
+      }
+      tests: {
+        Row: {
+          config: Json
+          created_at: string | null
+          duration_sec: number
+          id: string
+          mode: string
+          owner_id: string | null
+          total_marks: number | null
+          visibility: string | null
+        }
+        Insert: {
+          config: Json
+          created_at?: string | null
+          duration_sec: number
+          id?: string
+          mode: string
+          owner_id?: string | null
+          total_marks?: number | null
+          visibility?: string | null
+        }
+        Update: {
+          config?: Json
+          created_at?: string | null
+          duration_sec?: number
+          id?: string
+          mode?: string
+          owner_id?: string | null
+          total_marks?: number | null
+          visibility?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      leaderboard_daily_public: {
+        Row: {
+          day: string | null
+          points: number | null
+          rank: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
