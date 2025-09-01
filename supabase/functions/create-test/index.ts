@@ -94,7 +94,7 @@ Deno.serve(async (req) => {
           questionCount: testConfig.questionCount,
         },
         duration_sec: testConfig.duration * 60, // Convert minutes to seconds
-        mode: 'practice', // Default mode
+        mode: 'custom', // User-created custom test
         visibility: 'private', // Default visibility
         total_marks: testConfig.questionCount, // Assuming 1 mark per question
       })
