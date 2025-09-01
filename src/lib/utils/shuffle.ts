@@ -1,0 +1,15 @@
+/**
+ * Fisher-Yates shuffle algorithm
+ * @param arr Array to shuffle
+ * @returns New shuffled array
+ */
+export function shuffle<T>(arr: T[]): T[] {
+  const shuffled = [...arr]
+  
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  
+  return shuffled
+}

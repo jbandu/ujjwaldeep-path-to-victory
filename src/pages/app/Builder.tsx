@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,8 +8,16 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import { useDemoMode } from '@/hooks/useDemoMode';
 import { supabase } from '@/integrations/supabase/client';
+import { 
+  fetchSubjects, 
+  fetchChapters, 
+  getAvailableQuestionCount,
+  type QuestionFilters 
+} from '@/lib/data/questions';
 import { 
   BookOpen, 
   Target, 
@@ -32,9 +40,16 @@ interface TestConfig {
 const Builder: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { demoMode } = useDemoMode();
+  
   const [isLoading, setIsLoading] = useState(false);
   const [testCreated, setTestCreated] = useState(false);
   const [createdTestId, setCreatedTestId] = useState<string>('');
+  const [subjects, setSubjects] = useState<string[]>([]);
+  const [availableChapters, setAvailableChapters] = useState<string[]>([]);
+  const [loadingSubjects, setLoadingSubjects] = useState(true);
+  const [loadingChapters, setLoadingChapters] = useState(false);
+  const [availableCount, setAvailableCount] = useState<number | null>(null);
   
   const [config, setConfig] = useState<TestConfig>({
     subjects: [],
@@ -44,17 +59,79 @@ const Builder: React.FC = () => {
     duration: 60
   });
 
-  const subjects = ['Physics', 'Chemistry', 'Biology'];
-  
-  const chaptersBySubject = {
-    Physics: ['Mechanics', 'Thermodynamics', 'Optics', 'Electricity', 'Modern Physics'],
-    Chemistry: ['Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry', 'Biochemistry'],
-    Biology: ['Cell Biology', 'Genetics', 'Evolution', 'Ecology', 'Plant Biology', 'Animal Biology']
+  // Load subjects on mount or when demo mode changes
+  useEffect(() => {
+    loadSubjects();
+  }, [demoMode]);
+
+  // Load chapters when subjects change
+  useEffect(() => {
+    if (config.subjects.length > 0) {
+      loadChapters();
+    } else {
+      setAvailableChapters([]);
+    }
+  }, [config.subjects, demoMode]);
+
+  // Update available question count when filters change
+  useEffect(() => {
+    updateAvailableCount();
+  }, [config.subjects, config.chapters, config.difficulty, demoMode]);
+
+  const loadSubjects = async () => {
+    setLoadingSubjects(true);
+    try {
+      const subjectsList = await fetchSubjects(demoMode);
+      setSubjects(subjectsList);
+    } catch (error) {
+      console.error('Error loading subjects:', error);
+      toast({
+        title: "Failed to load subjects",
+        description: "Please try refreshing the page.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoadingSubjects(false);
+    }
   };
 
-  const availableChapters = config.subjects.flatMap(subject => 
-    chaptersBySubject[subject as keyof typeof chaptersBySubject] || []
-  );
+  const loadChapters = async () => {
+    setLoadingChapters(true);
+    try {
+      const chaptersList = await fetchChapters(demoMode, config.subjects);
+      setAvailableChapters(chaptersList);
+    } catch (error) {
+      console.error('Error loading chapters:', error);
+      toast({
+        title: "Failed to load chapters",
+        description: "Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoadingChapters(false);
+    }
+  };
+
+  const updateAvailableCount = async () => {
+    if (config.subjects.length === 0) {
+      setAvailableCount(null);
+      return;
+    }
+
+    try {
+      const filters: Omit<QuestionFilters, 'limit'> = {
+        subjects: config.subjects,
+        chapters: config.chapters.length > 0 ? config.chapters : undefined,
+        difficulty: [config.difficulty[0], config.difficulty[0]]
+      };
+      
+      const count = await getAvailableQuestionCount(demoMode, filters);
+      setAvailableCount(count);
+    } catch (error) {
+      console.error('Error getting question count:', error);
+      setAvailableCount(null);
+    }
+  };
 
   const handleSubjectChange = (subject: string, checked: boolean) => {
     setConfig(prev => ({
@@ -62,10 +139,11 @@ const Builder: React.FC = () => {
       subjects: checked 
         ? [...prev.subjects, subject]
         : prev.subjects.filter(s => s !== subject),
+      // Reset chapters when deselecting subjects
       chapters: checked 
         ? prev.chapters
         : prev.chapters.filter(chapter => 
-            !chaptersBySubject[subject as keyof typeof chaptersBySubject]?.includes(chapter)
+            availableChapters.includes(chapter)
           )
     }));
   };
@@ -226,50 +304,66 @@ const Builder: React.FC = () => {
                 <BookOpen className="w-4 h-4 text-primary" />
                 Subjects *
               </Label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {subjects.map(subject => (
-                  <div key={subject} className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                    <Checkbox
-                      id={subject}
-                      checked={config.subjects.includes(subject)}
-                      onCheckedChange={(checked) => handleSubjectChange(subject, checked as boolean)}
-                    />
-                    <Label 
-                      htmlFor={subject} 
-                      className="text-sm font-medium cursor-pointer flex-1"
-                    >
-                      {subject}
-                    </Label>
-                  </div>
-                ))}
-              </div>
+              {loadingSubjects ? (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[...Array(3)].map((_, i) => (
+                    <Skeleton key={i} className="h-12 w-full" />
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {subjects.map(subject => (
+                    <div key={subject} className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                      <Checkbox
+                        id={subject}
+                        checked={config.subjects.includes(subject)}
+                        onCheckedChange={(checked) => handleSubjectChange(subject, checked as boolean)}
+                      />
+                      <Label 
+                        htmlFor={subject} 
+                        className="text-sm font-medium cursor-pointer flex-1"
+                      >
+                        {subject}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Chapters Selection */}
-            {availableChapters.length > 0 && (
+            {config.subjects.length > 0 && (
               <div className="space-y-3">
                 <Label className="text-base font-medium">
                   Chapters (Optional)
                 </Label>
-                <div className="border rounded-lg p-3 max-h-48 overflow-y-auto">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {availableChapters.map(chapter => (
-                      <div key={chapter} className="flex items-center space-x-2 p-2 hover:bg-muted/50 rounded transition-colors">
-                        <Checkbox
-                          id={chapter}
-                          checked={config.chapters.includes(chapter)}
-                          onCheckedChange={() => handleChapterChange(chapter)}
-                        />
-                        <Label 
-                          htmlFor={chapter} 
-                          className="text-sm cursor-pointer flex-1"
-                        >
-                          {chapter}
-                        </Label>
-                      </div>
-                    ))}
+                {loadingChapters ? (
+                  <Skeleton className="h-32 w-full" />
+                ) : availableChapters.length > 0 ? (
+                  <div className="border rounded-lg p-3 max-h-48 overflow-y-auto">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {availableChapters.map(chapter => (
+                        <div key={chapter} className="flex items-center space-x-2 p-2 hover:bg-muted/50 rounded transition-colors">
+                          <Checkbox
+                            id={chapter}
+                            checked={config.chapters.includes(chapter)}
+                            onCheckedChange={() => handleChapterChange(chapter)}
+                          />
+                          <Label 
+                            htmlFor={chapter} 
+                            className="text-sm cursor-pointer flex-1"
+                          >
+                            {chapter}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <p>No chapters found for the selected subjects.</p>
+                  </div>
+                )}
               </div>
             )}
 
@@ -338,7 +432,7 @@ const Builder: React.FC = () => {
             <Separator />
 
             {/* Test Summary */}
-            <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+            <div className="bg-muted/50 rounded-lg p-4 space-y-3">
               <h4 className="font-medium text-sm">Test Summary</h4>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                 <div className="flex items-center gap-2">
@@ -351,6 +445,18 @@ const Builder: React.FC = () => {
                   <Badge variant="outline">{config.duration} minutes</Badge>
                 </div>
               </div>
+              
+              {/* Available Questions Count */}
+              {availableCount !== null && config.subjects.length > 0 && (
+                <div className="pt-2 border-t">
+                  <p className="text-xs text-muted-foreground">
+                    {availableCount} questions available with current filters
+                    {availableCount < config.questionCount && (
+                      <span className="text-amber-600 dark:text-amber-400"> (fewer than requested)</span>
+                    )}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Create Button */}
