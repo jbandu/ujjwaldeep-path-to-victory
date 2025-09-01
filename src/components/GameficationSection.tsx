@@ -1,24 +1,21 @@
 import React from 'react';
 import GameCard from './GameCard';
-import badgeIcon from '@/assets/badge-icon.png';
-import streakIcon from '@/assets/streak-icon.png';
-import leaderboardIcon from '@/assets/leaderboard-icon.png';
-import { Trophy, Zap, Users, Target, Medal, Crown } from 'lucide-react';
+import { Trophy, Zap, Users, Target, Medal, Crown, Award, Flame, BarChart } from 'lucide-react';
 
 const GameficationSection: React.FC = () => {
   const gameFeatures = [
     {
-      icon: <img src={streakIcon} alt="Streak" className="h-8 w-8" />,
+      icon: <Flame className="h-8 w-8 text-primary-foreground" />,
       title: "Daily Streaks",
       description: "Build consistency with daily practice streaks. Watch your flame grow stronger each day!"
     },
     {
-      icon: <img src={badgeIcon} alt="Badge" className="h-8 w-8" />,
+      icon: <Award className="h-8 w-8 text-primary-foreground" />,
       title: "Achievement Badges",
       description: "Unlock beautiful badges for milestones. From 'First Steps' to 'Champion' - collect them all!"
     },
     {
-      icon: <img src={leaderboardIcon} alt="Leaderboard" className="h-8 w-8" />,
+      icon: <BarChart className="h-8 w-8 text-primary-foreground" />,
       title: "Leaderboards",
       description: "Compete with friends, school, region, or go national. Climb the ranks and prove your worth!"
     },
