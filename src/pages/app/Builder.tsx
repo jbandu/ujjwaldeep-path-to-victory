@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   BookOpen, 
   Target, 
@@ -91,22 +92,26 @@ const Builder: React.FC = () => {
     setIsLoading(true);
     
     try {
-      // Simulate API call - replace with actual implementation
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Mock test ID - replace with actual API response
-      const testId = `test_${Date.now()}`;
-      setCreatedTestId(testId);
+      const { data, error } = await (supabase as any).functions.invoke('create-test', {
+        body: config
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      setCreatedTestId(data.test.id);
       setTestCreated(true);
       
       toast({
         title: "Test Created Successfully! 🎉",
         description: `Your custom test with ${config.questionCount} questions is ready.`
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Test creation error:', error);
       toast({
         title: "Creation Failed",
-        description: "Failed to create test. Please try again.",
+        description: error.message || "Failed to create test. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -118,16 +123,21 @@ const Builder: React.FC = () => {
     setIsLoading(true);
     
     try {
-      // Simulate API call to create attempt - replace with actual implementation
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock attempt ID - replace with actual API response
-      const attemptId = `attempt_${Date.now()}`;
-      navigate(`/app/test/${attemptId}`);
-    } catch (error) {
+      const { data, error } = await (supabase as any).functions.invoke('start-attempt', {
+        body: { testId: createdTestId }
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      // Navigate to test page with attempt ID
+      navigate(`/app/test/${data.attempt.id}`);
+    } catch (error: any) {
+      console.error('Start attempt error:', error);
       toast({
         title: "Failed to Start",
-        description: "Could not start the test. Please try again.",
+        description: error.message || "Could not start the test. Please try again.",
         variant: "destructive"
       });
       setIsLoading(false);
