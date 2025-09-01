@@ -13,6 +13,7 @@ import Builder from "./pages/app/Builder";
 import Library from "./pages/app/Library";
 import Profile from "./pages/app/Profile";
 import TestPlayer from "./pages/app/TestPlayer";
+import Leaderboard from "./pages/app/Leaderboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfileProtectedRoute from "./components/ProfileProtectedRoute";
 import NotFound from "./pages/NotFound";
@@ -52,6 +53,7 @@ const App: React.FC = () => (
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="builder" element={<Builder />} />
             <Route path="library" element={<Library />} />
+            <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="profile" element={<Profile />} />
           </Route>
           

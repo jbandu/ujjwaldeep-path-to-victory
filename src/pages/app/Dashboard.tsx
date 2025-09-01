@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
+import GamificationWidget from '@/components/GamificationWidget';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
@@ -106,7 +107,7 @@ const Dashboard: React.FC = () => {
 
           <Card 
             className="cursor-pointer hover:shadow-md transition-all duration-200"
-            onClick={() => {/* Navigate to leaderboard */}}
+            onClick={() => navigate('/app/leaderboard')}
           >
             <CardContent className="pt-6">
               <div className="flex items-center space-x-3">
@@ -115,7 +116,7 @@ const Dashboard: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold">View Leaderboard</h3>
-                  <p className="text-sm text-muted-foreground">Rank #12</p>
+                  <p className="text-sm text-muted-foreground">See rankings</p>
                 </div>
               </div>
             </CardContent>
@@ -184,9 +185,14 @@ const Dashboard: React.FC = () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Gamification Widget */}
+        <div className="lg:col-span-1">
+          <GamificationWidget />
+        </div>
+
         {/* Recent Activity */}
-        <Card>
+        <Card className="lg:col-span-1">
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
             <CardDescription>Your latest test performances</CardDescription>
@@ -213,7 +219,7 @@ const Dashboard: React.FC = () => {
         </Card>
 
         {/* Progress Tracking */}
-        <Card>
+        <Card className="lg:col-span-1">
           <CardHeader>
             <CardTitle>Subject Progress</CardTitle>
             <CardDescription>Track your mastery across subjects</CardDescription>

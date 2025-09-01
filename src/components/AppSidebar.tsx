@@ -45,6 +45,12 @@ const menuItems = [
     description: 'Past Papers & Resources'
   },
   {
+    title: 'Leaderboard',
+    url: '/app/leaderboard',
+    icon: Trophy,
+    description: 'Rankings & Competition'
+  },
+  {
     title: 'Profile',
     url: '/app/profile',
     icon: User,

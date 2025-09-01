@@ -1,1 +1,7 @@
 project_id = "orxjqiegmocarwdedkpu"
+
+[functions.gamification-ping]
+verify_jwt = true
+
+[functions.leaderboard-daily]
+verify_jwt = true
