@@ -1,17 +1,140 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Trophy, Target, Clock, TrendingUp, Flame, Award } from 'lucide-react';
+import { 
+  Trophy, 
+  Target, 
+  Clock, 
+  TrendingUp, 
+  Flame, 
+  Award,
+  Zap,
+  Play,
+  BarChart3,
+  Calendar
+} from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 
 const Dashboard: React.FC = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user) return;
+      
+      try {
+        const { data } = await (supabase as any)
+          .from('profiles')
+          .select('full_name')
+          .eq('user_id', user.id)
+          .single();
+        
+        setProfile(data);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [user]);
+
+  const getUserName = () => {
+    if (profile?.full_name) return profile.full_name;
+    if (user?.email) return user.email.split('@')[0];
+    return 'Student';
+  };
+
   return (
     <div className="p-6 space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Track your progress and stay motivated on your exam journey
-        </p>
+      {/* Welcome Section */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">
+              Welcome back, {loading ? '...' : getUserName()}! 👋
+            </h1>
+            <p className="text-muted-foreground">
+              Ready to continue your exam preparation journey?
+            </p>
+          </div>
+        </div>
+        
+        {/* Quick Action Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card 
+            className="cursor-pointer hover:shadow-md transition-all duration-200 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10"
+            onClick={() => navigate('/app/builder')}
+          >
+            <CardContent className="pt-6">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-lg bg-primary/20">
+                  <Zap className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">Start Builder</h3>
+                  <p className="text-sm text-muted-foreground">Create new test</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card 
+            className="cursor-pointer hover:shadow-md transition-all duration-200"
+            onClick={() => navigate('/app/library')}
+          >
+            <CardContent className="pt-6">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/30">
+                  <Play className="h-5 w-5 text-green-600 dark:text-green-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">Continue Last Test</h3>
+                  <p className="text-sm text-muted-foreground">Resume Biology</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card 
+            className="cursor-pointer hover:shadow-md transition-all duration-200"
+            onClick={() => {/* Navigate to leaderboard */}}
+          >
+            <CardContent className="pt-6">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900/30">
+                  <BarChart3 className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">View Leaderboard</h3>
+                  <p className="text-sm text-muted-foreground">Rank #12</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+            <CardContent className="pt-6">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-lg bg-primary/20">
+                  <Calendar className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">Daily Streak</h3>
+                  <p className="text-sm text-primary font-medium">7 days 🔥</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
       {/* Stats Cards */}

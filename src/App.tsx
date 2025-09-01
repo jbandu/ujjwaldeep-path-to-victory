@@ -13,6 +13,7 @@ import Builder from "./pages/app/Builder";
 import Library from "./pages/app/Library";
 import Profile from "./pages/app/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ProfileProtectedRoute from "./components/ProfileProtectedRoute";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,9 +36,9 @@ const App: React.FC = () => (
           
           {/* Protected App Routes */}
           <Route path="/app" element={
-            <ProtectedRoute>
+            <ProfileProtectedRoute>
               <AppLayout />
-            </ProtectedRoute>
+            </ProfileProtectedRoute>
           }>
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
