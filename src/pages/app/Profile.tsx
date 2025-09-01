@@ -24,7 +24,9 @@ import {
   TrendingUp,
   Award,
   Save,
-  Edit
+  Edit,
+  LogOut,
+  Languages
 } from 'lucide-react';
 
 const profileSchema = z.object({
@@ -34,12 +36,13 @@ const profileSchema = z.object({
   class_level: z.string().min(1, 'Please select your class level'),
   state: z.string().min(1, 'Please enter your state'),
   district: z.string().min(1, 'Please enter your district'),
+  language: z.string().default('English'),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 const Profile: React.FC = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,11 +86,29 @@ const Profile: React.FC = () => {
           medium: data.medium || '',
           class_level: data.class_level || '',
           state: data.state || '',
-          district: data.district || ''
+          district: data.district || '',
+          language: data.language || 'English'
         });
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out",
+      });
+    } catch (error) {
+      console.error('Error logging out:', error);
+      toast({
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+        variant: "destructive"
+      });
     }
   };
 
@@ -178,14 +199,24 @@ const Profile: React.FC = () => {
                 </>
               )}
             </Button>
+            
+            <Button 
+              className="w-full mt-2" 
+              variant="destructive"
+              onClick={handleLogout}
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
+            </Button>
           </CardContent>
         </Card>
 
         {/* Stats & Progress */}
         <div className="lg:col-span-2 space-y-6">
           <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="profile">Profile Details</TabsTrigger>
+              <TabsTrigger value="preferences">Preferences</TabsTrigger>
               <TabsTrigger value="stats">Statistics</TabsTrigger>
               <TabsTrigger value="achievements">Achievements</TabsTrigger>
             </TabsList>
@@ -292,6 +323,19 @@ const Profile: React.FC = () => {
                             <p className="text-sm text-destructive">{errors.district.message}</p>
                           )}
                         </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor="language">Language Preference</Label>
+                          <Select onValueChange={(value) => setValue('language', value)} disabled={isLoading}>
+                            <SelectTrigger>
+                              <SelectValue placeholder={profile?.language || "English"} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="English">English</SelectItem>
+                              <SelectItem value="Hindi">हिंदी (Hindi)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
 
                       <div className="flex gap-4">
@@ -340,12 +384,93 @@ const Profile: React.FC = () => {
                             <Label className="text-sm font-medium text-muted-foreground">District</Label>
                             <p className="text-foreground">{profile.district || 'Not set'}</p>
                           </div>
+                          <div>
+                            <Label className="text-sm font-medium text-muted-foreground">Language Preference</Label>
+                            <p className="text-foreground">{profile.language || 'English'}</p>
+                          </div>
                         </div>
                       ) : (
                         <p className="text-muted-foreground">No profile information available. Click "Edit Profile" to add your details.</p>
                       )}
                     </div>
                   )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="preferences" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Languages className="h-5 w-5 text-primary" />
+                    Application Preferences
+                  </CardTitle>
+                  <CardDescription>
+                    Customize your app experience and interface language
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Interface Language</Label>
+                    <Select
+                      value={profile?.language || 'English'}
+                      onValueChange={async (value) => {
+                        if (!user) return;
+                        
+                        try {
+                          const { error } = await (supabase as any)
+                            .from('profiles')
+                            .upsert({
+                              user_id: user.id,
+                              language: value,
+                              updated_at: new Date().toISOString()
+                            });
+
+                          if (error) throw error;
+                          
+                          setProfile(prev => ({ ...prev, language: value }));
+                          toast({
+                            title: "Language Updated",
+                            description: `Interface language changed to ${value}`,
+                          });
+                        } catch (error) {
+                          toast({
+                            title: "Error",
+                            description: "Failed to update language preference",
+                            variant: "destructive"
+                          });
+                        }
+                      }}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="English">🇺🇸 English</SelectItem>
+                        <SelectItem value="Hindi">🇮🇳 हिंदी (Hindi)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-muted-foreground">
+                      This will change the language for menus, buttons, and interface text
+                    </p>
+                  </div>
+                  
+                  <div className="pt-4 border-t">
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium text-destructive">Danger Zone</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Actions in this section are irreversible
+                      </p>
+                      <Button 
+                        variant="destructive"
+                        onClick={handleLogout}
+                        className="flex items-center gap-2"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Logout from Account
+                      </Button>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>

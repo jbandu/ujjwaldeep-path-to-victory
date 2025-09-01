@@ -14,6 +14,7 @@ import Library from "./pages/app/Library";
 import Profile from "./pages/app/Profile";
 import TestPlayer from "./pages/app/TestPlayer";
 import Leaderboard from "./pages/app/Leaderboard";
+import Results from "./pages/app/Results";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfileProtectedRoute from "./components/ProfileProtectedRoute";
 import NotFound from "./pages/NotFound";
@@ -40,6 +41,13 @@ const App: React.FC = () => (
           <Route path="/app/test/:attemptId" element={
             <ProfileProtectedRoute>
               <TestPlayer />
+            </ProfileProtectedRoute>
+          } />
+          
+          {/* Standalone Results Page */}
+          <Route path="/app/results/:attemptId" element={
+            <ProfileProtectedRoute>
+              <Results />
             </ProfileProtectedRoute>
           } />
           
