@@ -12,6 +12,7 @@ import Dashboard from "./pages/app/Dashboard";
 import Builder from "./pages/app/Builder";
 import Library from "./pages/app/Library";
 import Profile from "./pages/app/Profile";
+import TestPlayer from "./pages/app/TestPlayer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfileProtectedRoute from "./components/ProfileProtectedRoute";
 import NotFound from "./pages/NotFound";
@@ -32,6 +33,13 @@ const App: React.FC = () => (
             <ProtectedRoute>
               <Onboarding />
             </ProtectedRoute>
+          } />
+          
+          {/* Standalone Test Player */}
+          <Route path="/app/test/:attemptId" element={
+            <ProfileProtectedRoute>
+              <TestPlayer />
+            </ProfileProtectedRoute>
           } />
           
           {/* Protected App Routes */}
