@@ -11,34 +11,21 @@ import {
 export async function fetchSubjects(demoMode: boolean): Promise<string[]> {
   if (demoMode) return demoSubjects()
   
-  const { data, error } = await supabase
-    .from('questions')
-    .select('subject')
-    .eq('status', 'active')
-  
+  const { data, error } = await (supabase as any).rpc('get_distinct_subjects')
   if (error) throw error
   
-  const distinct = Array.from(new Set((data ?? []).map(d => d.subject).filter(Boolean)))
-  return distinct.sort()
+  return (data ?? []).map(row => row.subject).sort()
 }
 
 export async function fetchChapters(demoMode: boolean, subjects: string[]): Promise<string[]> {
   if (demoMode) return demoChapters(subjects)
   
-  let query = supabase
-    .from('questions')
-    .select('chapter')
-    .eq('status', 'active')
-  
-  if (subjects?.length) {
-    query = query.in('subject', subjects)
-  }
-  
-  const { data, error } = await query
+  const { data, error } = await (supabase as any).rpc('get_distinct_chapters', {
+    subjects: subjects?.length ? subjects : null
+  })
   if (error) throw error
   
-  const distinct = Array.from(new Set((data ?? []).map(d => d.chapter).filter(Boolean)))
-  return distinct.sort()
+  return (data ?? []).map(row => row.chapter).sort()
 }
 
 export type QuestionFilters = {
@@ -111,32 +98,13 @@ export async function getAvailableQuestionCount(
     return allIds.length
   }
   
-  let query = supabase
-    .from('questions')
-    .select('id, difficulty', { count: 'exact' })
-    .eq('status', 'active')
-  
-  if (filters.subjects?.length) {
-    query = query.in('subject', filters.subjects)
-  }
-  
-  if (filters.chapters?.length) {
-    query = query.in('chapter', filters.chapters)
-  }
-  
-  const { data, error, count } = await query
-  if (error) throw error
-  
-  if (!filters.difficulty) {
-    return count ?? 0
-  }
-  
-  // Filter by difficulty client-side for now
-  const [min, max] = filters.difficulty
-  const filtered = (data ?? []).filter(q => {
-    const diff = q.difficulty ?? 3
-    return diff >= min && diff <= max
+  const { data, error } = await (supabase as any).rpc('get_available_question_count', {
+    subjects: filters.subjects?.length ? filters.subjects : null,
+    chapters: filters.chapters?.length ? filters.chapters : null,
+    min_diff: filters.difficulty?.[0] || null,
+    max_diff: filters.difficulty?.[1] || null
   })
   
-  return filtered.length
+  if (error) throw error
+  return data ?? 0
 }
