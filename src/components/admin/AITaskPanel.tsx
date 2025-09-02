@@ -18,6 +18,7 @@ interface AITask {
   result?: any;
   error?: string;
   created_at: string;
+  locale?: string;
 }
 
 const AITaskPanel: React.FC<AITaskPanelProps> = ({ questionId, onTaskComplete }) => {
@@ -100,13 +101,15 @@ const AITaskPanel: React.FC<AITaskPanelProps> = ({ questionId, onTaskComplete })
     }
   };
 
-  const getTaskDisplayName = (taskType: string) => {
+  const getTaskDisplayName = (taskType: string, locale?: string) => {
     const names: Record<string, string> = {
       explain: 'Generate Explanation',
       difficulty: 'Calibrate Difficulty',
       tags: 'Suggest Tags',
       bloom: 'Bloom Classification',
-      translate: 'Translate to Hindi',
+      translate: locale === 'hi' ? 'Translate to Hindi' : 
+                locale === 'te' ? 'Translate to Telugu' :
+                locale === 'ta' ? 'Translate to Tamil' : 'Translate',
       qc: 'Quality Check'
     };
     return names[taskType] || taskType;
@@ -149,12 +152,14 @@ const AITaskPanel: React.FC<AITaskPanelProps> = ({ questionId, onTaskComplete })
     fetchTasks();
   }, [questionId]);
 
-  const taskTypes: Array<{ type: 'explain' | 'difficulty' | 'tags' | 'bloom' | 'translate' | 'qc', label: string }> = [
+  const taskTypes: Array<{ type: 'explain' | 'difficulty' | 'tags' | 'bloom' | 'translate' | 'qc', label: string, locale?: string }> = [
     { type: 'explain', label: 'Generate Explanation' },
     { type: 'difficulty', label: 'Calibrate Difficulty' },
     { type: 'tags', label: 'Suggest Tags' },
     { type: 'bloom', label: 'Bloom Classification' },
-    { type: 'translate', label: 'Translate to Hindi' },
+    { type: 'translate', label: 'Translate to Hindi', locale: 'hi' },
+    { type: 'translate', label: 'Translate to Telugu', locale: 'te' },
+    { type: 'translate', label: 'Translate to Tamil', locale: 'ta' },
     { type: 'qc', label: 'Quality Check' }
   ];
 
@@ -169,10 +174,10 @@ const AITaskPanel: React.FC<AITaskPanelProps> = ({ questionId, onTaskComplete })
       <CardContent className="space-y-4">
         {/* Action Buttons */}
         <div className="grid grid-cols-2 gap-2">
-          {taskTypes.map(({ type, label }) => (
+          {taskTypes.map(({ type, label, locale }, index) => (
             <Button
-              key={type}
-              onClick={() => enqueueTask(type, type === 'translate' ? 'hi' : undefined)}
+              key={`${type}-${locale || index}`}
+              onClick={() => enqueueTask(type, locale)}
               disabled={loading}
               variant="outline"
               size="sm"
@@ -207,7 +212,7 @@ const AITaskPanel: React.FC<AITaskPanelProps> = ({ questionId, onTaskComplete })
                 <div key={task.id} className="flex items-center justify-between text-xs p-2 bg-muted/50 rounded">
                   <div className="flex items-center gap-2">
                     {getTaskIcon(task.task_type)}
-                    <span>{getTaskDisplayName(task.task_type)}</span>
+                    <span>{getTaskDisplayName(task.task_type, task.locale)}</span>
                   </div>
                   {getStatusBadge(task.status)}
                 </div>
