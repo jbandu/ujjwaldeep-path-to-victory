@@ -12,4 +12,8 @@ export type Question = {
   topic?: string
   language?: string
   source?: string
+  status?: string
+  created_at?: string
+  created_by?: string
+  tags?: string[]
 }

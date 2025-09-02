@@ -32,6 +32,13 @@ All colors MUST be HSL.
 
     --accent: 45 95% 70%;
     --accent-foreground: 25 60% 20%;
+    
+    /* Admin Console Saffron/Gold Theme */
+    --admin-accent: 45 100% 60%;
+    --admin-accent-foreground: 25 40% 15%;
+    --admin-accent-muted: 45 80% 85%;
+    --admin-warning: 35 100% 55%;
+    --admin-success: 140 70% 45%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -98,6 +105,13 @@ All colors MUST be HSL.
 
     --accent: 45 95% 70%;
     --accent-foreground: 25 15% 8%;
+    
+    /* Admin Console Saffron/Gold Theme - Dark Mode */
+    --admin-accent: 45 85% 65%;
+    --admin-accent-foreground: 25 15% 8%;
+    --admin-accent-muted: 45 50% 25%;
+    --admin-warning: 35 90% 60%;
+    --admin-success: 140 60% 55%;
 
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 35 25% 92%;

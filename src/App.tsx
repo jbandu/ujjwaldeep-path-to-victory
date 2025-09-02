@@ -17,6 +17,13 @@ import Leaderboard from "./pages/app/Leaderboard";
 import Results from "./pages/app/Results";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfileProtectedRoute from "./components/ProfileProtectedRoute";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminQuestions from "./pages/admin/Questions";
+import AdminQuestionForm from "./pages/admin/QuestionForm";
+import AdminImport from "./pages/admin/Import";
+import AdminReview from "./pages/admin/Review";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -63,6 +70,20 @@ const App: React.FC = () => (
             <Route path="library" element={<Library />} />
             <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="profile" element={<Profile />} />
+          </Route>
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={
+            <AdminProtectedRoute>
+              <AdminLayout />
+            </AdminProtectedRoute>
+          }>
+            <Route index element={<AdminDashboard />} />
+            <Route path="questions" element={<AdminQuestions />} />
+            <Route path="questions/new" element={<AdminQuestionForm />} />
+            <Route path="questions/:id" element={<AdminQuestionForm />} />
+            <Route path="import" element={<AdminImport />} />
+            <Route path="review" element={<AdminReview />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
