@@ -5,3 +5,6 @@ verify_jwt = true
 
 [functions.leaderboard-daily]
 verify_jwt = true
+
+[functions.welcome-email]
+verify_jwt = false
