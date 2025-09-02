@@ -7,9 +7,22 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+// Get secrets from Supabase
 const supabaseUrl = Deno.env.get('SUPABASE_URL');
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+
+// Create Supabase client to fetch secrets
+const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
+
+// Fetch OpenAI API key from Supabase secrets
+async function getOpenAIKey() {
+  const { data, error } = await supabase.rpc('vault_get_secret', { secret_name: 'OPENAI_API_KEY' });
+  if (error) {
+    console.error('Error fetching OpenAI API key:', error);
+    throw new Error('Failed to fetch OpenAI API key from secrets');
+  }
+  return data;
+}
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -20,15 +33,15 @@ serve(async (req) => {
   try {
     console.log('AI Worker starting...');
     
-    if (!openAIApiKey) {
-      throw new Error('OPENAI_API_KEY not configured');
-    }
-
     if (!supabaseUrl || !supabaseServiceKey) {
       throw new Error('Supabase configuration missing');
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    // Get OpenAI API key from Supabase secrets
+    const openAIApiKey = await getOpenAIKey();
+    if (!openAIApiKey) {
+      throw new Error('OPENAI_API_KEY not configured in Supabase secrets');
+    }
 
     // 1) Dequeue a small batch of tasks
     const { data: tasks, error: dqErr } = await supabase.rpc('ai_dequeue', { p_batch: 3 });
@@ -64,7 +77,7 @@ serve(async (req) => {
         }
 
         // 3) Process task with OpenAI
-        const result = await handleTask(task, question);
+        const result = await handleTask(task, question, openAIApiKey);
         console.log(`Task ${task.id} completed with result:`, result);
 
         // 4) Apply result atomically
@@ -102,28 +115,28 @@ serve(async (req) => {
 });
 
 // Task handlers
-async function handleTask(task: any, question: any) {
+async function handleTask(task: any, question: any, openAIApiKey: string) {
   switch (task.task_type) {
     case 'explain':
-      return await explainPrompt(question, task.payload);
+      return await explainPrompt(question, task.payload, openAIApiKey);
     case 'difficulty':
-      return await difficultyPrompt(question);
+      return await difficultyPrompt(question, openAIApiKey);
     case 'tags':
-      return await tagsPrompt(question);
+      return await tagsPrompt(question, openAIApiKey);
     case 'bloom':
-      return await bloomPrompt(question);
+      return await bloomPrompt(question, openAIApiKey);
     case 'translate':
-      return await translatePrompt(question, task.locale || task.payload?.language || 'hi');
+      return await translatePrompt(question, task.locale || task.payload?.language || 'hi', openAIApiKey);
     case 'qc':
-      return await qcPrompt(question);
+      return await qcPrompt(question, openAIApiKey);
     case 'summary':
-      return await summaryPrompt(question, task.payload);
+      return await summaryPrompt(question, task.payload, openAIApiKey);
     default:
       throw new Error(`Unknown task type: ${task.task_type}`);
   }
 }
 
-async function chatJSON(messages: any[]) {
+async function chatJSON(messages: any[], openAIApiKey: string) {
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -149,7 +162,7 @@ async function chatJSON(messages: any[]) {
 }
 
 // Prompt implementations
-async function explainPrompt(question: any, payload: any) {
+async function explainPrompt(question: any, payload: any, openAIApiKey: string) {
   const systemPrompt = `You are a NEET physics, chemistry, and biology expert. Generate clear, concise explanations for multiple choice questions. Output ONLY valid JSON: {"text": "main explanation", "why_others_wrong": {"A":"reason","B":"reason","C":"reason","D":"reason"}}. Be exam-accurate and student-friendly.`;
   
   const userPrompt = {
@@ -167,10 +180,10 @@ async function explainPrompt(question: any, payload: any) {
   return await chatJSON([
     { role: 'system', content: systemPrompt },
     { role: 'user', content: JSON.stringify(userPrompt) }
-  ]);
+  ], openAIApiKey);
 }
 
-async function difficultyPrompt(question: any) {
+async function difficultyPrompt(question: any, openAIApiKey: string) {
   const systemPrompt = `Classify NEET MCQ difficulty on scale 1-5 (1=very easy, 2=easy, 3=moderate, 4=hard, 5=very hard). Consider concept depth, calculation complexity, and typical student performance. Output ONLY JSON: {"difficulty": <1-5>}`;
   
   const userPrompt = {
@@ -184,10 +197,10 @@ async function difficultyPrompt(question: any) {
   return await chatJSON([
     { role: 'system', content: systemPrompt },
     { role: 'user', content: JSON.stringify(userPrompt) }
-  ]);
+  ], openAIApiKey);
 }
 
-async function tagsPrompt(question: any) {
+async function tagsPrompt(question: any, openAIApiKey: string) {
   const systemPrompt = `Suggest up to 5 relevant tags for this NEET question and suggest corrected metadata if needed. Output ONLY JSON: {"tags":["tag1","tag2"...],"subject":"Physics|Chemistry|Biology","chapter":"chapter name","topic":"specific topic"}`;
   
   const userPrompt = {
@@ -203,10 +216,10 @@ async function tagsPrompt(question: any) {
   return await chatJSON([
     { role: 'system', content: systemPrompt },
     { role: 'user', content: JSON.stringify(userPrompt) }
-  ]);
+  ], openAIApiKey);
 }
 
-async function bloomPrompt(question: any) {
+async function bloomPrompt(question: any, openAIApiKey: string) {
   const systemPrompt = `Classify this question according to Bloom's Taxonomy. Output ONLY JSON: {"bloom":"Remember|Understand|Apply|Analyze|Evaluate|Create"}`;
   
   const userPrompt = {
@@ -218,10 +231,10 @@ async function bloomPrompt(question: any) {
   return await chatJSON([
     { role: 'system', content: systemPrompt },
     { role: 'user', content: JSON.stringify(userPrompt) }
-  ]);
+  ], openAIApiKey);
 }
 
-async function translatePrompt(question: any, targetLang: string) {
+async function translatePrompt(question: any, targetLang: string, openAIApiKey: string) {
   const systemPrompt = `Translate this NEET question faithfully to the target language, maintaining scientific accuracy. Output ONLY JSON: {"language":"<language_code>","stem":"translated stem","options":["A","B","C","D"],"explanation":{"text":"translated explanation"}}`;
   
   const userPrompt = {
@@ -235,10 +248,10 @@ async function translatePrompt(question: any, targetLang: string) {
   return await chatJSON([
     { role: 'system', content: systemPrompt },
     { role: 'user', content: JSON.stringify(userPrompt) }
-  ]);
+  ], openAIApiKey);
 }
 
-async function qcPrompt(question: any) {
+async function qcPrompt(question: any, openAIApiKey: string) {
   const systemPrompt = `Quality check this NEET MCQ for common issues. Output ONLY JSON: {"duplicate": false, "weak_distractors":[], "unclear_stem": false, "notes":"any additional observations"}`;
   
   const userPrompt = {
@@ -252,14 +265,14 @@ async function qcPrompt(question: any) {
   return await chatJSON([
     { role: 'system', content: systemPrompt },
     { role: 'user', content: JSON.stringify(userPrompt) }
-  ]);
+  ], openAIApiKey);
 }
 
-async function summaryPrompt(question: any, payload: any) {
+async function summaryPrompt(question: any, payload: any, openAIApiKey: string) {
   const systemPrompt = `Create actionable insights from admin analytics data. Output ONLY JSON: {"bullets":["insight 1","insight 2","insight 3"]}`;
   
   return await chatJSON([
     { role: 'system', content: systemPrompt },
     { role: 'user', content: JSON.stringify(payload || { context: 'general_summary' }) }
-  ]);
+  ], openAIApiKey);
 }
