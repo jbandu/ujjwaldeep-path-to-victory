@@ -46,6 +46,17 @@ const TestPrintMode = () => {
   const generatePDFs = async () => {
     if (!testId) return;
     
+    // Check if test has questions before attempting generation
+    const questionCount = test.config?.questions?.length || 0;
+    if (questionCount === 0) {
+      toast({
+        title: "Cannot Generate PDFs",
+        description: "This test has no questions configured. Please add questions first.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke('generate-print-pdfs', {
@@ -59,10 +70,14 @@ const TestPrintMode = () => {
         title: "Success",
         description: "Print PDFs generated successfully"
       });
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage = error?.message?.includes('no questions') 
+        ? "This test has no questions configured. Please add questions first."
+        : "Failed to generate PDFs";
+        
       toast({
         title: "Error", 
-        description: "Failed to generate PDFs",
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
@@ -145,16 +160,33 @@ const TestPrintMode = () => {
         <Card>
           <CardContent className="text-center py-8">
             <h3 className="text-lg font-semibold mb-4">No Print Package Available</h3>
-            <p className="text-muted-foreground mb-6">
-              Generate PDF files for this test to enable offline testing
-            </p>
-            <Button 
-              onClick={generatePDFs} 
-              disabled={generating}
-              className="w-full max-w-sm"
-            >
-              {generating ? 'Generating...' : 'Generate Print PDFs'}
-            </Button>
+            {(test.config?.questions?.length || 0) === 0 ? (
+              <div className="space-y-4">
+                <p className="text-destructive mb-4">
+                  ⚠️ This test has no questions configured. Please add questions before generating PDFs.
+                </p>
+                <Button 
+                  disabled
+                  className="w-full max-w-sm"
+                  variant="outline"
+                >
+                  Cannot Generate PDFs
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <p className="text-muted-foreground mb-6">
+                  Generate PDF files for this test to enable offline testing
+                </p>
+                <Button 
+                  onClick={generatePDFs} 
+                  disabled={generating}
+                  className="w-full max-w-sm"
+                >
+                  {generating ? 'Generating...' : 'Generate Print PDFs'}
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       ) : (
