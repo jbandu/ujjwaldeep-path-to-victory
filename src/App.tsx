@@ -13,6 +13,7 @@ import Builder from "./pages/app/Builder";
 import Library from "./pages/app/Library";
 import Profile from "./pages/app/Profile";
 import TestPlayer from "./pages/app/TestPlayer";
+import TestPrintMode from "./pages/app/TestPrintMode";
 import Leaderboard from "./pages/app/Leaderboard";
 import Results from "./pages/app/Results";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -50,6 +51,13 @@ const App: React.FC = () => (
           <Route path="/app/test/:attemptId" element={
             <ProfileProtectedRoute>
               <TestPlayer />
+            </ProfileProtectedRoute>
+          } />
+          
+          {/* Print Mode */}
+          <Route path="/app/tests/:testId/print" element={
+            <ProfileProtectedRoute>
+              <TestPrintMode />
             </ProfileProtectedRoute>
           } />
           

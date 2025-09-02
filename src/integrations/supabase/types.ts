@@ -242,6 +242,101 @@ export type Database = {
         }
         Relationships: []
       }
+      print_packages: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: string
+          omr_pdf_url: string
+          paper_pdf_url: string
+          qr_payload: Json
+          test_id: string
+          version: number
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          omr_pdf_url: string
+          paper_pdf_url: string
+          qr_payload: Json
+          test_id: string
+          version?: number
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          omr_pdf_url?: string
+          paper_pdf_url?: string
+          qr_payload?: Json
+          test_id?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "print_packages_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      print_uploads: {
+        Row: {
+          attempt_id: string | null
+          created_at: string | null
+          detected: Json | null
+          error: string | null
+          id: string
+          status: string
+          test_id: string
+          updated_at: string | null
+          upload_urls: Json
+          user_id: string
+        }
+        Insert: {
+          attempt_id?: string | null
+          created_at?: string | null
+          detected?: Json | null
+          error?: string | null
+          id?: string
+          status?: string
+          test_id: string
+          updated_at?: string | null
+          upload_urls: Json
+          user_id: string
+        }
+        Update: {
+          attempt_id?: string | null
+          created_at?: string | null
+          detected?: Json | null
+          error?: string | null
+          id?: string
+          status?: string
+          test_id?: string
+          updated_at?: string | null
+          upload_urls?: Json
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "print_uploads_attempt_id_fkey"
+            columns: ["attempt_id"]
+            isOneToOne: false
+            referencedRelation: "attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "print_uploads_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           board: string | null
