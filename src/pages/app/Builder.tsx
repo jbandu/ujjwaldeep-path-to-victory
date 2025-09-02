@@ -81,7 +81,7 @@ const Builder: React.FC = () => {
   const loadSubjects = async () => {
     setLoadingSubjects(true);
     try {
-      const subjectsList = await fetchSubjects(demoMode);
+      const subjectsList = await fetchSubjects();
       setSubjects(subjectsList);
     } catch (error) {
       console.error('Error loading subjects:', error);
@@ -98,7 +98,7 @@ const Builder: React.FC = () => {
   const loadChapters = async () => {
     setLoadingChapters(true);
     try {
-      const chaptersList = await fetchChapters(demoMode, config.subjects);
+      const chaptersList = await fetchChapters(config.subjects);
       setAvailableChapters(chaptersList);
     } catch (error) {
       console.error('Error loading chapters:', error);
@@ -125,7 +125,7 @@ const Builder: React.FC = () => {
         difficulty: [config.difficulty[0], config.difficulty[0]]
       };
       
-      const count = await getAvailableQuestionCount(demoMode, filters);
+      const count = await getAvailableQuestionCount(filters);
       setAvailableCount(count);
     } catch (error) {
       console.error('Error getting question count:', error);

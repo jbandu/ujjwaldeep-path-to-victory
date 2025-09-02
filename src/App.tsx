@@ -25,6 +25,7 @@ import AdminQuestionForm from "./pages/admin/QuestionForm";
 import AdminAITasks from "./pages/admin/AITasks";
 import AdminImport from "./pages/admin/Import";
 import AdminReview from "./pages/admin/Review";
+import AdminSettings from "./pages/admin/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -86,6 +87,7 @@ const App: React.FC = () => (
             <Route path="ai-tasks" element={<AdminAITasks />} />
             <Route path="import" element={<AdminImport />} />
             <Route path="review" element={<AdminReview />} />
+            <Route path="settings" element={<AdminSettings />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -14,16 +14,18 @@ import { useToast } from '@/hooks/use-toast';
 import { Mail, ArrowLeft } from 'lucide-react';
 import Logo from '@/components/Logo';
 
-const emailSchema = z.object({
+const authSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
-type EmailFormData = z.infer<typeof emailSchema>;
+type AuthFormData = z.infer<typeof authSchema>;
 
 const Auth: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'magic'>('signin');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
@@ -34,8 +36,8 @@ const Auth: React.FC = () => {
     handleSubmit,
     formState: { errors },
     reset
-  } = useForm<EmailFormData>({
-    resolver: zodResolver(emailSchema)
+  } = useForm<AuthFormData>({
+    resolver: zodResolver(authSchema)
   });
 
   useEffect(() => {
@@ -63,7 +65,56 @@ const Auth: React.FC = () => {
     }
   };
 
-  const onSendMagicLink = async (data: EmailFormData) => {
+  const onPasswordAuth = async (data: AuthFormData) => {
+    setIsLoading(true);
+    try {
+      let authResult;
+      if (authMode === 'signin') {
+        authResult = await supabase.auth.signInWithPassword({
+          email: data.email,
+          password: data.password,
+        });
+      } else {
+        authResult = await supabase.auth.signUp({
+          email: data.email,
+          password: data.password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+          },
+        });
+      }
+
+      if (authResult.error) {
+        toast({
+          title: "Error",
+          description: authResult.error.message,
+          variant: "destructive",
+        });
+      } else if (authMode === 'signup' && !authResult.data.session) {
+        setUserEmail(data.email);
+        setShowSuccess(true);
+        toast({
+          title: "Check your email",
+          description: "Please confirm your email address to complete signup.",
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: authMode === 'signin' ? "Signed in successfully!" : "Account created successfully!",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onSendMagicLink = async (data: AuthFormData) => {
     setIsLoading(true);
     try {
       const { error } = await supabase.auth.signInWithOtp({
@@ -126,9 +177,10 @@ const Auth: React.FC = () => {
     }
   };
 
-  const resetToEmailForm = () => {
+  const resetToAuthForm = () => {
     setShowSuccess(false);
     setUserEmail('');
+    setAuthMode('signin');
     reset();
   };
 
@@ -159,7 +211,7 @@ const Auth: React.FC = () => {
             
             <Button
               variant="ghost"
-              onClick={resetToEmailForm}
+              onClick={resetToAuthForm}
               className="w-full text-sm text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
@@ -198,8 +250,36 @@ const Auth: React.FC = () => {
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Email Magic Link Form */}
-          <form onSubmit={handleSubmit(onSendMagicLink)} className="space-y-4">
+          {/* Auth Mode Tabs */}
+          <div className="flex space-x-1 bg-muted p-1 rounded-lg">
+            <Button
+              variant={authMode === 'signin' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setAuthMode('signin')}
+              className="flex-1"
+            >
+              Sign In
+            </Button>
+            <Button
+              variant={authMode === 'signup' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setAuthMode('signup')}
+              className="flex-1"
+            >
+              Sign Up
+            </Button>
+            <Button
+              variant={authMode === 'magic' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setAuthMode('magic')}
+              className="flex-1"
+            >
+              Magic Link
+            </Button>
+          </div>
+
+          {/* Auth Form */}
+          <form onSubmit={handleSubmit(authMode === 'magic' ? onSendMagicLink : onPasswordAuth)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -214,13 +294,36 @@ const Auth: React.FC = () => {
               )}
             </div>
             
+            {authMode !== 'magic' && (
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  {...register('password')}
+                  disabled={isLoading}
+                />
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password.message}</p>
+                )}
+              </div>
+            )}
+            
             <Button 
               type="submit" 
               className="w-full" 
               disabled={isLoading}
               variant="default"
             >
-              {isLoading ? 'Sending...' : 'Send Magic Link'}
+              {isLoading 
+                ? 'Loading...' 
+                : authMode === 'magic' 
+                  ? 'Send Magic Link'
+                  : authMode === 'signin'
+                    ? 'Sign In'
+                    : 'Sign Up'
+              }
             </Button>
           </form>
           

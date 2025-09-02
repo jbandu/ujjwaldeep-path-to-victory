@@ -23,6 +23,7 @@ const AdminLayout: React.FC = () => {
     { name: 'AI Tasks', href: '/admin/ai-tasks', icon: Settings },
     { name: 'Import', href: '/admin/import', icon: Upload },
     { name: 'Review', href: '/admin/review', icon: Eye },
+    { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
 
   const isActive = (href: string) => {
