@@ -7,22 +7,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Get secrets from Supabase
+// Get configuration from environment
 const supabaseUrl = Deno.env.get('SUPABASE_URL');
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-
-// Create Supabase client to fetch secrets
-const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
-
-// Fetch OpenAI API key from Supabase secrets
-async function getOpenAIKey() {
-  const { data, error } = await supabase.rpc('vault_get_secret', { secret_name: 'OPENAI_API_KEY' });
-  if (error) {
-    console.error('Error fetching OpenAI API key:', error);
-    throw new Error('Failed to fetch OpenAI API key from secrets');
-  }
-  return data;
-}
+const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -32,20 +20,25 @@ serve(async (req) => {
 
   try {
     console.log('AI Worker starting...');
+    console.log('OpenAI API Key available:', !!openAIApiKey);
+    console.log('Supabase URL:', supabaseUrl);
+    console.log('Service Key available:', !!supabaseServiceKey);
     
+    if (!openAIApiKey) {
+      throw new Error('OPENAI_API_KEY not configured');
+    }
+
     if (!supabaseUrl || !supabaseServiceKey) {
       throw new Error('Supabase configuration missing');
     }
 
-    // Get OpenAI API key from Supabase secrets
-    const openAIApiKey = await getOpenAIKey();
-    if (!openAIApiKey) {
-      throw new Error('OPENAI_API_KEY not configured in Supabase secrets');
-    }
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // 1) Dequeue a small batch of tasks
+    console.log('Attempting to dequeue tasks...');
     const { data: tasks, error: dqErr } = await supabase.rpc('ai_dequeue', { p_batch: 3 });
     if (dqErr) {
+      console.error('Dequeue error details:', JSON.stringify(dqErr, null, 2));
       console.error('Dequeue error:', dqErr);
       throw dqErr;
     }
@@ -106,6 +99,7 @@ serve(async (req) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   } catch (e: any) {
+    console.error('Worker error details:', JSON.stringify(e, null, 2));
     console.error('Worker error:', e);
     return new Response(JSON.stringify({ error: e.message ?? String(e) }), {
       status: 500,
