@@ -10,7 +10,8 @@ import {
   Upload, 
   Eye,
   LogOut,
-  Home
+  Home,
+  Layers
 } from 'lucide-react';
 
 const AdminLayout: React.FC = () => {
@@ -23,6 +24,7 @@ const AdminLayout: React.FC = () => {
     { name: 'AI Tasks', href: '/admin/ai-tasks', icon: Settings },
     { name: 'Import', href: '/admin/import', icon: Upload },
     { name: 'Review', href: '/admin/review', icon: Eye },
+    { name: 'Features', href: '/admin/features', icon: Layers },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
 

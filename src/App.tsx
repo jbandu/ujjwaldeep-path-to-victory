@@ -29,6 +29,7 @@ import AdminAITasks from "./pages/admin/AITasks";
 import AdminImport from "./pages/admin/Import";
 import AdminReview from "./pages/admin/Review";
 import AdminSettings from "./pages/admin/Settings";
+import AdminFeatures from "./pages/admin/Features";
 import PrintReview from "./pages/admin/PrintReview";
 import PrintReviewEdit from "./pages/admin/PrintReviewEdit";
 import NotFound from "./pages/NotFound";
@@ -108,6 +109,7 @@ const App: React.FC = () => (
             <Route path="import" element={<AdminImport />} />
             <Route path="review" element={<AdminReview />} />
             <Route path="settings" element={<AdminSettings />} />
+            <Route path="features" element={<AdminFeatures />} />
             <Route path="print/review" element={<PrintReview />} />
             <Route path="print/review/:uploadId" element={<PrintReviewEdit />} />
           </Route>

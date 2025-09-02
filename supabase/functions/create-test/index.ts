@@ -82,7 +82,56 @@ Deno.serve(async (req) => {
     console.log('Creating test for user:', user.id)
     console.log('Test config:', testConfig)
 
-    // Create test record
+    // Select questions based on the criteria
+    let questionQuery = supabase
+      .from('questions')
+      .select('id')
+      .eq('status', 'active')
+      .in('subject', testConfig.subjects)
+
+    // Add chapter filter if specified
+    if (testConfig.chapters && testConfig.chapters.length > 0) {
+      questionQuery = questionQuery.in('chapter', testConfig.chapters)
+    }
+
+    // Add difficulty filter
+    const difficultyLevel = testConfig.difficulty?.[0] || 3
+    questionQuery = questionQuery.eq('difficulty', difficultyLevel)
+    
+    // Limit and randomize
+    questionQuery = questionQuery.limit(testConfig.questionCount * 3) // Get extra to randomize
+
+    const { data: availableQuestions, error: questionsError } = await questionQuery
+
+    if (questionsError) {
+      console.error('Error fetching questions:', questionsError)
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch questions', details: questionsError.message }),
+        { 
+          status: 500, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      )
+    }
+
+    if (!availableQuestions || availableQuestions.length === 0) {
+      return new Response(
+        JSON.stringify({ error: 'No questions found matching the criteria' }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      )
+    }
+
+    // Shuffle and select the required number of questions
+    const shuffledQuestions = availableQuestions.sort(() => Math.random() - 0.5)
+    const selectedQuestions = shuffledQuestions.slice(0, testConfig.questionCount)
+    const questionIds = selectedQuestions.map(q => q.id.toString())
+
+    console.log(`Selected ${questionIds.length} questions from ${availableQuestions.length} available`)
+
+    // Create test record with selected question IDs
     const { data: test, error: insertError } = await supabase
       .from('tests')
       .insert({
@@ -92,6 +141,7 @@ Deno.serve(async (req) => {
           chapters: testConfig.chapters || [],
           difficulty: testConfig.difficulty || [3],
           questionCount: testConfig.questionCount,
+          questions: questionIds, // Store the actual selected question IDs
         },
         duration_sec: testConfig.duration * 60, // Convert minutes to seconds
         mode: 'custom', // User-created custom test
