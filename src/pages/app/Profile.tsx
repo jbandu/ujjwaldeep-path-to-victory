@@ -342,9 +342,11 @@ const Profile: React.FC = () => {
                             <SelectTrigger>
                               <SelectValue placeholder={profile?.language || "English"} />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="bg-background border border-border shadow-lg">
                               <SelectItem value="English">English</SelectItem>
                               <SelectItem value="Hindi">हिंदी (Hindi)</SelectItem>
+                              <SelectItem value="Telugu">తెలుగు (Telugu)</SelectItem>
+                              <SelectItem value="Tamil">தமிழ் (Tamil)</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -457,9 +459,11 @@ const Profile: React.FC = () => {
                       <SelectTrigger className="w-full">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-background border border-border shadow-lg">
                         <SelectItem value="English">🇺🇸 English</SelectItem>
                         <SelectItem value="Hindi">🇮🇳 हिंदी (Hindi)</SelectItem>
+                        <SelectItem value="Telugu">🇮🇳 తెలుగు (Telugu)</SelectItem>
+                        <SelectItem value="Tamil">🇮🇳 தமிழ் (Tamil)</SelectItem>
                       </SelectContent>
                     </Select>
                     <p className="text-xs text-muted-foreground">

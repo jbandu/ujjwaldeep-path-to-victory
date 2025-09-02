@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Wand2, Target, Tags, BookOpen, Languages, CheckCircle } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Loader2, Wand2, Target, Tags, BookOpen, Languages, CheckCircle, ChevronDown } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -152,15 +153,18 @@ const AITaskPanel: React.FC<AITaskPanelProps> = ({ questionId, onTaskComplete })
     fetchTasks();
   }, [questionId]);
 
-  const taskTypes: Array<{ type: 'explain' | 'difficulty' | 'tags' | 'bloom' | 'translate' | 'qc', label: string, locale?: string }> = [
+  const taskTypes: Array<{ type: 'explain' | 'difficulty' | 'tags' | 'bloom' | 'qc', label: string }> = [
     { type: 'explain', label: 'Generate Explanation' },
     { type: 'difficulty', label: 'Calibrate Difficulty' },
     { type: 'tags', label: 'Suggest Tags' },
     { type: 'bloom', label: 'Bloom Classification' },
-    { type: 'translate', label: 'Translate to Hindi', locale: 'hi' },
-    { type: 'translate', label: 'Translate to Telugu', locale: 'te' },
-    { type: 'translate', label: 'Translate to Tamil', locale: 'ta' },
     { type: 'qc', label: 'Quality Check' }
+  ];
+
+  const translationLanguages = [
+    { code: 'hi', name: 'Hindi', label: 'हिंदी' },
+    { code: 'te', name: 'Telugu', label: 'తెలుగు' },
+    { code: 'ta', name: 'Tamil', label: 'தமிழ்' }
   ];
 
   return (
@@ -174,10 +178,10 @@ const AITaskPanel: React.FC<AITaskPanelProps> = ({ questionId, onTaskComplete })
       <CardContent className="space-y-4">
         {/* Action Buttons */}
         <div className="grid grid-cols-2 gap-2">
-          {taskTypes.map(({ type, label, locale }, index) => (
+          {taskTypes.map(({ type, label }) => (
             <Button
-              key={`${type}-${locale || index}`}
-              onClick={() => enqueueTask(type, locale)}
+              key={type}
+              onClick={() => enqueueTask(type)}
               disabled={loading}
               variant="outline"
               size="sm"
@@ -187,6 +191,34 @@ const AITaskPanel: React.FC<AITaskPanelProps> = ({ questionId, onTaskComplete })
               <span className="ml-1 truncate">{label}</span>
             </Button>
           ))}
+          
+          {/* Translation Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                disabled={loading}
+                variant="outline"
+                size="sm"
+                className="justify-start text-xs col-span-2"
+              >
+                <Languages className="h-4 w-4" />
+                <span className="ml-1 truncate">Translate Question</span>
+                <ChevronDown className="h-3 w-3 ml-auto" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-48 bg-background border border-border shadow-lg">
+              {translationLanguages.map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  onClick={() => enqueueTask('translate', lang.code)}
+                  className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                >
+                  <Languages className="h-4 w-4 mr-2" />
+                  Translate to {lang.name} ({lang.label})
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Run Worker Button */}
