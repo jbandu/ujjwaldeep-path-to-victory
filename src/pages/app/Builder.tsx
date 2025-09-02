@@ -262,6 +262,15 @@ const Builder: React.FC = () => {
               </Button>
               
               <Button
+                onClick={() => navigate(`/app/tests/${createdTestId}/print`)}
+                variant="outline"
+                className="flex-1"
+              >
+                Print Mode
+                <BookOpen className="w-4 h-4 ml-2" />
+              </Button>
+              
+              <Button
                 onClick={resetForm}
                 variant="outline"
                 className="flex-1"

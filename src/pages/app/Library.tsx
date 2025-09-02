@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, BookOpen, Download, Eye, Calendar } from 'lucide-react';
+import { Search, BookOpen, Download, Eye, Calendar, Printer } from 'lucide-react';
 
 const Library: React.FC = () => {
   return (
@@ -78,6 +78,9 @@ const Library: React.FC = () => {
                         <Button size="sm" variant="outline" className="flex-1">
                           <Eye className="h-3 w-3 mr-1" />
                           View
+                        </Button>
+                        <Button size="sm" variant="outline">
+                          <Printer className="h-3 w-3" />
                         </Button>
                         <Button size="sm" variant="ghost">
                           <Download className="h-3 w-3" />

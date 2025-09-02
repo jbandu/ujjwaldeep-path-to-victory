@@ -7,7 +7,8 @@ import {
   User, 
   LogOut,
   Trophy,
-  Calendar
+  Calendar,
+  Printer
 } from 'lucide-react';
 import {
   Sidebar,
