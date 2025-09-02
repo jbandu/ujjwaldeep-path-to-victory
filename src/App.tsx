@@ -22,6 +22,7 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminQuestions from "./pages/admin/Questions";
 import AdminQuestionForm from "./pages/admin/QuestionForm";
+import AdminAITasks from "./pages/admin/AITasks";
 import AdminImport from "./pages/admin/Import";
 import AdminReview from "./pages/admin/Review";
 import NotFound from "./pages/NotFound";
@@ -82,6 +83,7 @@ const App: React.FC = () => (
             <Route path="questions" element={<AdminQuestions />} />
             <Route path="questions/new" element={<AdminQuestionForm />} />
             <Route path="questions/:id" element={<AdminQuestionForm />} />
+            <Route path="ai-tasks" element={<AdminAITasks />} />
             <Route path="import" element={<AdminImport />} />
             <Route path="review" element={<AdminReview />} />
           </Route>
