@@ -206,7 +206,7 @@ const AITaskPanel: React.FC<AITaskPanelProps> = ({ questionId, onTaskComplete })
                 <ChevronDown className="h-3 w-3 ml-auto" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-48 bg-background border border-border shadow-lg">
+            <DropdownMenuContent className="z-50 w-48 bg-background border border-border shadow-lg">
               {translationLanguages.map((lang) => (
                 <DropdownMenuItem
                   key={lang.code}

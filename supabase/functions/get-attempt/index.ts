@@ -94,7 +94,7 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Get test data for duration
+    // Get test data for duration and user language preference
     const { data: test, error: testError } = await supabase
       .from('tests')
       .select('duration_sec')
@@ -111,6 +111,21 @@ Deno.serve(async (req) => {
         }
       )
     }
+
+    // Fetch user profile to determine language preference for questions
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('language')
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    if (profileError) {
+      console.warn('Profile fetch error (continuing with English):', profileError)
+    }
+
+    const userLangName = (profile?.language || 'English').trim()
+    const langMap: Record<string, string> = { English: 'en', Hindi: 'hi', Telugu: 'te', Tamil: 'ta' }
+    const userLangCode = langMap[userLangName] || 'en'
 
     // Get questions from the attempt summary
     const summary = attempt.summary as any;
@@ -143,6 +158,22 @@ Deno.serve(async (req) => {
       )
     }
 
+    // Apply localization if available and preferred language is not English
+    let localizedMap = new Map<number, any>()
+    if (userLangCode !== 'en') {
+      const { data: locs, error: locsError } = await supabase
+        .from('question_localizations')
+        .select('question_id, stem, options, explanation')
+        .in('question_id', questionIds)
+        .eq('language', userLangCode)
+
+      if (locsError) {
+        console.warn('Localization fetch error (continuing without localization):', locsError)
+      } else if (locs && locs.length > 0) {
+        localizedMap = new Map(locs.map((l: any) => [l.question_id, l]))
+      }
+    }
+
     // Get existing responses
     const { data: responses, error: responsesError } = await supabase
       .from('items_attempted')
@@ -157,12 +188,18 @@ Deno.serve(async (req) => {
     // Create a map of existing responses
     const responseMap = new Map(responses?.map(r => [r.question_id, r.selected_index]) || [])
 
-    // Sort questions according to the original order
-    const sortedQuestions = questionIds.map((id: number) => 
-      questions?.find(q => q.id === id)
-    ).filter(Boolean)
+    // Sort questions according to the original order and merge localizations
+    const sortedQuestions = questionIds
+      .map((id: number) => questions?.find(q => q.id === id))
+      .filter(Boolean)
+      .map((q: any) => {
+        const loc = localizedMap.get(q.id)
+        return loc
+          ? { ...q, stem: loc.stem ?? q.stem, options: loc.options ?? q.options }
+          : q
+      })
 
-    console.log(`Found ${sortedQuestions.length} questions for attempt`)
+    console.log(`Found ${sortedQuestions.length} questions for attempt. Language preference: ${userLangName} (${userLangCode})`)
 
     // Calculate time remaining
     const startTime = new Date(attempt.started_at).getTime()

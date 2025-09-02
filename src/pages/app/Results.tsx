@@ -118,11 +118,51 @@ const Results: React.FC = () => {
         question: Array.isArray(item.questions) ? item.questions[0] : item.questions
       }));
 
-      setQuestionResults(formattedResults);
+      // Fetch user language preference and apply localizations if available
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('language')
+        .eq('user_id', user?.id)
+        .maybeSingle();
+
+      const langName = (profile?.language || 'English').trim();
+      const langMap: Record<string, string> = { English: 'en', Hindi: 'hi', Telugu: 'te', Tamil: 'ta' };
+      const langCode = langMap[langName] || 'en';
+
+      let usedResults = formattedResults;
+
+      if (langCode !== 'en') {
+        const qIds = formattedResults.map(r => r.question_id);
+        const { data: locs } = await supabase
+          .from('question_localizations')
+          .select('question_id, stem, options, explanation')
+          .in('question_id', qIds)
+          .eq('language', langCode);
+
+        const locMap = new Map((locs || []).map((l: any) => [l.question_id, l]));
+        usedResults = formattedResults.map((r) => {
+          const loc = locMap.get(r.question_id);
+          if (loc) {
+            return {
+              ...r,
+              question: {
+                ...r.question,
+                stem: loc.stem ?? r.question.stem,
+                options: loc.options ?? r.question.options,
+                explanation: loc.explanation ?? r.question.explanation,
+              }
+            } as QuestionResult;
+          }
+          return r;
+        });
+      }
+
+      setQuestionResults(usedResults);
 
       // Calculate subject breakdown
-      const breakdown = calculateSubjectBreakdown(formattedResults);
+      const breakdown = calculateSubjectBreakdown(usedResults);
       setSubjectBreakdown(breakdown);
+
 
     } catch (error) {
       console.error('Error fetching results:', error);

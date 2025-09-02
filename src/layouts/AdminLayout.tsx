@@ -80,6 +80,17 @@ const AdminLayout: React.FC = () => {
               asChild 
               className="flex-1"
             >
+              <Link to="/app/dashboard">
+                <Home className="h-4 w-4 mr-2" />
+                Back to Dashboard
+              </Link>
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              asChild 
+              className="flex-1"
+            >
               <Link to="/app">
                 <Users className="h-4 w-4 mr-2" />
                 App
