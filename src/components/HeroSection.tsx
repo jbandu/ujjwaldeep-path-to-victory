@@ -38,9 +38,11 @@ const HeroSection: React.FC = () => {
         
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-in-right" style={{ animationDelay: '600ms' }}>
-          <Button variant="cta" size="xl" className="min-w-48">
-            Start Free Today
-            <ArrowRight className="ml-2 h-5 w-5" />
+          <Button variant="cta" size="xl" className="min-w-48" asChild>
+            <a href="/auth">
+              Start Free Today
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </a>
           </Button>
           <Button variant="outline" size="xl" className="min-w-48 hover:bg-primary/10">
             <Play className="mr-2 h-5 w-5" />
