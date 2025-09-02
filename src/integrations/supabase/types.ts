@@ -596,6 +596,22 @@ export type Database = {
         Args: { p_result: Json; p_task_id: string }
         Returns: undefined
       }
+      ai_dequeue: {
+        Args: { p_batch?: number }
+        Returns: {
+          created_at: string | null
+          created_by: string | null
+          error: string | null
+          id: string
+          locale: string | null
+          payload: Json | null
+          question_id: number | null
+          result: Json | null
+          status: Database["public"]["Enums"]["ai_task_status"] | null
+          task_type: Database["public"]["Enums"]["ai_task_type"]
+          updated_at: string | null
+        }[]
+      }
       ai_enqueue: {
         Args: {
           p_locale?: string
@@ -604,6 +620,10 @@ export type Database = {
           p_task_type: Database["public"]["Enums"]["ai_task_type"]
         }
         Returns: string
+      }
+      ai_mark_error: {
+        Args: { p_error: string; p_task_id: string }
+        Returns: undefined
       }
       get_available_question_count: {
         Args: {
