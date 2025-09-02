@@ -80,6 +80,9 @@ const ExamDay = () => {
         // Load weather if we have exam center coordinates
         if (data.exam_lat && data.exam_lng && data.exam_date) {
           loadWeatherData(data.exam_lat, data.exam_lng);
+        } else {
+          // Set default weather state when coordinates are missing
+          setWeather({ temp: null, desc: null, rain: null, loading: false });
         }
       }
     } catch (error: any) {
@@ -222,7 +225,8 @@ const ExamDay = () => {
               <div>
                 <h3 className="font-semibold">Weather</h3>
                 <p className="text-sm text-muted-foreground">
-                  {weather ? `${weather.temp}, ${weather.desc}` : "Set exam center"}
+                  {weather && weather.temp ? `${weather.temp}, ${weather.desc}` : 
+                   examData?.exam_center_address ? "Available in email plan" : "Set exam center"}
                 </p>
               </div>
             </div>

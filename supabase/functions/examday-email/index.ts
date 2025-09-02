@@ -1,5 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY")!
 const RESEND_FROM     = Deno.env.get("RESEND_FROM_EMAIL")!
@@ -50,10 +51,10 @@ serve(async (req) => {
       }
     }
 
-    const sb = supabaseService()
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
     // 1) Load exam-day context
-    let ctx = await selectExamContext(sb, userId, payload.email)
+    let ctx = await selectExamContext(supabase, userId, payload.email)
     if (!ctx) return json({ error: "No profile context found" }, 400)
 
     if (payload.exam_date_override) ctx.exam_date = payload.exam_date_override
@@ -108,38 +109,26 @@ serve(async (req) => {
 })
 
 // ---------- helpers ----------
-function supabaseService() {
-  return {
-    async select(sql: string) {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/sql`, {
-        method: "POST",
-        headers: {
-          apikey: SUPABASE_SERVICE_ROLE_KEY!,
-          Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY!}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query: sql }),
-      })
-      if (!res.ok) {
-        console.error('SQL query failed:', await res.text())
-        throw new Error(`SQL failed ${res.status}`)
-      }
-      return await res.json()
-    }
-  }
-}
-
-async function selectExamContext(sb: any, user_id?: string, email?: string) {
-  let filter = ""
-  if (user_id) filter = `WHERE user_id = '${user_id}'`
-  else if (email) filter = `WHERE email = '${email}'`
-  else filter = `ORDER BY user_id LIMIT 1`
-
-  const sql = `SELECT * FROM v_examday_context ${filter}`
-  
+async function selectExamContext(supabase: any, user_id?: string, email?: string) {
   try {
-    const rows = await sb.select(sql)
-    return rows?.[0]
+    let query = supabase.from('v_examday_context').select('*')
+    
+    if (user_id) {
+      query = query.eq('user_id', user_id)
+    } else if (email) {
+      query = query.eq('email', email)
+    } else {
+      query = query.limit(1)
+    }
+    
+    const { data, error } = await query.maybeSingle()
+    
+    if (error) {
+      console.error('Error selecting exam context:', error)
+      return null
+    }
+    
+    return data
   } catch (error) {
     console.error('Error selecting exam context:', error)
     return null
