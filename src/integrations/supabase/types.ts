@@ -14,6 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_tasks: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          error: string | null
+          id: string
+          locale: string | null
+          payload: Json | null
+          question_id: number | null
+          result: Json | null
+          status: Database["public"]["Enums"]["ai_task_status"] | null
+          task_type: Database["public"]["Enums"]["ai_task_type"]
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          error?: string | null
+          id?: string
+          locale?: string | null
+          payload?: Json | null
+          question_id?: number | null
+          result?: Json | null
+          status?: Database["public"]["Enums"]["ai_task_status"] | null
+          task_type: Database["public"]["Enums"]["ai_task_type"]
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          error?: string | null
+          id?: string
+          locale?: string | null
+          payload?: Json | null
+          question_id?: number | null
+          result?: Json | null
+          status?: Database["public"]["Enums"]["ai_task_status"] | null
+          task_type?: Database["public"]["Enums"]["ai_task_type"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_tasks_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "admin_questions_missing_answer"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_tasks_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "admin_questions_missing_explanation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_tasks_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "admin_questions_missing_hi"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_tasks_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       attempts: {
         Row: {
           id: string
@@ -127,6 +198,27 @@ export type Database = {
             foreignKeyName: "items_attempted_question_id_fkey"
             columns: ["question_id"]
             isOneToOne: false
+            referencedRelation: "admin_questions_missing_answer"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_attempted_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "admin_questions_missing_explanation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_attempted_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "admin_questions_missing_hi"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_attempted_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
             referencedRelation: "questions"
             referencedColumns: ["id"]
           },
@@ -157,6 +249,8 @@ export type Database = {
           created_at: string | null
           district: string | null
           full_name: string | null
+          is_admin: boolean | null
+          language: string | null
           medium: string | null
           state: string | null
           updated_at: string | null
@@ -168,6 +262,8 @@ export type Database = {
           created_at?: string | null
           district?: string | null
           full_name?: string | null
+          is_admin?: boolean | null
+          language?: string | null
           medium?: string | null
           state?: string | null
           updated_at?: string | null
@@ -179,6 +275,8 @@ export type Database = {
           created_at?: string | null
           district?: string | null
           full_name?: string | null
+          is_admin?: boolean | null
+          language?: string | null
           medium?: string | null
           state?: string | null
           updated_at?: string | null
@@ -186,56 +284,190 @@ export type Database = {
         }
         Relationships: []
       }
+      question_localizations: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          explanation: Json | null
+          id: string
+          language: string
+          options: Json
+          question_id: number
+          stem: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          explanation?: Json | null
+          id?: string
+          language: string
+          options: Json
+          question_id: number
+          stem: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          explanation?: Json | null
+          id?: string
+          language?: string
+          options?: Json
+          question_id?: number
+          stem?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_localizations_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "admin_questions_missing_answer"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "question_localizations_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "admin_questions_missing_explanation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "question_localizations_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "admin_questions_missing_hi"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "question_localizations_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       questions: {
         Row: {
+          ai_flags: Json | null
+          bloom_level: string | null
           chapter: string
-          correct_index: number
+          correct_index: number | null
           created_at: string | null
           created_by: string | null
           difficulty: number | null
+          difficulty_ai: number | null
           explanation: Json | null
           id: number
           language: string | null
           options: Json
+          reviewed_at: string | null
+          reviewed_by: string | null
           source: string | null
           status: string | null
           stem: string
           subject: string
           tags: string[] | null
           topic: string | null
+          updated_at: string | null
         }
         Insert: {
+          ai_flags?: Json | null
+          bloom_level?: string | null
           chapter: string
-          correct_index: number
+          correct_index?: number | null
           created_at?: string | null
           created_by?: string | null
           difficulty?: number | null
+          difficulty_ai?: number | null
           explanation?: Json | null
           id?: number
           language?: string | null
           options: Json
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           source?: string | null
           status?: string | null
           stem: string
           subject: string
           tags?: string[] | null
           topic?: string | null
+          updated_at?: string | null
         }
         Update: {
+          ai_flags?: Json | null
+          bloom_level?: string | null
           chapter?: string
-          correct_index?: number
+          correct_index?: number | null
           created_at?: string | null
           created_by?: string | null
           difficulty?: number | null
+          difficulty_ai?: number | null
           explanation?: Json | null
           id?: number
           language?: string | null
           options?: Json
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           source?: string | null
           status?: string | null
           stem?: string
           subject?: string
           tags?: string[] | null
+          topic?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      staging_questions: {
+        Row: {
+          chapter: string | null
+          correctIndex: number | null
+          difficulty: number | null
+          explanationText: string | null
+          language: string | null
+          optionA: string | null
+          optionB: string | null
+          optionC: string | null
+          optionD: string | null
+          source: string | null
+          status: string | null
+          stem: string | null
+          subject: string | null
+          tags: string | null
+          topic: string | null
+        }
+        Insert: {
+          chapter?: string | null
+          correctIndex?: number | null
+          difficulty?: number | null
+          explanationText?: string | null
+          language?: string | null
+          optionA?: string | null
+          optionB?: string | null
+          optionC?: string | null
+          optionD?: string | null
+          source?: string | null
+          status?: string | null
+          stem?: string | null
+          subject?: string | null
+          tags?: string | null
+          topic?: string | null
+        }
+        Update: {
+          chapter?: string | null
+          correctIndex?: number | null
+          difficulty?: number | null
+          explanationText?: string | null
+          language?: string | null
+          optionA?: string | null
+          optionB?: string | null
+          optionC?: string | null
+          optionD?: string | null
+          source?: string | null
+          status?: string | null
+          stem?: string | null
+          subject?: string | null
+          tags?: string | null
           topic?: string | null
         }
         Relationships: []
@@ -275,6 +507,81 @@ export type Database = {
       }
     }
     Views: {
+      admin_questions_missing_answer: {
+        Row: {
+          chapter: string | null
+          created_at: string | null
+          difficulty: number | null
+          id: number | null
+          language: string | null
+          options: Json | null
+          source: string | null
+          stem: string | null
+          subject: string | null
+        }
+        Insert: {
+          chapter?: string | null
+          created_at?: string | null
+          difficulty?: number | null
+          id?: number | null
+          language?: string | null
+          options?: Json | null
+          source?: string | null
+          stem?: string | null
+          subject?: string | null
+        }
+        Update: {
+          chapter?: string | null
+          created_at?: string | null
+          difficulty?: number | null
+          id?: number | null
+          language?: string | null
+          options?: Json | null
+          source?: string | null
+          stem?: string | null
+          subject?: string | null
+        }
+        Relationships: []
+      }
+      admin_questions_missing_explanation: {
+        Row: {
+          chapter: string | null
+          correct_index: number | null
+          difficulty: number | null
+          id: number | null
+          options: Json | null
+          stem: string | null
+          subject: string | null
+        }
+        Insert: {
+          chapter?: string | null
+          correct_index?: number | null
+          difficulty?: number | null
+          id?: number | null
+          options?: Json | null
+          stem?: string | null
+          subject?: string | null
+        }
+        Update: {
+          chapter?: string | null
+          correct_index?: number | null
+          difficulty?: number | null
+          id?: number | null
+          options?: Json | null
+          stem?: string | null
+          subject?: string | null
+        }
+        Relationships: []
+      }
+      admin_questions_missing_hi: {
+        Row: {
+          chapter: string | null
+          id: number | null
+          stem: string | null
+          subject: string | null
+        }
+        Relationships: []
+      }
       leaderboard_daily_public: {
         Row: {
           day: string | null
@@ -285,10 +592,95 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      ai_apply_result: {
+        Args: { p_result: Json; p_task_id: string }
+        Returns: undefined
+      }
+      ai_enqueue: {
+        Args: {
+          p_locale?: string
+          p_payload?: Json
+          p_question_id: number
+          p_task_type: Database["public"]["Enums"]["ai_task_type"]
+        }
+        Returns: string
+      }
+      get_available_question_count: {
+        Args: {
+          chapters?: string[]
+          max_diff?: number
+          min_diff?: number
+          subjects?: string[]
+        }
+        Returns: number
+      }
+      get_distinct_chapters: {
+        Args: { subjects: string[] }
+        Returns: {
+          chapter: string
+        }[]
+      }
+      get_distinct_subjects: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          subject: string
+        }[]
+      }
+      gtrgm_compress: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      gtrgm_decompress: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      gtrgm_in: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      gtrgm_options: {
+        Args: { "": unknown }
+        Returns: undefined
+      }
+      gtrgm_out: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      set_limit: {
+        Args: { "": number }
+        Returns: number
+      }
+      show_limit: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      show_trgm: {
+        Args: { "": string }
+        Returns: string[]
+      }
+      unaccent: {
+        Args: { "": string }
+        Returns: string
+      }
+      unaccent_init: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
     }
     Enums: {
-      [_ in never]: never
+      ai_task_status: "queued" | "processing" | "done" | "error"
+      ai_task_type:
+        | "explain"
+        | "difficulty"
+        | "tags"
+        | "bloom"
+        | "translate"
+        | "qc"
+        | "summary"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -415,6 +807,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      ai_task_status: ["queued", "processing", "done", "error"],
+      ai_task_type: [
+        "explain",
+        "difficulty",
+        "tags",
+        "bloom",
+        "translate",
+        "qc",
+        "summary",
+      ],
+    },
   },
 } as const
