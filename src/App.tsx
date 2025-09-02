@@ -15,6 +15,7 @@ import Profile from "./pages/app/Profile";
 import TestPlayer from "./pages/app/TestPlayer";
 import TestPrintMode from "./pages/app/TestPrintMode";
 import TestPrintUpload from "./pages/app/TestPrintUpload";
+import ExamDay from "./pages/app/ExamDay";
 import Leaderboard from "./pages/app/Leaderboard";
 import Results from "./pages/app/Results";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -90,6 +91,7 @@ const App: React.FC = () => (
             <Route path="library" element={<Library />} />
             <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="exam-day" element={<ExamDay />} />
           </Route>
           
           {/* Admin Routes */}

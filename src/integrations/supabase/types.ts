@@ -56,6 +56,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "ai_tasks_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
+          {
             foreignKeyName: "ai_tasks_question_id_fkey"
             columns: ["question_id"]
             isOneToOne: false
@@ -122,6 +129,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "attempts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
+          {
             foreignKeyName: "fk_attempts_test_id"
             columns: ["test_id"]
             isOneToOne: false
@@ -152,7 +166,15 @@ export type Database = {
           streak_days?: number | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "gamification_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       items_attempted: {
         Row: {
@@ -240,7 +262,15 @@ export type Database = {
           points?: number | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "leaderboard_daily_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       print_packages: {
         Row: {
@@ -274,6 +304,13 @@ export type Database = {
           version?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "print_packages_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
           {
             foreignKeyName: "print_packages_test_id_fkey"
             columns: ["test_id"]
@@ -335,6 +372,13 @@ export type Database = {
             referencedRelation: "tests"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "print_uploads_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
         ]
       }
       profiles: {
@@ -343,7 +387,16 @@ export type Database = {
           class_level: string | null
           created_at: string | null
           district: string | null
+          exam_arrival_buffer_mins: number | null
+          exam_center_address: string | null
+          exam_city: string | null
+          exam_date: string | null
+          exam_lat: number | null
+          exam_lng: number | null
           full_name: string | null
+          home_address: string | null
+          home_lat: number | null
+          home_lng: number | null
           is_admin: boolean | null
           language: string | null
           medium: string | null
@@ -356,7 +409,16 @@ export type Database = {
           class_level?: string | null
           created_at?: string | null
           district?: string | null
+          exam_arrival_buffer_mins?: number | null
+          exam_center_address?: string | null
+          exam_city?: string | null
+          exam_date?: string | null
+          exam_lat?: number | null
+          exam_lng?: number | null
           full_name?: string | null
+          home_address?: string | null
+          home_lat?: number | null
+          home_lng?: number | null
           is_admin?: boolean | null
           language?: string | null
           medium?: string | null
@@ -369,7 +431,16 @@ export type Database = {
           class_level?: string | null
           created_at?: string | null
           district?: string | null
+          exam_arrival_buffer_mins?: number | null
+          exam_center_address?: string | null
+          exam_city?: string | null
+          exam_date?: string | null
+          exam_lat?: number | null
+          exam_lng?: number | null
           full_name?: string | null
+          home_address?: string | null
+          home_lat?: number | null
+          home_lng?: number | null
           is_admin?: boolean | null
           language?: string | null
           medium?: string | null
@@ -377,7 +448,15 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       question_localizations: {
         Row: {
@@ -411,6 +490,13 @@ export type Database = {
           stem?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "question_localizations_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
           {
             foreignKeyName: "question_localizations_question_id_fkey"
             columns: ["question_id"]
@@ -511,7 +597,22 @@ export type Database = {
           topic?: string | null
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "questions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "questions_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       staging_questions: {
         Row: {
@@ -598,7 +699,15 @@ export type Database = {
           total_marks?: number | null
           visibility?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tests_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "v_examday_context"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
     }
     Views: {
@@ -682,6 +791,23 @@ export type Database = {
           day: string | null
           points: number | null
           rank: number | null
+        }
+        Relationships: []
+      }
+      v_examday_context: {
+        Row: {
+          buffer_mins: number | null
+          email: string | null
+          exam_center_address: string | null
+          exam_city: string | null
+          exam_date: string | null
+          exam_lat: number | null
+          exam_lng: number | null
+          full_name: string | null
+          home_address: string | null
+          home_lat: number | null
+          home_lng: number | null
+          user_id: string | null
         }
         Relationships: []
       }

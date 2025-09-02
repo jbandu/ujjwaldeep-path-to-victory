@@ -6,7 +6,8 @@ import {
   Library, 
   User, 
   LogOut,
-  Trophy 
+  Trophy,
+  Calendar
 } from 'lucide-react';
 import {
   Sidebar,
@@ -43,6 +44,12 @@ const menuItems = [
     url: '/app/library',
     icon: Library,
     description: 'Past Papers & Resources'
+  },
+  {
+    title: 'Exam Day',
+    url: '/app/exam-day',
+    icon: Calendar,
+    description: 'Preparation Hub'
   },
   {
     title: 'Leaderboard',
