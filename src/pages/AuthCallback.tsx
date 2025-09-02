@@ -11,8 +11,23 @@ const AuthCallback: React.FC = () => {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        // Handle the auth callback
+        // Handle the auth callback with hash and search params
         const { data, error } = await supabase.auth.getSession();
+        
+        // Also try to get user from URL hash if session is empty
+        if (!data.session) {
+          const { data: authData, error: authError } = await supabase.auth.getUser();
+          if (authError) {
+            console.error('Auth error:', authError);
+            toast({
+              title: "Authentication Error", 
+              description: authError.message,
+              variant: "destructive",
+            });
+            navigate('/auth');
+            return;
+          }
+        }
         
         if (error) {
           console.error('Auth callback error:', error);
