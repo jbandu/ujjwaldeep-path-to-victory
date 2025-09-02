@@ -86,7 +86,7 @@ const AITasks: React.FC = () => {
     }
   };
 
-  const bulkEnqueue = async (taskType: 'explain' | 'difficulty' | 'tags' | 'bloom' | 'translate' | 'qc', filters: any) => {
+  const bulkEnqueue = async (taskType: 'explain' | 'difficulty' | 'tags' | 'bloom' | 'translate' | 'qc', filters: any, locale?: string) => {
     try {
       let query = supabase.from('questions').select('id');
       
@@ -96,11 +96,12 @@ const AITasks: React.FC = () => {
       } else if (taskType === 'difficulty') {
         query = query.is('difficulty_ai', null);
       } else if (taskType === 'translate') {
-        // Questions without Hindi localization
+        // Questions without specified language localization
+        const targetLocale = locale || 'hi';
         const { data: localizedIds } = await supabase
           .from('question_localizations')
           .select('question_id')
-          .eq('language', 'hi');
+          .eq('language', targetLocale);
         
         const excludeIds = (localizedIds || []).map(l => l.question_id);
         if (excludeIds.length > 0) {
@@ -118,7 +119,7 @@ const AITasks: React.FC = () => {
         supabase.rpc('ai_enqueue', {
           p_task_type: taskType,
           p_question_id: q.id,
-          p_locale: taskType === 'translate' ? 'hi' : null,
+          p_locale: taskType === 'translate' ? (locale || 'hi') : null,
           p_payload: {}
         })
       );
@@ -127,7 +128,7 @@ const AITasks: React.FC = () => {
       
       toast({
         title: "Tasks Enqueued",
-        description: `Added ${questions?.length || 0} ${taskType} tasks`,
+        description: `Added ${questions?.length || 0} ${taskType} tasks${locale ? ` for ${locale}` : ''}`,
       });
       
       await fetchTasks();
@@ -317,11 +318,43 @@ const AITasks: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <Button 
-                  onClick={() => bulkEnqueue('translate', { language: 'hi' })}
+                  onClick={() => bulkEnqueue('translate', { language: 'hi' }, 'hi')}
                   className="w-full"
                 >
                   <Settings className="h-4 w-4 mr-2" />
-                  Enqueue Translation Tasks
+                  Enqueue Hindi Tasks
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Telugu Translation</CardTitle>
+                <CardDescription>Translate questions to Telugu</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button 
+                  onClick={() => bulkEnqueue('translate', { language: 'te' }, 'te')}
+                  className="w-full"
+                >
+                  <Settings className="h-4 w-4 mr-2" />
+                  Enqueue Telugu Tasks
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Tamil Translation</CardTitle>
+                <CardDescription>Translate questions to Tamil</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button 
+                  onClick={() => bulkEnqueue('translate', { language: 'ta' }, 'ta')}
+                  className="w-full"
+                >
+                  <Settings className="h-4 w-4 mr-2" />
+                  Enqueue Tamil Tasks
                 </Button>
               </CardContent>
             </Card>
