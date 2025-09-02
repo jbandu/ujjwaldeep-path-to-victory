@@ -14,6 +14,7 @@ import Library from "./pages/app/Library";
 import Profile from "./pages/app/Profile";
 import TestPlayer from "./pages/app/TestPlayer";
 import TestPrintMode from "./pages/app/TestPrintMode";
+import TestPrintUpload from "./pages/app/TestPrintUpload";
 import Leaderboard from "./pages/app/Leaderboard";
 import Results from "./pages/app/Results";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -27,6 +28,8 @@ import AdminAITasks from "./pages/admin/AITasks";
 import AdminImport from "./pages/admin/Import";
 import AdminReview from "./pages/admin/Review";
 import AdminSettings from "./pages/admin/Settings";
+import PrintReview from "./pages/admin/PrintReview";
+import PrintReviewEdit from "./pages/admin/PrintReviewEdit";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -58,6 +61,13 @@ const App: React.FC = () => (
           <Route path="/app/tests/:testId/print" element={
             <ProfileProtectedRoute>
               <TestPrintMode />
+            </ProfileProtectedRoute>
+          } />
+          
+          {/* Print Upload */}
+          <Route path="/app/tests/:testId/upload-print" element={
+            <ProfileProtectedRoute>
+              <TestPrintUpload />
             </ProfileProtectedRoute>
           } />
           
@@ -96,6 +106,8 @@ const App: React.FC = () => (
             <Route path="import" element={<AdminImport />} />
             <Route path="review" element={<AdminReview />} />
             <Route path="settings" element={<AdminSettings />} />
+            <Route path="print/review" element={<PrintReview />} />
+            <Route path="print/review/:uploadId" element={<PrintReviewEdit />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

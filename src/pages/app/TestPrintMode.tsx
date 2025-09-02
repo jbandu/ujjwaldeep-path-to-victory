@@ -70,6 +70,40 @@ const TestPrintMode = () => {
     }
   };
 
+  const downloadPDF = async (type: 'paper' | 'omr') => {
+    if (!printPackage) return;
+
+    try {
+      const url = type === 'paper' ? printPackage.paper_pdf_url : printPackage.omr_pdf_url;
+      
+      // Get signed URL from Supabase storage
+      const { data, error } = await supabase.storage
+        .from('print-artifacts')
+        .createSignedUrl(url.replace('print-artifacts/', ''), 3600);
+
+      if (error) throw error;
+      
+      // Download the file
+      const link = document.createElement('a');
+      link.href = data.signedUrl;
+      link.download = `${type === 'paper' ? 'question-paper' : 'omr-sheet'}-${testId.slice(-8)}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast({
+        title: "Download Started",
+        description: `${type === 'paper' ? 'Question paper' : 'OMR sheet'} download started`
+      });
+    } catch (error) {
+      toast({
+        title: "Download Failed",
+        description: "Failed to download PDF",
+        variant: "destructive"
+      });
+    }
+  };
+
   if (loading) {
     return <div className="flex justify-center p-8">Loading...</div>;
   }
@@ -136,7 +170,11 @@ const TestPrintMode = () => {
               <p className="text-sm text-muted-foreground">
                 NEET-style question paper with QR code for identification
               </p>
-              <Button className="w-full" variant="outline">
+              <Button 
+                className="w-full" 
+                variant="outline"
+                onClick={() => downloadPDF('paper')}
+              >
                 Download Question Paper (PDF)
               </Button>
             </CardContent>
@@ -153,7 +191,11 @@ const TestPrintMode = () => {
               <p className="text-sm text-muted-foreground">
                 Bubble sheet for marking answers with scanning capabilities
               </p>
-              <Button className="w-full" variant="outline">
+              <Button 
+                className="w-full" 
+                variant="outline"
+                onClick={() => downloadPDF('omr')}
+              >
                 Download OMR Sheet (PDF)
               </Button>
             </CardContent>
