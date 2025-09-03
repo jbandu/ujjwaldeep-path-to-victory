@@ -164,25 +164,30 @@ function generateLayoutHash(questions: any[]): string {
 }
 
 async function generateQRCode(payload: any): Promise<string> {
-  // Simple QR code generation - in a real implementation you'd use a QR library
-  // For now, return a placeholder data URL
-  const dataString = JSON.stringify(payload)
-  const canvas = new OffscreenCanvas(200, 200)
-  const ctx = canvas.getContext('2d')
+  // Use a Deno-compatible QR code library
+  const QRCode = await import('https://esm.sh/qrcode@1.5.3')
   
-  if (ctx) {
-    // Draw a simple placeholder pattern
-    ctx.fillStyle = '#000'
-    ctx.fillRect(0, 0, 200, 200)
-    ctx.fillStyle = '#fff'
-    ctx.fillRect(10, 10, 180, 180)
-    ctx.fillStyle = '#000'
-    ctx.font = '12px monospace'
-    ctx.fillText('QR', 90, 100)
+  try {
+    const dataString = JSON.stringify(payload)
+    const qrDataUrl = await QRCode.toDataURL(dataString, {
+      width: 200,
+      margin: 2,
+      color: {
+        dark: '#000000',
+        light: '#FFFFFF'
+      }
+    })
+    return qrDataUrl
+  } catch (error) {
+    console.error('QR code generation failed:', error)
+    // Return a simple placeholder SVG as fallback
+    const svg = `<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="200" height="200" fill="white"/>
+      <rect x="10" y="10" width="180" height="180" fill="black"/>
+      <rect x="20" y="20" width="160" height="160" fill="white"/>
+      <text x="100" y="100" text-anchor="middle" fill="black" font-size="20">QR</text>
+    </svg>`
+    const base64 = btoa(svg)
+    return `data:image/svg+xml;base64,${base64}`
   }
-  
-  const blob = await canvas.convertToBlob()
-  const buffer = await blob.arrayBuffer()
-  const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)))
-  return `data:image/png;base64,${base64}`
 }
