@@ -137,8 +137,8 @@ serve(async (req) => {
         yPosition = 800
       }
       
-      const questionText = `${index + 1}. ${q.stem}`
-      questionPage.drawText(questionText.substring(0, 80), {
+      const sanitizedStem = sanitizeText(`${index + 1}. ${q.stem}`)
+      questionPage.drawText(sanitizedStem.slice(0, 80), {
         x: 50, y: yPosition, size: 10, font, color: rgb(0, 0, 0)
       })
       yPosition -= 20
@@ -146,7 +146,8 @@ serve(async (req) => {
       if (q.options && Array.isArray(q.options)) {
         q.options.forEach((option: string, optIndex: number) => {
           const optionLabel = String.fromCharCode(65 + optIndex) // A, B, C, D
-          questionPage.drawText(`${optionLabel}) ${option.substring(0, 60)}`, {
+          const optionText = sanitizeText(`${optionLabel}) ${option}`)
+          questionPage.drawText(optionText.slice(0, 60), {
             x: 70, y: yPosition, size: 9, font, color: rgb(0, 0, 0)
           })
           yPosition -= 15
@@ -285,29 +286,36 @@ function generateLayoutHash(questions: any[]): string {
   return btoa(questionIds).slice(0, 16)
 }
 
+// Replace characters not supported by StandardFonts (WinAnsi) to avoid pdf-lib encoding errors
+function sanitizeText(input: string): string {
+  if (!input) return ''
+  // Replace private-use area (e.g., FontAwesome glyphs) and non-printable/non-ASCII with '?'
+  return String(input)
+    .replace(/[\uE000-\uF8FF]/g, '?')
+    .replace(/[^\x20-\x7E]/g, '?')
+}
+
 async function generateQRCode(payload: any): Promise<string> {
-  // Use a Deno-compatible QR code library
+  // Use a Deno-compatible QR code generation path (SVG string)
   const QRCode = await import('https://esm.sh/qrcode@1.5.3')
-  
   try {
     const dataString = JSON.stringify(payload)
-    const qrDataUrl = await QRCode.toDataURL(dataString, {
+    const svgString = await QRCode.toString(dataString, {
+      type: 'svg',
       width: 200,
       margin: 2,
-      color: {
-        dark: '#000000',
-        light: '#FFFFFF'
-      }
+      color: { dark: '#000000', light: '#FFFFFF' }
     })
-    return qrDataUrl
+    const base64 = btoa(svgString)
+    return `data:image/svg+xml;base64,${base64}`
   } catch (error) {
     console.error('QR code generation failed:', error)
-    // Return a simple placeholder SVG as fallback
+    // Fallback simple SVG placeholder
     const svg = `<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
       <rect width="200" height="200" fill="white"/>
       <rect x="10" y="10" width="180" height="180" fill="black"/>
       <rect x="20" y="20" width="160" height="160" fill="white"/>
-      <text x="100" y="100" text-anchor="middle" fill="black" font-size="20">QR</text>
+      <text x="100" y="105" text-anchor="middle" fill="black" font-size="20">QR</text>
     </svg>`
     const base64 = btoa(svg)
     return `data:image/svg+xml;base64,${base64}`
