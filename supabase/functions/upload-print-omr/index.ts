@@ -144,9 +144,34 @@ serve(async (req) => {
       )
     }
 
-    // TODO: Trigger background processing
-    // This would normally call the process-print-omr function
-    
+    // Trigger background processing without blocking response
+    const processUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/process-print-omr`
+    const adminToken = Deno.env.get('ADMIN_TASK_TOKEN') ?? ''
+
+    Promise.allSettled([
+      fetch(processUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-token': adminToken
+        },
+        body: JSON.stringify({ upload_id: uploadId })
+      })
+    ]).then(async ([result]) => {
+      if (result.status === 'rejected' || !result.value.ok) {
+        const errorText =
+          result.status === 'rejected'
+            ? result.reason?.message ?? 'Unknown error'
+            : await result.value.text()
+        console.error('Failed to trigger processing:', errorText)
+
+        await supabase
+          .from('print_uploads')
+          .update({ status: 'error', error: 'processing trigger failed' })
+          .eq('id', uploadId)
+      }
+    })
+
     return new Response(
       JSON.stringify({
         upload_id: uploadId,
