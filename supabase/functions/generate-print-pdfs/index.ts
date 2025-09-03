@@ -113,6 +113,128 @@ serve(async (req) => {
     const paperPath = `${test_id}/${version}/paper.pdf`
     const omrPath = `${test_id}/${version}/omr.pdf`
 
+    // Generate actual PDF files using React PDF components
+    const { PDFDocument, StandardFonts, rgb } = await import('https://esm.sh/pdf-lib@1.17.1')
+    
+    // Create Question Paper PDF
+    const questionPdf = await PDFDocument.create()
+    const questionPage = questionPdf.addPage([595.28, 841.89]) // A4
+    const font = await questionPdf.embedFont(StandardFonts.Helvetica)
+    
+    // Add header
+    questionPage.drawText(`Test ID: ${test_id} | Version: ${version}`, {
+      x: 50, y: 800, size: 12, font, color: rgb(0, 0, 0)
+    })
+    questionPage.drawText(`Duration: ${Math.floor(test.duration_sec / 60)} minutes`, {
+      x: 50, y: 780, size: 10, font, color: rgb(0, 0, 0)
+    })
+    
+    // Add questions
+    let yPosition = 750
+    orderedQuestions.forEach((q, index) => {
+      if (yPosition < 100) {
+        const newPage = questionPdf.addPage([595.28, 841.89])
+        yPosition = 800
+      }
+      
+      const questionText = `${index + 1}. ${q.stem}`
+      questionPage.drawText(questionText.substring(0, 80), {
+        x: 50, y: yPosition, size: 10, font, color: rgb(0, 0, 0)
+      })
+      yPosition -= 20
+      
+      if (q.options && Array.isArray(q.options)) {
+        q.options.forEach((option: string, optIndex: number) => {
+          const optionLabel = String.fromCharCode(65 + optIndex) // A, B, C, D
+          questionPage.drawText(`${optionLabel}) ${option.substring(0, 60)}`, {
+            x: 70, y: yPosition, size: 9, font, color: rgb(0, 0, 0)
+          })
+          yPosition -= 15
+        })
+      }
+      yPosition -= 10
+    })
+    
+    const questionPdfBytes = await questionPdf.save()
+    
+    // Create OMR Sheet PDF
+    const omrPdf = await PDFDocument.create()
+    const omrPage = omrPdf.addPage([595.28, 841.89])
+    
+    // Add OMR header
+    omrPage.drawText(`OMR ANSWER SHEET`, {
+      x: 200, y: 800, size: 16, font, color: rgb(0, 0, 0)
+    })
+    omrPage.drawText(`Test ID: ${test_id} | Version: ${version}`, {
+      x: 50, y: 770, size: 12, font, color: rgb(0, 0, 0)
+    })
+    
+    // Add student info fields
+    omrPage.drawText('Name: ____________________', {
+      x: 50, y: 740, size: 10, font, color: rgb(0, 0, 0)
+    })
+    omrPage.drawText('Roll No: __________', {
+      x: 350, y: 740, size: 10, font, color: rgb(0, 0, 0)
+    })
+    
+    // Add answer bubbles grid
+    let omrY = 700
+    const questionsPerRow = 5
+    const totalQuestions = orderedQuestions.length
+    
+    for (let i = 0; i < totalQuestions; i += questionsPerRow) {
+      const endIndex = Math.min(i + questionsPerRow, totalQuestions)
+      
+      // Question numbers
+      for (let j = i; j < endIndex; j++) {
+        const x = 50 + (j - i) * 100
+        omrPage.drawText(`${j + 1}`, { x, y: omrY, size: 8, font, color: rgb(0, 0, 0) })
+        
+        // Draw option bubbles A, B, C, D
+        ['A', 'B', 'C', 'D'].forEach((option, optIndex) => {
+          const bubbleX = x + optIndex * 15
+          const bubbleY = omrY - 20
+          omrPage.drawCircle({ x: bubbleX + 5, y: bubbleY, size: 4, borderColor: rgb(0, 0, 0) })
+          omrPage.drawText(option, { x: bubbleX + 2, y: bubbleY - 8, size: 6, font, color: rgb(0, 0, 0) })
+        })
+      }
+      omrY -= 40
+    }
+    
+    const omrPdfBytes = await omrPdf.save()
+    
+    // Upload PDFs to storage
+    const { error: paperUploadError } = await supabase.storage
+      .from('print-artifacts')
+      .upload(paperPath, new Blob([questionPdfBytes], { type: 'application/pdf' }), {
+        contentType: 'application/pdf',
+        upsert: true
+      })
+    
+    if (paperUploadError) {
+      console.error('Failed to upload question paper:', paperUploadError)
+      return new Response(
+        JSON.stringify({ error: 'Failed to upload question paper PDF' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+    
+    const { error: omrUploadError } = await supabase.storage
+      .from('print-artifacts')
+      .upload(omrPath, new Blob([omrPdfBytes], { type: 'application/pdf' }), {
+        contentType: 'application/pdf',
+        upsert: true
+      })
+    
+    if (omrUploadError) {
+      console.error('Failed to upload OMR sheet:', omrUploadError)
+      return new Response(
+        JSON.stringify({ error: 'Failed to upload OMR sheet PDF' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Now create the print package record
     const { error: insertError } = await supabase
       .from('print_packages')
       .insert({
@@ -133,7 +255,7 @@ serve(async (req) => {
       )
     }
 
-    // Return the package info - PDF generation will be handled client-side
+    // Return the package info with actual PDF files now uploaded
     return new Response(
       JSON.stringify({
         package_id: packageId,
