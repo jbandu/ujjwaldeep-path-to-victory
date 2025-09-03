@@ -89,31 +89,46 @@ const TestPrintMode = () => {
     if (!printPackage) return;
 
     try {
-      const url = type === 'paper' ? printPackage.paper_pdf_url : printPackage.omr_pdf_url;
+      const filePath = type === 'paper' ? printPackage.paper_pdf_url : printPackage.omr_pdf_url;
       
       // Get signed URL from Supabase storage
       const { data, error } = await supabase.storage
         .from('print-artifacts')
-        .createSignedUrl(url.replace('print-artifacts/', ''), 3600);
+        .createSignedUrl(filePath, 3600);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Storage error:', error);
+        throw error;
+      }
       
-      // Download the file
+      // Download the file using fetch to handle CORS properly
+      const response = await fetch(data.signedUrl);
+      if (!response.ok) {
+        throw new Error(`Download failed: ${response.status}`);
+      }
+      
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      
       const link = document.createElement('a');
-      link.href = data.signedUrl;
-      link.download = `${type === 'paper' ? 'question-paper' : 'omr-sheet'}-${testId.slice(-8)}.pdf`;
+      link.href = downloadUrl;
+      link.download = `${type === 'paper' ? 'question-paper' : 'omr-sheet'}-${testId?.slice(-8)}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      // Clean up the object URL
+      window.URL.revokeObjectURL(downloadUrl);
 
       toast({
         title: "Download Started",
         description: `${type === 'paper' ? 'Question paper' : 'OMR sheet'} download started`
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Download error:', error);
       toast({
         title: "Download Failed",
-        description: "Failed to download PDF",
+        description: error.message || "Failed to download PDF",
         variant: "destructive"
       });
     }
