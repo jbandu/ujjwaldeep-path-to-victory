@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import PaywallModal from '@/components/PaywallModal';
+import { usePremium } from '@/hooks/usePremium';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +11,11 @@ import { Upload, FileText, AlertCircle, CheckCircle, Clock } from 'lucide-react'
 import { useDropzone } from 'react-dropzone';
 
 const TestPrintUpload = () => {
+  const { isPremium, loading: premiumLoading } = usePremium();
+  if (!premiumLoading && !isPremium) {
+    return <PaywallModal open />;
+  }
+
   const { testId } = useParams<{ testId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();

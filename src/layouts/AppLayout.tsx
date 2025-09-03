@@ -2,12 +2,16 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { usePremium } from '@/hooks/usePremium';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useDemoMode } from '@/hooks/useDemoMode';
 
 const AppLayout: React.FC = () => {
+  const { isPremium } = usePremium();
   const { demoMode, setDemoMode } = useDemoMode();
 
   return (
@@ -31,6 +35,9 @@ const AppLayout: React.FC = () => {
                   </Badge>
                 )}
               </div>
+                {!isPremium && (
+                  <Link to="/pricing"><Button size="sm">Go Premium</Button></Link>
+                )}
 
               <div className="flex items-center space-x-2">
                 <Label htmlFor="demo-mode" className="text-sm font-medium">
