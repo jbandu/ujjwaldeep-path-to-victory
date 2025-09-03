@@ -702,6 +702,18 @@ export type Database = {
           stem: string | null
           subject: string | null
         }
+        Insert: {
+          chapter?: string | null
+          id?: number | null
+          stem?: string | null
+          subject?: string | null
+        }
+        Update: {
+          chapter?: string | null
+          id?: number | null
+          stem?: string | null
+          subject?: string | null
+        }
         Relationships: []
       }
       leaderboard_daily_public: {
