@@ -118,28 +118,34 @@ serve(async (req) => {
     
     // Create Question Paper PDF
     const questionPdf = await PDFDocument.create()
-    const questionPage = questionPdf.addPage([595.28, 841.89]) // A4
-    const font = await questionPdf.embedFont(StandardFonts.Helvetica)
-    
-    // Add header
-    questionPage.drawText(`Test ID: ${test_id} | Version: ${version}`, {
-      x: 50, y: 800, size: 12, font, color: rgb(0, 0, 0)
-    })
-    questionPage.drawText(`Duration: ${Math.floor(test.duration_sec / 60)} minutes`, {
-      x: 50, y: 780, size: 10, font, color: rgb(0, 0, 0)
-    })
+    let questionPage = questionPdf.addPage([595.28, 841.89]) // A4
+    const questionFont = await questionPdf.embedFont(StandardFonts.Helvetica)
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const addQuestionHeader = (page: any) => {
+      page.drawText(`Test ID: ${test_id} | Version: ${version}`, {
+        x: 50, y: 800, size: 12, font: questionFont, color: rgb(0, 0, 0)
+      })
+      page.drawText(`Duration: ${Math.floor(test.duration_sec / 60)} minutes`, {
+        x: 50, y: 780, size: 10, font: questionFont, color: rgb(0, 0, 0)
+      })
+    }
+
+    // Add header to first page
+    addQuestionHeader(questionPage)
     
     // Add questions
     let yPosition = 750
     orderedQuestions.forEach((q, index) => {
       if (yPosition < 100) {
-        const newPage = questionPdf.addPage([595.28, 841.89])
-        yPosition = 800
+        questionPage = questionPdf.addPage([595.28, 841.89])
+        addQuestionHeader(questionPage)
+        yPosition = 750
       }
-      
+
       const sanitizedStem = sanitizeText(`${index + 1}. ${q.stem}`)
       questionPage.drawText(sanitizedStem.slice(0, 80), {
-        x: 50, y: yPosition, size: 10, font, color: rgb(0, 0, 0)
+        x: 50, y: yPosition, size: 10, font: questionFont, color: rgb(0, 0, 0)
       })
       yPosition -= 20
       
@@ -148,7 +154,7 @@ serve(async (req) => {
           const optionLabel = String.fromCharCode(65 + optIndex) // A, B, C, D
           const optionText = sanitizeText(`${optionLabel}) ${option}`)
           questionPage.drawText(optionText.slice(0, 60), {
-            x: 70, y: yPosition, size: 9, font, color: rgb(0, 0, 0)
+            x: 70, y: yPosition, size: 9, font: questionFont, color: rgb(0, 0, 0)
           })
           yPosition -= 15
         })
@@ -160,43 +166,53 @@ serve(async (req) => {
     
     // Create OMR Sheet PDF
     const omrPdf = await PDFDocument.create()
-    const omrPage = omrPdf.addPage([595.28, 841.89])
-    
-    // Add OMR header
-    omrPage.drawText(`OMR ANSWER SHEET`, {
-      x: 200, y: 800, size: 16, font, color: rgb(0, 0, 0)
-    })
-    omrPage.drawText(`Test ID: ${test_id} | Version: ${version}`, {
-      x: 50, y: 770, size: 12, font, color: rgb(0, 0, 0)
-    })
-    
-    // Add student info fields
-    omrPage.drawText('Name: ____________________', {
-      x: 50, y: 740, size: 10, font, color: rgb(0, 0, 0)
-    })
-    omrPage.drawText('Roll No: __________', {
-      x: 350, y: 740, size: 10, font, color: rgb(0, 0, 0)
-    })
-    
+    let omrPage = omrPdf.addPage([595.28, 841.89])
+    const omrFont = await omrPdf.embedFont(StandardFonts.Helvetica)
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const addOmrHeader = (page: any) => {
+      page.drawText(`OMR ANSWER SHEET`, {
+        x: 200, y: 800, size: 16, font: omrFont, color: rgb(0, 0, 0)
+      })
+      page.drawText(`Test ID: ${test_id} | Version: ${version}`, {
+        x: 50, y: 770, size: 12, font: omrFont, color: rgb(0, 0, 0)
+      })
+      page.drawText('Name: ____________________', {
+        x: 50, y: 740, size: 10, font: omrFont, color: rgb(0, 0, 0)
+      })
+      page.drawText('Roll No: __________', {
+        x: 350, y: 740, size: 10, font: omrFont, color: rgb(0, 0, 0)
+      })
+    }
+
+    // Add header to first page
+    addOmrHeader(omrPage)
+
     // Add answer bubbles grid
     let omrY = 700
     const questionsPerRow = 5
     const totalQuestions = orderedQuestions.length
-    
+
     for (let i = 0; i < totalQuestions; i += questionsPerRow) {
+      if (omrY < 80) {
+        omrPage = omrPdf.addPage([595.28, 841.89])
+        addOmrHeader(omrPage)
+        omrY = 700
+      }
+
       const endIndex = Math.min(i + questionsPerRow, totalQuestions)
-      
+
       // Question numbers
       for (let j = i; j < endIndex; j++) {
         const x = 50 + (j - i) * 100
-        omrPage.drawText(`${j + 1}`, { x, y: omrY, size: 8, font, color: rgb(0, 0, 0) })
-        
+        omrPage.drawText(`${j + 1}`, { x, y: omrY, size: 8, font: omrFont, color: rgb(0, 0, 0) })
+
         // Draw option bubbles A, B, C, D
-        ['A', 'B', 'C', 'D'].forEach((option, optIndex) => {
+        ;['A', 'B', 'C', 'D'].forEach((option, optIndex) => {
           const bubbleX = x + optIndex * 15
           const bubbleY = omrY - 20
           omrPage.drawCircle({ x: bubbleX + 5, y: bubbleY, size: 4, borderColor: rgb(0, 0, 0) })
-          omrPage.drawText(option, { x: bubbleX + 2, y: bubbleY - 8, size: 6, font, color: rgb(0, 0, 0) })
+          omrPage.drawText(option, { x: bubbleX + 2, y: bubbleY - 8, size: 6, font: omrFont, color: rgb(0, 0, 0) })
         })
       }
       omrY -= 40
@@ -281,10 +297,10 @@ serve(async (req) => {
   }
 })
 
-function generateLayoutHash(questions: any[]): string {
-  const questionIds = questions.map(q => q.id).join(',')
-  return btoa(questionIds).slice(0, 16)
-}
+  function generateLayoutHash(questions: { id: unknown }[]): string {
+    const questionIds = questions.map(q => q.id).join(',')
+    return btoa(questionIds).slice(0, 16)
+  }
 
 // Replace characters not supported by StandardFonts (WinAnsi) to avoid pdf-lib encoding errors
 function sanitizeText(input: string): string {
@@ -295,7 +311,7 @@ function sanitizeText(input: string): string {
     .replace(/[^\x20-\x7E]/g, '?')
 }
 
-async function generateQRCode(payload: any): Promise<string> {
+  async function generateQRCode(payload: Record<string, unknown>): Promise<string> {
   // Use a Deno-compatible QR code generation path (SVG string)
   const QRCode = await import('https://esm.sh/qrcode@1.5.3')
   try {
