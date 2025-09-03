@@ -16,7 +16,7 @@ import Logo from '@/components/Logo';
 
 const authSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: z.string().min(6, 'Password must be at least 6 characters').optional(),
 });
 
 type AuthFormData = z.infer<typeof authSchema>;
@@ -25,7 +25,8 @@ const Auth: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [userEmail, setUserEmail] = useState('');
-  const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'magic'>('signin');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'magic' | 'reset'>('signin');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
@@ -67,6 +68,15 @@ const Auth: React.FC = () => {
 
   const onPasswordAuth = async (data: AuthFormData) => {
     setIsLoading(true);
+    if (!data.password) {
+      toast({
+        title: "Error",
+        description: "Password is required",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
     try {
       let authResult;
       if (authMode === 'signin') {
@@ -95,6 +105,7 @@ const Auth: React.FC = () => {
         });
       } else if (authMode === 'signup' && !authResult.data.session) {
         setUserEmail(data.email);
+        setSuccessMessage(`We've sent a confirmation link to ${data.email}`);
         setShowSuccess(true);
         toast({
           title: "Check your email",
@@ -135,10 +146,43 @@ const Auth: React.FC = () => {
         });
       } else {
         setUserEmail(data.email);
+        setSuccessMessage(`We've sent a magic link to ${data.email}`);
         setShowSuccess(true);
         toast({
           title: "Magic link sent!",
           description: "Check your email for the login link.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onResetPassword = async (data: AuthFormData) => {
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
+      });
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        setUserEmail(data.email);
+        setSuccessMessage(`We've sent a password reset link to ${data.email}`);
+        setShowSuccess(true);
+        toast({
+          title: "Password reset email sent",
+          description: "Check your email for the reset link.",
         });
       }
     } catch (error) {
@@ -187,6 +231,7 @@ const Auth: React.FC = () => {
   const resetToAuthForm = () => {
     setShowSuccess(false);
     setUserEmail('');
+    setSuccessMessage('');
     setAuthMode('signin');
     reset();
   };
@@ -204,15 +249,15 @@ const Auth: React.FC = () => {
                 Check your email
               </CardTitle>
               <CardDescription className="text-muted-foreground">
-                We've sent a magic link to {userEmail}
+                {successMessage}
               </CardDescription>
-            </div>
+              </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center p-6 bg-muted/30 rounded-lg">
               <Mail className="h-12 w-12 mx-auto mb-4 text-primary" />
               <p className="text-sm text-muted-foreground mb-4">
-                Click the link in your email to sign in. You can close this tab.
+                Click the link in your email to continue. You can close this tab.
               </p>
             </div>
             
@@ -249,10 +294,22 @@ const Auth: React.FC = () => {
           </div>
           <div>
             <CardTitle className="text-2xl font-bold text-foreground">
-              Welcome to UjjwalDeep
+              {authMode === 'signin'
+                ? 'Sign In'
+                : authMode === 'signup'
+                  ? 'Create Account'
+                  : authMode === 'magic'
+                    ? 'Magic Link'
+                    : 'Reset Password'}
             </CardTitle>
             <CardDescription className="text-muted-foreground">
-              Sign in to your account or create a new one
+              {authMode === 'signin'
+                ? 'Sign in to your account'
+                : authMode === 'signup'
+                  ? 'Create a new account'
+                  : authMode === 'magic'
+                    ? 'Send yourself a magic link'
+                    : 'Enter your email to receive a reset link'}
             </CardDescription>
           </div>
         </CardHeader>
@@ -286,7 +343,7 @@ const Auth: React.FC = () => {
           </div>
 
           {/* Auth Form */}
-          <form onSubmit={handleSubmit(authMode === 'magic' ? onSendMagicLink : onPasswordAuth)} className="space-y-4">
+          <form onSubmit={handleSubmit(authMode === 'magic' ? onSendMagicLink : authMode === 'reset' ? onResetPassword : onPasswordAuth)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -301,7 +358,7 @@ const Auth: React.FC = () => {
               )}
             </div>
             
-            {authMode !== 'magic' && (
+            {authMode !== 'magic' && authMode !== 'reset' && (
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
@@ -316,6 +373,19 @@ const Auth: React.FC = () => {
                 )}
               </div>
             )}
+
+            {authMode === 'signin' && (
+              <div className="text-right">
+                <Button
+                  type="button"
+                  variant="link"
+                  className="px-0"
+                  onClick={() => setAuthMode('reset')}
+                >
+                  Forgot password?
+                </Button>
+              </div>
+            )}
             
             <Button 
               type="submit" 
@@ -323,15 +393,16 @@ const Auth: React.FC = () => {
               disabled={isLoading}
               variant="default"
             >
-              {isLoading 
-                ? 'Loading...' 
-                : authMode === 'magic' 
+              {isLoading
+                ? 'Loading...'
+                : authMode === 'magic'
                   ? 'Send Magic Link'
                   : authMode === 'signin'
                     ? 'Sign In'
-                    : 'Sign Up'
-              }
-            </Button>
+                    : authMode === 'signup'
+                      ? 'Sign Up'
+                      : 'Send Reset Link'}
+              </Button>
           </form>
           
           <div className="relative">
