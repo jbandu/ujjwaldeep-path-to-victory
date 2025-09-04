@@ -1,0 +1,27 @@
+name: User Story
+description: A small, testable slice of user value
+title: "US: <short value statement>"
+labels: ["type: story","status: triage"]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: Story (INVEST)
+      placeholder: As a <persona>, I want <capability>, so I can <benefit>.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance (Gherkin)
+      value: |
+        **Scenario:** happy path
+        Given …
+        When …
+        Then …
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: Definition of Done
+      options:
+        - label: Tests added/updated
+        - label: Telemetry instrumented
+        - label: Docs/screenshots updated

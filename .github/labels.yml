@@ -1,0 +1,28 @@
+- name: type: epic
+  color: 5319e7
+- name: type: story
+  color: 0e8a16
+- name: type: task
+  color: 1d76db
+- name: area: auth
+  color: 0052cc
+- name: area: subscription
+  color: 7f8c8d
+- name: area: dashboard
+  color: b60205
+- name: area: tests
+  color: f9d0c4
+- name: area: print-omr
+  color: d93f0b
+- name: area: planner
+  color: 5319e7
+- name: area: admin
+  color: 0366d6
+- name: status: triage
+  color: cccccc
+- name: status: in-progress
+  color: fbca04
+- name: status: blocked
+  color: d93f0b
+- name: status: ready-for-review
+  color: 0e8a16
