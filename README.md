@@ -71,3 +71,27 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## Premium subscriptions
+
+This project includes basic premium subscription support using Razorpay and Supabase.
+
+### Environment variables
+
+Set the following server-side variables:
+
+- `RAZORPAY_KEY_ID`
+- `RAZORPAY_KEY_SECRET`
+- `RAZORPAY_WEBHOOK_SECRET`
+- `SUPABASE_SERVICE_ROLE`
+- `RESEND_API_KEY`
+- `RESEND_FROM_EMAIL`
+
+Public variables:
+
+- `NEXT_PUBLIC_RAZORPAY_KEY_ID`
+- `NEXT_PUBLIC_INR_PRICE` (e.g. `999`)
+
+### Webhooks
+
+Configure the Razorpay dashboard to send webhooks to `/api/billing/webhook`. The endpoint verifies the signature and updates `payments`, `user_subscriptions` and `invoices` tables.

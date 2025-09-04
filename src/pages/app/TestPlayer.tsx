@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import PaywallModal from '@/components/PaywallModal';
+import { usePremium } from '@/hooks/usePremium';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -45,6 +47,11 @@ interface QuestionState {
 }
 
 const TestPlayer: React.FC = () => {
+  const { isPremium, loading: premiumLoading } = usePremium();
+  if (!premiumLoading && !isPremium) {
+    return <PaywallModal open />;
+  }
+
   const { attemptId } = useParams<{ attemptId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();

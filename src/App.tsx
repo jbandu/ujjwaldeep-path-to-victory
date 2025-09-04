@@ -18,6 +18,8 @@ import TestPrintMode from "./pages/app/TestPrintMode";
 import TestPrintUpload from "./pages/app/TestPrintUpload";
 import ExamDay from "./pages/app/ExamDay";
 import Leaderboard from "./pages/app/Leaderboard";
+import Pricing from './pages/Pricing';
+import Billing from './pages/account/Billing';
 import Results from "./pages/app/Results";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfileProtectedRoute from "./components/ProfileProtectedRoute";
@@ -53,6 +55,9 @@ const App: React.FC = () => (
               <Onboarding />
             </ProtectedRoute>
           } />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/account/billing" element={<ProfileProtectedRoute><Billing /></ProfileProtectedRoute>} />
+
           
           {/* Standalone Test Player */}
           <Route path="/app/test/:attemptId" element={

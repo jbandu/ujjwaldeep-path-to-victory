@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import PaywallModal from '@/components/PaywallModal';
+import { usePremium } from '@/hooks/usePremium';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +11,11 @@ import { supabase } from '@/integrations/supabase/client';
 import { Download, Upload, FileText, Clock } from 'lucide-react';
 
 const TestPrintMode = () => {
+  const { isPremium, loading: premiumLoading } = usePremium();
+  if (!premiumLoading && !isPremium) {
+    return <PaywallModal open />;
+  }
+
   const { testId } = useParams<{ testId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
