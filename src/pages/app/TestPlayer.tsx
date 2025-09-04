@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import PaywallModal from '@/components/PaywallModal';
-import { usePremium } from '@/hooks/usePremium';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -47,20 +45,7 @@ interface QuestionState {
 }
 
 const TestPlayer: React.FC = () => {
-  const { isPremium, loading: premiumLoading, refetch: refetchPremium } = usePremium();
-  
-  // If not premium but not loading, show paywall with refresh option
-  if (!premiumLoading && !isPremium) {
-    return (
-      <PaywallModal 
-        open 
-        onClose={() => {
-          // Allow manual refresh of premium status
-          refetchPremium();
-        }}
-      />
-    );
-  }
+  // Remove premium check for beta testing - all users can access tests
 
   const { attemptId } = useParams<{ attemptId: string }>();
   const navigate = useNavigate();

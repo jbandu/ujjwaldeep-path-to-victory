@@ -1,6 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import PaywallModal from '@/components/PaywallModal';
-import { usePremium } from '@/hooks/usePremium';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,17 +9,7 @@ import { Upload, FileText, AlertCircle, CheckCircle, Clock } from 'lucide-react'
 import { useDropzone } from 'react-dropzone';
 
 const TestPrintUpload = () => {
-  const { isPremium, loading: premiumLoading, refetch: refetchPremium } = usePremium();
-  if (!premiumLoading && !isPremium) {
-    return (
-      <PaywallModal 
-        open 
-        onClose={() => {
-          refetchPremium();
-        }}
-      />
-    );
-  }
+  // Remove premium check for beta testing - all users can access OMR upload
 
   const { testId } = useParams<{ testId: string }>();
   const navigate = useNavigate();
