@@ -54,7 +54,8 @@ const Onboarding: React.FC = () => {
 
     setIsLoading(true);
     try {
-      const { error } = await (supabase as any)
+      // Create profile
+      const { error: profileError } = await (supabase as any)
         .from('profiles')
         .upsert({
           user_id: user.id,
@@ -62,19 +63,37 @@ const Onboarding: React.FC = () => {
           updated_at: new Date().toISOString()
         });
 
-      if (error) {
+      if (profileError) {
         toast({
           title: "Error",
-          description: error.message,
+          description: profileError.message,
           variant: "destructive",
         });
-      } else {
-        toast({
-          title: "Welcome to UjjwalDeep!",
-          description: "Your profile has been set up successfully.",
-        });
-        navigate('/app');
+        return;
       }
+
+      // Create premium subscription for beta users
+      const { error: subscriptionError } = await (supabase as any)
+        .from('user_subscriptions')
+        .upsert({
+          user_id: user.id,
+          provider_subscription_id: "beta_sub_" + Date.now(),
+          status: 'active',
+          current_period_start: new Date().toISOString(),
+          current_period_end: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year
+          autopay: true
+        });
+
+      if (subscriptionError) {
+        console.error('Subscription creation error:', subscriptionError);
+        // Don't block onboarding if subscription fails
+      }
+
+      toast({
+        title: "Welcome to UjjwalDeep!",
+        description: "Your profile has been set up successfully with premium access.",
+      });
+      navigate('/app');
     } catch (error) {
       toast({
         title: "Error",
