@@ -4,36 +4,64 @@ on:
   push:
   pull_request:
 
+# Toggle Playwright by setting a repo Action Variable PLAYWRIGHT=true
+# (Settings → Secrets and variables → Actions → Variables)
+env:
+  PLAYWRIGHT: ${{ vars.PLAYWRIGHT || 'false' }}
+
+permissions:
+  contents: read
+
 jobs:
   install-and-cache:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-      - name: Authenticate to npm registry
+          cache-dependency-path: package-lock.json
+
+      - name: Authenticate to npm registry (if token present)
         if: ${{ secrets.NPM_TOKEN != '' }}
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
       - name: Install dependencies
         run: npm ci
-      - name: Upload node_modules cache
+
+      # Optional: keep this only if you want to share node_modules to other jobs;
+      # setup-node's npm cache is usually enough by itself.
+      - name: Cache node_modules
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
 
   lint:
     runs-on: ubuntu-latest
     needs: install-and-cache
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Restore node_modules cache
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
+
       - name: Run linter
         run: npx eslint .
 
@@ -42,13 +70,27 @@ jobs:
     needs: install-and-cache
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Restore node_modules cache
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Run unit tests
-        run: npx vitest
+          restore-keys: |
+            ${{ runner.os }}-modules-
+
+      - name: Run unit tests (Vitest)
+        run: npx vitest --run
+
+      - name: Install Playwright browsers (only when enabled)
+        if: ${{ env.PLAYWRIGHT == 'true' }}
+        run: npx playwright install --with-deps
+
       - name: Run Playwright tests (optional)
         if: ${{ env.PLAYWRIGHT == 'true' }}
         run: npx playwright test
