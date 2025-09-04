@@ -21,6 +21,7 @@ const AdminLayout: React.FC = () => {
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: Home },
     { name: 'Questions', href: '/admin/questions', icon: FileText },
+    { name: 'Users', href: '/admin/users', icon: Users },
     { name: 'AI Tasks', href: '/admin/ai-tasks', icon: Settings },
     { name: 'Import', href: '/admin/import', icon: Upload },
     { name: 'Review', href: '/admin/review', icon: Eye },

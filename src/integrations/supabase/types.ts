@@ -154,6 +154,50 @@ export type Database = {
         }
         Relationships: []
       }
+      invoices: {
+        Row: {
+          amount_inr: number
+          created_at: string | null
+          id: string
+          invoice_no: string | null
+          period_end: string | null
+          period_start: string | null
+          status: string
+          subscription_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_inr: number
+          created_at?: string | null
+          id?: string
+          invoice_no?: string | null
+          period_end?: string | null
+          period_start?: string | null
+          status?: string
+          subscription_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_inr?: number
+          created_at?: string | null
+          id?: string
+          invoice_no?: string | null
+          period_end?: string | null
+          period_start?: string | null
+          status?: string
+          subscription_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "user_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       items_attempted: {
         Row: {
           attempt_id: string
@@ -238,6 +282,48 @@ export type Database = {
         Update: {
           day?: string
           points?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount_inr: number
+          created_at: string | null
+          currency: string
+          id: string
+          method: string | null
+          provider: string
+          provider_order_id: string | null
+          provider_payment_id: string | null
+          raw: Json | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount_inr: number
+          created_at?: string | null
+          currency?: string
+          id?: string
+          method?: string | null
+          provider?: string
+          provider_order_id?: string | null
+          provider_payment_id?: string | null
+          raw?: Json | null
+          status: string
+          user_id: string
+        }
+        Update: {
+          amount_inr?: number
+          created_at?: string | null
+          currency?: string
+          id?: string
+          method?: string | null
+          provider?: string
+          provider_order_id?: string | null
+          provider_payment_id?: string | null
+          raw?: Json | null
+          status?: string
           user_id?: string
         }
         Relationships: []
@@ -336,6 +422,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      product_plans: {
+        Row: {
+          active: boolean | null
+          amount_inr: number
+          code: string
+          created_at: string | null
+          id: string
+          interval: string
+          name: string
+        }
+        Insert: {
+          active?: boolean | null
+          amount_inr: number
+          code: string
+          created_at?: string | null
+          id?: string
+          interval: string
+          name: string
+        }
+        Update: {
+          active?: boolean | null
+          amount_inr?: number
+          code?: string
+          created_at?: string | null
+          id?: string
+          interval?: string
+          name?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -627,6 +743,51 @@ export type Database = {
         }
         Relationships: []
       }
+      user_subscriptions: {
+        Row: {
+          autopay: boolean | null
+          cancel_at: string | null
+          canceled_at: string | null
+          created_at: string | null
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          provider: string
+          provider_subscription_id: string | null
+          status: string
+          trial_end: string | null
+          user_id: string
+        }
+        Insert: {
+          autopay?: boolean | null
+          cancel_at?: string | null
+          canceled_at?: string | null
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          provider?: string
+          provider_subscription_id?: string | null
+          status?: string
+          trial_end?: string | null
+          user_id: string
+        }
+        Update: {
+          autopay?: boolean | null
+          cancel_at?: string | null
+          canceled_at?: string | null
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          provider?: string
+          provider_subscription_id?: string | null
+          status?: string
+          trial_end?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       admin_questions_missing_answer: {
@@ -801,6 +962,23 @@ export type Database = {
         Args: { p_error: string; p_task_id: string }
         Returns: undefined
       }
+      cascade_delete_user_data: {
+        Args: { target_user_id: string }
+        Returns: Json
+      }
+      get_all_users_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          attempt_count: number
+          created_at: string
+          email: string
+          full_name: string
+          is_admin: boolean
+          last_sign_in_at: string
+          test_count: number
+          user_id: string
+        }[]
+      }
       get_available_question_count: {
         Args: {
           chapters?: string[]
@@ -848,6 +1026,10 @@ export type Database = {
       }
       is_admin: {
         Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      is_premium: {
+        Args: { p_user?: string }
         Returns: boolean
       }
       set_limit: {
