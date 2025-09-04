@@ -94,8 +94,8 @@ BEGIN
   END IF;
 
   RETURN QUERY
-  SELECT 
-    p.user_id,
+  SELECT
+    p.user_id AS user_id,
     au.email,
     p.full_name,
     au.created_at,
@@ -106,15 +106,15 @@ BEGIN
   FROM auth.users au
   LEFT JOIN public.profiles p ON au.id = p.user_id
   LEFT JOIN (
-    SELECT owner_id, COUNT(*) as test_count 
-    FROM public.tests 
+    SELECT owner_id, COUNT(*) as test_count
+    FROM public.tests
     GROUP BY owner_id
   ) t ON au.id = t.owner_id
   LEFT JOIN (
-    SELECT user_id, COUNT(*) as attempt_count 
-    FROM public.attempts 
+    SELECT user_id AS attempt_user_id, COUNT(*) as attempt_count
+    FROM public.attempts
     GROUP BY user_id
-  ) a ON au.id = a.user_id
+  ) a ON au.id = a.attempt_user_id
   ORDER BY au.created_at DESC;
 END;
 $$;
