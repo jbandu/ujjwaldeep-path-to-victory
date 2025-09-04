@@ -12,6 +12,8 @@ serve(async (req) => {
   }
 
   try {
+    console.log("Billing status check started");
+    
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_ANON_KEY") ?? ""
@@ -19,6 +21,7 @@ serve(async (req) => {
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
+      console.log("No auth header, returning premium: false");
       return new Response(JSON.stringify({ premium: false }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
@@ -26,30 +29,41 @@ serve(async (req) => {
     }
 
     const token = authHeader.replace("Bearer ", "");
-    const { data } = await supabaseClient.auth.getUser(token);
+    const { data, error: userError } = await supabaseClient.auth.getUser(token);
     const user = data.user;
 
     if (!user) {
+      console.log("No user found, returning premium: false");
       return new Response(JSON.stringify({ premium: false }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });
     }
 
+    console.log("Checking subscription for user:", user.id);
+
     // Check if user has active subscription
-    const { data: subscription } = await supabaseClient
+    const { data: subscription, error: subError } = await supabaseClient
       .from('user_subscriptions')
       .select('*')
       .eq('user_id', user.id)
       .eq('status', 'active')
       .maybeSingle();
 
-    return new Response(JSON.stringify({ premium: !!subscription }), {
+    if (subError) {
+      console.error("Subscription query error:", subError);
+    }
+
+    const isPremium = !!subscription;
+    console.log("Premium status result:", { isPremium, subscription });
+
+    return new Response(JSON.stringify({ premium: isPremium }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
 
   } catch (error) {
+    console.error("Billing status error:", error);
     return new Response(JSON.stringify({ premium: false }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,

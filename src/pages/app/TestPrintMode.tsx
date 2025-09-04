@@ -11,9 +11,16 @@ import { supabase } from '@/integrations/supabase/client';
 import { Download, Upload, FileText, Clock } from 'lucide-react';
 
 const TestPrintMode = () => {
-  const { isPremium, loading: premiumLoading } = usePremium();
+  const { isPremium, loading: premiumLoading, refetch: refetchPremium } = usePremium();
   if (!premiumLoading && !isPremium) {
-    return <PaywallModal open />;
+    return (
+      <PaywallModal 
+        open 
+        onClose={() => {
+          refetchPremium();
+        }}
+      />
+    );
   }
 
   const { testId } = useParams<{ testId: string }>();

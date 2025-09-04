@@ -11,8 +11,16 @@ import { Badge } from '@/components/ui/badge';
 import { useDemoMode } from '@/hooks/useDemoMode';
 
 const AppLayout: React.FC = () => {
-  const { isPremium } = usePremium();
+  const { isPremium, refetch: refetchPremium } = usePremium();
   const { demoMode, setDemoMode } = useDemoMode();
+
+  // Auto-refresh premium status every 10 seconds
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      refetchPremium();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [refetchPremium]);
 
   return (
     <SidebarProvider>

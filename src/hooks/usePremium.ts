@@ -2,19 +2,21 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export function usePremium() {
-  const { data, isLoading, refetch } = useQuery<{ premium: boolean }>({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['billing-status'],
-    queryFn: async () => {
+    queryFn: async (): Promise<{ premium: boolean }> => {
       try {
         const { data, error } = await supabase.functions.invoke('billing-status');
         if (error) return { premium: false };
-        return data;
+        return data as { premium: boolean };
       } catch (error) {
         return { premium: false };
       }
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    refetchOnWindowFocus: true
+    staleTime: 0, // Always fetch fresh data
+    gcTime: 1000 * 60, // Cache for 1 minute (renamed from cacheTime in v5)
+    refetchOnWindowFocus: true,
+    refetchOnMount: true
   });
 
   return { isPremium: data?.premium ?? false, loading: isLoading, refetch };

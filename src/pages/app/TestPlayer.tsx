@@ -47,9 +47,19 @@ interface QuestionState {
 }
 
 const TestPlayer: React.FC = () => {
-  const { isPremium, loading: premiumLoading } = usePremium();
+  const { isPremium, loading: premiumLoading, refetch: refetchPremium } = usePremium();
+  
+  // If not premium but not loading, show paywall with refresh option
   if (!premiumLoading && !isPremium) {
-    return <PaywallModal open />;
+    return (
+      <PaywallModal 
+        open 
+        onClose={() => {
+          // Allow manual refresh of premium status
+          refetchPremium();
+        }}
+      />
+    );
   }
 
   const { attemptId } = useParams<{ attemptId: string }>();

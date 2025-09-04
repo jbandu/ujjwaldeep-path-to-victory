@@ -11,9 +11,16 @@ import { Upload, FileText, AlertCircle, CheckCircle, Clock } from 'lucide-react'
 import { useDropzone } from 'react-dropzone';
 
 const TestPrintUpload = () => {
-  const { isPremium, loading: premiumLoading } = usePremium();
+  const { isPremium, loading: premiumLoading, refetch: refetchPremium } = usePremium();
   if (!premiumLoading && !isPremium) {
-    return <PaywallModal open />;
+    return (
+      <PaywallModal 
+        open 
+        onClose={() => {
+          refetchPremium();
+        }}
+      />
+    );
   }
 
   const { testId } = useParams<{ testId: string }>();
