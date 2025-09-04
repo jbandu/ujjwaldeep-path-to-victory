@@ -1,20 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 const Billing: React.FC = () => {
   const [data, setData] = useState<any>(null);
+  const { toast } = useToast();
 
   const load = async () => {
-    const res = await fetch('/api/billing/portal');
-    if (res.ok) setData(await res.json());
+    try {
+      const { data: result, error } = await supabase.functions.invoke('billing-portal');
+      if (error) throw error;
+      setData(result);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to load billing data",
+        variant: "destructive"
+      });
+    }
   };
 
   useEffect(() => { load(); }, []);
 
   const cancel = async () => {
-    await fetch('/api/billing/portal', { method: 'POST' });
-    await load();
+    try {
+      const { error } = await supabase.functions.invoke('billing-portal', {
+        body: {},
+        method: 'POST'
+      });
+      if (error) throw error;
+      
+      toast({
+        title: "Success",
+        description: "Subscription cancelled successfully"
+      });
+      
+      await load();
+    } catch (error: any) {
+      toast({
+        title: "Error", 
+        description: "Failed to cancel subscription",
+        variant: "destructive"
+      });
+    }
   };
 
   if (!data) return <div className="p-4">Loading...</div>;

@@ -67,7 +67,7 @@ const ExamDay = () => {
 
       if (error) throw error;
       
-      setExamData(data);
+      setExamData(data ? { ...data, email: user?.email || '' } : null);
       if (data) {
         setFormData({
           home_address: data.home_address || '',

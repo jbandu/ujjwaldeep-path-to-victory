@@ -1,5 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
-import { verifyWebhookSignature } from '@/lib/payments/razorpay';
+import crypto from 'node:crypto';
+
+function verifyWebhookSignature(body: string, signature: string) {
+  const secret = process.env.RAZORPAY_WEBHOOK_SECRET || '';
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(body)
+    .digest('hex');
+  return expected === signature;
+}
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -40,15 +49,16 @@ export async function POST(req: Request) {
         user_id: s.notes?.user_id || null,
         autopay: s.charge_at !== null
       });
-      await supabase.from('invoices').insert({
-        user_id: s.notes?.user_id || null,
-        subscription_id: null,
-        amount_inr: Math.round(s.plan.amount / 100),
-        period_start: new Date(s.current_start * 1000).toISOString(),
-        period_end: new Date(s.current_end * 1000).toISOString(),
-        status: 'paid',
-        raw: event
-      }).catch(() => {});
+       const { error: invoiceError } = await supabase.from('invoices').insert({
+         user_id: s.notes?.user_id || null,
+         subscription_id: null,
+         amount_inr: Math.round(s.plan.amount / 100),
+         period_start: new Date(s.current_start * 1000).toISOString(),
+         period_end: new Date(s.current_end * 1000).toISOString(),
+         status: 'paid',
+         raw: event
+       });
+       if (invoiceError) console.error('Invoice insert error:', invoiceError);
       break;
     }
     case 'subscription.halted':

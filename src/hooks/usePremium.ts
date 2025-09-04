@@ -1,12 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 export function usePremium() {
   const { data, isLoading } = useQuery<{ premium: boolean }>({
     queryKey: ['billing-status'],
     queryFn: async () => {
-      const res = await fetch('/api/billing/status');
-      if (!res.ok) return { premium: false };
-      return res.json();
+      try {
+        const { data, error } = await supabase.functions.invoke('billing-status');
+        if (error) return { premium: false };
+        return data;
+      } catch (error) {
+        return { premium: false };
+      }
     }
   });
 

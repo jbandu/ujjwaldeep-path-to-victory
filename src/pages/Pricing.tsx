@@ -1,15 +1,20 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 const Pricing: React.FC = () => {
+  const { toast } = useToast();
+  
   const upgrade = async () => {
-    const res = await fetch('/api/billing/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mode: 'subscription' })
-    });
-    const data = await res.json();
-    if (data.subscription_id) {
+    try {
+      const { data, error } = await supabase.functions.invoke('billing-checkout', {
+        body: { mode: 'subscription' }
+      });
+      
+      if (error) throw error;
+      
+      if (data.subscription_id) {
       if (!(window as any).Razorpay) {
         const script = document.createElement('script');
         script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -21,16 +26,36 @@ const Pricing: React.FC = () => {
         subscription_id: data.subscription_id,
         name: 'UjjwalDeep',
         description: 'Premium Monthly',
-        handler: (resp: any) => {
-          fetch('/api/billing/confirm', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(resp)
-          });
+        handler: async (resp: any) => {
+          try {
+            const { error } = await supabase.functions.invoke('billing-confirm', {
+              body: resp
+            });
+            if (error) throw error;
+            toast({
+              title: "Success!",
+              description: "Payment successful! Your premium subscription is now active."
+            });
+            // Redirect to app after successful payment
+            window.location.href = '/app';
+          } catch (error: any) {
+            toast({
+              title: "Error",
+              description: error.message || "Payment confirmation failed",
+              variant: "destructive"
+            });
+          }
         }
       };
-      const rzp = new (window as any).Razorpay(options);
-      rzp.open();
+        const rzp = new (window as any).Razorpay(options);
+        rzp.open();
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to initiate payment",
+        variant: "destructive"
+      });
     }
   };
 
