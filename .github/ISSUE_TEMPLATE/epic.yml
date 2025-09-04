@@ -1,0 +1,21 @@
+name: Epic
+description: Track a cross-cutting initiative composed of multiple stories
+title: "EPIC: <concise value statement>"
+labels: ["type: epic","status: triage"]
+body:
+  - type: textarea
+    id: narrative
+    attributes:
+      label: Narrative
+      placeholder: As a <persona> I want <capability> so that <outcome>.
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope (in/out)
+  - type: textarea
+    id: children
+    attributes:
+      label: Child stories (link issues)
+      value: |
+        - [ ] #<story-id>
+        - [ ] #<story-id>

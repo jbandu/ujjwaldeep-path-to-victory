@@ -1,0 +1,48 @@
+{
+  "epics": [
+    {"key": "EPIC_AUTH", "title": "EPIC: Authentication & Onboarding", "body": "Tracks sign up/sign in, Google auth, onboarding, beta premium.", "labels": ["type: epic","status: triage","area: auth"]},
+    {"key": "EPIC_SUBS", "title": "EPIC: Subscription & Payments", "body": "Razorpay checkout, subscription status, demo mode.", "labels": ["type: epic","status: triage","area: subscription"]},
+    {"key": "EPIC_DASH", "title": "EPIC: Dashboard, Gamification & Leaderboard", "body": "Streaks, points, badges, daily leaderboards.", "labels": ["type: epic","status: triage","area: dashboard"]},
+    {"key": "EPIC_TESTS", "title": "EPIC: Test Preparation & Results", "body": "Custom tests, player, results analytics, library.", "labels": ["type: epic","status: triage","area: tests"]},
+    {"key": "EPIC_PRINT", "title": "EPIC: Print Mode & OMR", "body": "Printable PDFs, OMR uploads, auto-grading workflow.", "labels": ["type: epic","status: triage","area: print-omr"]},
+    {"key": "EPIC_PLAN", "title": "EPIC: Exam Day Planner", "body": "Home/center details, plans, email export.", "labels": ["type: epic","status: triage","area: planner"]},
+    {"key": "EPIC_ADMIN", "title": "EPIC: Admin Console", "body": "Question mgmt, AI tasks, CSV import, OMR review, settings.", "labels": ["type: epic","status: triage","area: admin"]}
+  ],
+  "stories": [
+    {"title":"US: Landing page invites signup or entry","persona":"prospective student","capability":"a landing page that invites me to enter the app or sign up","benefit":"start exam preparation","epic":"EPIC_AUTH","area":"auth"},
+    {"title":"US: Email/password, magic link, and reset password","persona":"user","capability":"sign in/up with email & password, request magic links, and reset my password","benefit":"access my account securely","epic":"EPIC_AUTH","area":"auth"},
+    {"title":"US: Google sign-in","persona":"user","capability":"sign in with Google","benefit":"authenticate using my existing account","epic":"EPIC_AUTH","area":"auth"},
+    {"title":"US: Onboarding captures education & grants beta premium","persona":"new user","capability":"an onboarding flow that captures my educational details and grants beta premium access","benefit":"personalize the app","epic":"EPIC_AUTH","area":"auth"},
+
+    {"title":"US: Edit profile & logout","persona":"user","capability":"edit my profile information and log out","benefit":"manage my account","epic":"EPIC_AUTH","area":"auth"},
+    {"title":"US: View subscription status & cancel renewal","persona":"subscriber","capability":"view my subscription status and cancel renewal if desired","benefit":"control my subscription","epic":"EPIC_SUBS","area":"subscription"},
+    {"title":"US: Upgrade flow with Razorpay checkout or demo payment","persona":"prospective subscriber","capability":"an upgrade flow that initiates Razorpay checkout or demo payment","benefit":"activate premium features","epic":"EPIC_SUBS","area":"subscription"},
+
+    {"title":"US: Dashboard with quick actions & study stats","persona":"returning user","capability":"a dashboard with quick actions and study stats","benefit":"resume preparation quickly","epic":"EPIC_DASH","area":"dashboard"},
+    {"title":"US: Streaks, points, and badges","persona":"user","capability":"maintain a streak, earn points, and see current/next badge","benefit":"stay motivated","epic":"EPIC_DASH","area":"dashboard"},
+    {"title":"US: Daily leaderboard rankings","persona":"competitive learner","capability":"view daily leaderboard rankings","benefit":"compare my performance with others","epic":"EPIC_DASH","area":"dashboard"},
+
+    {"title":"US: Build custom tests (subjects, chapters, difficulty, duration)","persona":"student","capability":"build custom tests by selecting subjects, chapters, difficulty, and duration; then create & start or print","benefit":"practice efficiently","epic":"EPIC_TESTS","area":"tests"},
+    {"title":"US: Library of past papers & study materials (browse/search)","persona":"student","capability":"browse and search past papers and study materials in a library","benefit":"practice with diverse resources","epic":"EPIC_TESTS","area":"tests"},
+    {"title":"US: Interactive test player with timer, nav, autosave, submission","persona":"test-taker","capability":"an interactive player with timer, navigation, auto-save, and submission","benefit":"complete practice exams efficiently","epic":"EPIC_TESTS","area":"tests"},
+    {"title":"US: Detailed results with stats, breakdown, share link, weak-topic recs","persona":"learner","capability":"detailed results with stats, subject breakdown, shareable links, and weak-topic recommendations","benefit":"improve future performance","epic":"EPIC_TESTS","area":"tests"},
+
+    {"title":"US: Generate printable PDFs for question papers & OMR","persona":"user","capability":"generate printable PDFs for question papers and OMR sheets and download them","benefit":"practice offline","epic":"EPIC_PRINT","area":"print-omr"},
+    {"title":"US: Upload scanned OMR, auto-grade, and track processing status","persona":"user","capability":"upload scanned OMR sheets to be auto-graded with status updates until results are ready","benefit":"get quick feedback","epic":"EPIC_PRINT","area":"print-omr"},
+
+    {"title":"US: Save home & exam center, plans, and receive email summary","persona":"student","capability":"store home and exam center details, save plans, and receive an email with exam-day info","benefit":"be prepared for test day","epic":"EPIC_PLAN","area":"planner"},
+
+    {"title":"US: Admin dashboard with question stats & quick actions","persona":"admin","capability":"a dashboard showing question stats and quick actions","benefit":"oversee content health","epic":"EPIC_ADMIN","area":"admin"},
+    {"title":"US: Admin search/filter/paginate questions","persona":"admin","capability":"search, filter, and paginate questions","benefit":"manage the database effectively","epic":"EPIC_ADMIN","area":"admin"},
+    {"title":"US: Admin create/edit question form with validations & options","persona":"admin","capability":"a form to create or edit questions with validations and option handling","benefit":"maintain question quality","epic":"EPIC_ADMIN","area":"admin"},
+    {"title":"US: Admin monitor AI tasks, run workers, enqueue bulk jobs","persona":"admin","capability":"monitor AI tasks, run workers, and enqueue bulk tasks (translations, difficulty assessments)","benefit":"control asynchronous processing","epic":"EPIC_ADMIN","area":"admin"},
+    {"title":"US: Admin CSV import (multi-step) with validation & stats","persona":"admin","capability":"a multi-step CSV import process with validation and statistics","benefit":"bulk load question data confidently","epic":"EPIC_ADMIN","area":"admin"},
+    {"title":"US: Admin review tool for missing answers (set correct & difficulty)","persona":"admin","capability":"a review tool surfacing questions missing answers and lets me record correct option and difficulty","benefit":"raise content completeness","epic":"EPIC_ADMIN","area":"admin"},
+    {"title":"US: Admin settings to toggle demo mode & purge demo data","persona":"admin","capability":"settings to toggle demo mode and purge demo data","benefit":"control environment configuration","epic":"EPIC_ADMIN","area":"admin"},
+    {"title":"US: Admin filter/inspect OMR uploads & correct answers","persona":"admin","capability":"filter and inspect OMR uploads, then manually correct answers when needed","benefit":"fix grading issues quickly","epic":"EPIC_ADMIN","area":"admin"},
+    {"title":"US: Admin edit a specific OMR upload & reprocess grading","persona":"admin","capability":"edit a specific OMR upload, adjust detected answers, and trigger reprocessing","benefit":"ensure accurate grading","epic":"EPIC_ADMIN","area":"admin"}
+  ],
+  "defaults": {
+    "storyBodyTemplate": "**Story**\\nAs a {{persona}}, I want {{capability}} so I can {{benefit}}.\\n\\n**Acceptance (Gherkin)**\\n```\\nScenario: Happy path\\n  Given I am on the relevant screen\\n  When I complete the primary action\\n  Then I achieve the expected outcome with a clear success state\\n\\nScenario: Validation & errors\\n  Given invalid or missing inputs\\n  When I attempt the action\\n  Then I see inline errors and cannot proceed until resolved\\n```\\n\\n**Definition of Done**\\n- Unit & E2E tests added/updated\\n- Telemetry events instrumented (success/failure)\\n- Docs/screenshots updated\\n"
+  }
+}
