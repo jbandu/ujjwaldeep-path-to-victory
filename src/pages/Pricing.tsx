@@ -14,6 +14,17 @@ const Pricing: React.FC = () => {
       
       if (error) throw error;
       
+      // Check if this is demo mode
+      if (data.demo_mode) {
+        toast({
+          title: "Demo Payment Successful!",
+          description: data.message || "Premium features activated in demo mode."
+        });
+        // Redirect to app after successful demo payment
+        window.location.href = '/app';
+        return;
+      }
+      
       if (data.subscription_id) {
       if (!(window as any).Razorpay) {
         const script = document.createElement('script');
