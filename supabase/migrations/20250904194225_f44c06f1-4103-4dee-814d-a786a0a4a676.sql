@@ -95,7 +95,7 @@ BEGIN
 
   RETURN QUERY
   SELECT
-    p.user_id AS user_id,
+    au.id AS user_id,
     au.email,
     p.full_name,
     au.created_at,
@@ -104,17 +104,17 @@ BEGIN
     COALESCE(t.test_count, 0) as test_count,
     COALESCE(a.attempt_count, 0) as attempt_count
   FROM auth.users au
-  LEFT JOIN public.profiles p ON au.id = p.user_id
+  LEFT JOIN public.profiles p ON p.user_id = au.id
   LEFT JOIN (
     SELECT owner_id, COUNT(*) as test_count
     FROM public.tests
     GROUP BY owner_id
-  ) t ON au.id = t.owner_id
+  ) t ON t.owner_id = au.id
   LEFT JOIN (
-    SELECT user_id AS attempt_user_id, COUNT(*) as attempt_count
+    SELECT user_id, COUNT(*) as attempt_count
     FROM public.attempts
     GROUP BY user_id
-  ) a ON au.id = a.attempt_user_id
+  ) a ON a.user_id = au.id
   ORDER BY au.created_at DESC;
 END;
 $$;
