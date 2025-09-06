@@ -670,3 +670,68 @@ priority: Medium
 status: Implemented
 owner: TBD
 ---
+
+---
+id: US-COMM-001
+epic: Community & Collaboration
+title: Subject-specific discussion forums
+role: learner
+story: >
+  As a learner, I want subject-specific discussion forums so I can ask questions and learn from peers.
+acceptance_criteria:
+  - Users can create new posts and replies.
+  - Notifications are sent when someone replies to my post.
+  - Moderators can remove inappropriate content.
+priority: Medium
+status: Draft
+owner: TBD
+---
+
+---
+id: US-OFF-001
+epic: Offline Practice
+title: Download tests for offline use
+role: commuter_student
+story: >
+  As a commuter student, I want to download tests for offline use so I can practice without internet access.
+acceptance_criteria:
+  - Selected tests can be downloaded to device storage.
+  - Progress syncs automatically when back online.
+  - Downloads expire after a set period.
+priority: Medium
+status: Draft
+owner: TBD
+---
+
+---
+id: US-STUDY-001
+epic: AI Study Planner
+title: AI-generated personalized study plan
+role: busy_student
+story: >
+  As a busy student, I want an AI-generated personalized study plan so I can focus on the most important topics before my exam.
+acceptance_criteria:
+  - Plan generated after user enters exam date and time availability.
+  - Weekly goals adjust based on performance data.
+  - Plan can be edited and saved by the user.
+priority: Medium
+status: Draft
+owner: TBD
+---
+
+---
+id: US-PARENT-001
+epic: Guardian Portal
+title: Guardian progress reports
+role: guardian
+story: >
+  As a guardian, I want to view progress reports for my ward so I can support their exam preparation.
+acceptance_criteria:
+  - Guardian can request access linked to student's account.
+  - Weekly email summary includes scores and time spent.
+  - Dashboard shows upcoming tests and areas of concern.
+priority: Low
+status: Draft
+owner: TBD
+---
+
