@@ -184,6 +184,55 @@ const Library: React.FC = () => {
               </div>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Curated Learning Resources</CardTitle>
+              <CardDescription>
+                Explore external links for deeper understanding
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  {
+                    subject: 'Physics',
+                    resources: [
+                      { title: 'Khan Academy', url: 'https://www.khanacademy.org/science/physics' },
+                      { title: 'edX Courses', url: 'https://www.edx.org/learn/physics' }
+                    ]
+                  },
+                  {
+                    subject: 'Chemistry',
+                    resources: [
+                      { title: 'Khan Academy', url: 'https://www.khanacademy.org/science/chemistry' },
+                      { title: 'YouTube Playlist', url: 'https://www.youtube.com/results?search_query=chemistry+basics' }
+                    ]
+                  },
+                  {
+                    subject: 'Biology',
+                    resources: [
+                      { title: 'Khan Academy', url: 'https://www.khanacademy.org/science/biology' },
+                      { title: 'Perplexity Search', url: 'https://www.perplexity.ai/search?query=biology' }
+                    ]
+                  }
+                ].map((group, index) => (
+                  <div key={index} className="space-y-2">
+                    <h4 className="font-semibold">{group.subject}</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground">
+                      {group.resources.map((r) => (
+                        <li key={r.url}>
+                          <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                            {r.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="bookmarks" className="space-y-6">

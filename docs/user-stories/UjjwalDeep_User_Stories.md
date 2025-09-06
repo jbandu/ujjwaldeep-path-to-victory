@@ -12,7 +12,7 @@ acceptance_criteria:
   - Errors handled gracefully.
   - Accessible and responsive.
 priority: Medium
-status: Draft
+status: Implemented
 owner: TBD
 ---
 
@@ -28,7 +28,7 @@ acceptance_criteria:
   - Errors handled gracefully.
   - Accessible and responsive.
 priority: Medium
-status: Draft
+status: Implemented
 owner: TBD
 ---
 
@@ -44,7 +44,7 @@ acceptance_criteria:
   - Errors handled gracefully.
   - Accessible and responsive.
 priority: Medium
-status: Draft
+status: Implemented
 owner: TBD
 ---
 
@@ -429,7 +429,7 @@ acceptance_criteria:
   - Points and badges update immediately after submission.
   - Dashboard shows next milestone (e.g., "50 points until Bronze").
 priority: High
-status: Draft
+status: Implemented
 owner: TBD
 ---
 
@@ -497,7 +497,7 @@ acceptance_criteria:
   - Prediction updates dynamically with new attempts.
   - Compare prediction with real exam results (if available).
 priority: Medium
-status: Draft
+status: Implemented
 owner: TBD
 ---
 
@@ -514,7 +514,7 @@ acceptance_criteria:
   - Weak areas are displayed with clear, actionable recommendations.
   - Messages adapt based on history (improvement vs decline).
 priority: High
-status: Draft
+status: Implemented
 owner: TBD
 ---
 
@@ -667,6 +667,6 @@ acceptance_criteria:
   - Links are curated and searchable.
   - Resources can be saved/bookmarked by user.
 priority: Medium
-status: Draft
+status: Implemented
 owner: TBD
 ---
