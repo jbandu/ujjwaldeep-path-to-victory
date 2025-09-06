@@ -66,6 +66,7 @@ const Results: React.FC = () => {
   const [subjectBreakdown, setSubjectBreakdown] = useState<SubjectBreakdown[]>([]);
   const [loading, setLoading] = useState(true);
   const [openQuestions, setOpenQuestions] = useState<Set<number>>(new Set());
+  const [prediction, setPrediction] = useState<number | null>(null);
 
   useEffect(() => {
     if (attemptId && user) {
@@ -163,7 +164,29 @@ const Results: React.FC = () => {
       const breakdown = calculateSubjectBreakdown(usedResults);
       setSubjectBreakdown(breakdown);
 
+      // Fetch recent attempts for prediction
+      const { data: recentAttempts } = await supabase
+        .from('attempts')
+        .select('score')
+        .eq('user_id', user?.id)
+        .order('submitted_at', { ascending: false })
+        .limit(5);
 
+      if (recentAttempts && recentAttempts.length === 5) {
+        const avg =
+          recentAttempts.reduce((sum, a) => sum + (a.score || 0), 0) /
+          recentAttempts.length;
+        setPrediction(avg);
+      } else {
+        setPrediction(null);
+      }
+
+      // Update gamification (streak & points)
+      try {
+        await supabase.functions.invoke('gamification-ping');
+      } catch (err) {
+        console.error('Gamification update failed', err);
+      }
     } catch (error) {
       console.error('Error fetching results:', error);
       toast({
@@ -242,11 +265,11 @@ const Results: React.FC = () => {
 
   const handlePracticeWeakTopics = () => {
     // Get weak subjects (less than 70% accuracy)
-    const weakSubjects = subjectBreakdown
+    const weakSubjectsLocal = subjectBreakdown
       .filter(subject => subject.accuracy < 70)
       .map(subject => subject.subject);
 
-    if (weakSubjects.length === 0) {
+    if (weakSubjectsLocal.length === 0) {
       toast({
         title: "Great Job! 🎉",
         description: "No weak topics found. Keep up the excellent work!",
@@ -256,7 +279,7 @@ const Results: React.FC = () => {
 
     // Navigate to builder with weak topics as URL params
     const params = new URLSearchParams();
-    weakSubjects.forEach(subject => params.append('subjects', subject));
+    weakSubjectsLocal.forEach(subject => params.append('subjects', subject));
     navigate(`/app/builder?${params.toString()}`);
   };
 
@@ -281,6 +304,16 @@ const Results: React.FC = () => {
 
   const stats = calculateStats();
   const incorrectQuestions = questionResults.filter(r => !r.correct);
+  const weakSubjects = subjectBreakdown
+    .filter(subject => subject.accuracy < 70)
+    .map(subject => subject.subject);
+
+  const getEncouragementMessage = () => {
+    if (!stats) return '';
+    if (stats.score >= 80) return 'Outstanding performance! Keep it up!';
+    if (stats.score >= 60) return 'Good job! A little more practice will take you further.';
+    return 'Every effort counts. Keep practicing and you will improve!';
+  };
 
   if (!stats) {
     return (
@@ -357,7 +390,40 @@ const Results: React.FC = () => {
             <p className="text-xs text-muted-foreground">total time</p>
           </CardContent>
         </Card>
+
+        {prediction !== null && (
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Predicted Score</CardTitle>
+              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{prediction.toFixed(0)}%</div>
+              <p className="text-xs text-muted-foreground">Based on last 5 attempts</p>
+            </CardContent>
+          </Card>
+        )}
       </div>
+
+      {/* Encouragement */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Keep Going!</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <p>{getEncouragementMessage()}</p>
+          {weakSubjects.length > 0 && (
+            <div>
+              <p className="text-sm font-medium">Focus on:</p>
+              <ul className="list-disc list-inside text-sm text-muted-foreground">
+                {weakSubjects.map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Subject Breakdown */}
