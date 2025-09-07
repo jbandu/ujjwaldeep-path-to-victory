@@ -127,6 +127,11 @@ const Auth: React.FC = () => {
           title: "Success",
           description: authMode === 'signin' ? "Signed in successfully!" : "Account created successfully!",
         });
+
+        // Ensure user is redirected after successful authentication
+        if (authResult.data.session) {
+          await checkUserProfile();
+        }
       }
     } catch (error) {
       toast({
