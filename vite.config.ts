@@ -5,7 +5,9 @@ import { fileURLToPath, URL } from 'node:url'
 import { componentTagger } from 'lovable-tagger'
 
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/ujjwaldeep-path-to-victory/' : '/',  // <-- here
+  #base: mode === 'production' ? '/ujjwaldeep-path-to-victory/' : '/',  // <-- here
+  base: './',         // <- relative paths; works anywhere (including GH Pages)
+
   server: { host: '::', port: 8080 },
   plugins: [react(), mode === 'development' && componentTagger()].filter(Boolean),
   resolve: {
