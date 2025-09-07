@@ -20,17 +20,21 @@ const ProfileProtectedRoute: React.FC<ProfileProtectedRouteProps> = ({ children 
       }
 
       try {
-        const { data, error } = await (supabase as any)
+        console.log('Checking profile for user:', user.id);
+        const { data, error } = await supabase
           .from('profiles')
           .select('user_id')
           .eq('user_id', user.id)
           .single();
+
+        console.log('Profile check result:', { data, error });
 
         if (error && error.code !== 'PGRST116') {
           console.error('Error checking profile:', error);
           setHasProfile(false);
         } else {
           setHasProfile(!!data);
+          console.log('Has profile:', !!data);
         }
       } catch (error) {
         console.error('Error checking profile:', error);
@@ -58,6 +62,7 @@ const ProfileProtectedRoute: React.FC<ProfileProtectedRouteProps> = ({ children 
   }
 
   if (!hasProfile) {
+    console.log('No profile found, redirecting to onboarding');
     return <Navigate to="/onboarding" replace />;
   }
 
