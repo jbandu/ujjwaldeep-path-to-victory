@@ -54,7 +54,7 @@ const App: React.FC = () => {
         <Toaster />
         <Sonner />
 
-        {/* Router is provided by HashRouter in src/main.tsx */}
+        {/* Router is provided by BrowserRouter in src/main.tsx */}
         <Routes>
           {/* Public */}
           <Route path="/" element={<Index />} />
