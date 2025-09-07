@@ -13,21 +13,29 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: package-lock.json
+          registry-url: https://registry.npmjs.org
+
+      - name: Verify lockfile matches package.json (fail fast)
+        run: npm ci --no-audit --no-fund --dry-run
 
       - name: Install deps (lockfile must be committed)
         run: npm ci --no-audit --no-fund
 
+      # Run Playwright bits only if config exists (hashFiles returns empty string if none)
       - name: Install Playwright browsers
+        if: ${{ hashFiles('playwright.config.{ts,js}', 'playwright.{ts,js}') != '' }}
         run: npx playwright install --with-deps
 
       - name: Run unit tests (Vitest)
         run: npx vitest run --reporter=dot --coverage
 
       - name: Run E2E (Playwright)
+        if: ${{ hashFiles('playwright.config.{ts,js}', 'playwright.{ts,js}') != '' }}
         run: npx playwright test --reporter=html
 
       - name: Upload Playwright HTML report
-        if: always()
+        if: ${{ always() && hashFiles('playwright.config.{ts,js}', 'playwright.{ts,js}') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
