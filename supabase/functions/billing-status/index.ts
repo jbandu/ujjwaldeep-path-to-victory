@@ -42,22 +42,10 @@ serve(async (req) => {
 
     console.log("Checking subscription for user:", user.id);
 
-    // Check if user has active subscription
-    const { data: subscription, error: subError } = await supabaseClient
-      .from('user_subscriptions')
-      .select('*')
-      .eq('user_id', user.id)
-      .eq('status', 'active')
-      .maybeSingle();
+    // For now, return premium: true for all authenticated users
+    console.log("Premium status result: { isPremium: true, subscription: 'temporary_access' }");
 
-    if (subError) {
-      console.error("Subscription query error:", subError);
-    }
-
-    const isPremium = !!subscription;
-    console.log("Premium status result:", { isPremium, subscription });
-
-    return new Response(JSON.stringify({ premium: isPremium }), {
+    return new Response(JSON.stringify({ premium: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });

@@ -9,13 +9,8 @@ export function usePremium() {
     queryKey: ['billing-status', session?.user?.id],
     enabled: !!session,
     queryFn: async (): Promise<{ premium: boolean }> => {
-      try {
-        const { data, error } = await supabase.functions.invoke('billing-status');
-        if (error) return { premium: false };
-        return data as { premium: boolean };
-      } catch (error) {
-        return { premium: false };
-      }
+      // For now, return premium: true for all users to allow full access
+      return { premium: true };
     },
     staleTime: 0, // Always fetch fresh data
     gcTime: 1000 * 60, // Cache for 1 minute (renamed from cacheTime in v5)
@@ -23,5 +18,5 @@ export function usePremium() {
     refetchOnMount: true
   });
 
-  return { isPremium: data?.premium ?? false, loading: isLoading, refetch };
+  return { isPremium: data?.premium ?? true, loading: isLoading, refetch };
 }
