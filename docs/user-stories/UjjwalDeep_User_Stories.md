@@ -59,7 +59,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: High
 status: Draft
 owner: TBD
 ---
@@ -91,7 +91,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: High
 status: Draft
 owner: TBD
 ---
@@ -107,7 +107,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: High
 status: Draft
 owner: TBD
 ---
@@ -139,7 +139,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: Low
 status: Draft
 owner: TBD
 ---
@@ -155,7 +155,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: Low
 status: Draft
 owner: TBD
 ---
@@ -171,7 +171,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: High
 status: Draft
 owner: TBD
 ---
@@ -203,7 +203,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: High
 status: Draft
 owner: TBD
 ---
@@ -267,7 +267,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: Low
 status: Draft
 owner: TBD
 ---
@@ -315,7 +315,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: High
 status: Draft
 owner: TBD
 ---
@@ -347,7 +347,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: Low
 status: Draft
 owner: TBD
 ---
@@ -363,7 +363,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: Low
 status: Draft
 owner: TBD
 ---
@@ -379,7 +379,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: Low
 status: Draft
 owner: TBD
 ---
@@ -395,7 +395,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: Low
 status: Draft
 owner: TBD
 ---
@@ -411,7 +411,7 @@ acceptance_criteria:
   - Feature works as described.
   - Errors handled gracefully.
   - Accessible and responsive.
-priority: Medium
+ priority: Low
 status: Draft
 owner: TBD
 ---
@@ -730,6 +730,70 @@ acceptance_criteria:
   - Guardian can request access linked to student's account.
   - Weekly email summary includes scores and time spent.
   - Dashboard shows upcoming tests and areas of concern.
+priority: Low
+status: Draft
+owner: TBD
+---
+
+---
+id: US-NOTIF-001
+epic: Notifications
+title: Daily practice reminders
+role: busy student
+story: >
+  As a busy student, I want to receive daily practice reminders via email or push notifications so I stay consistent with my preparation.
+acceptance_criteria:
+  - Feature works as described.
+  - Errors handled gracefully.
+  - Accessible and responsive.
+priority: High
+status: Draft
+owner: TBD
+---
+
+---
+id: US-ANLY-001
+epic: Analytics & Insights
+title: Progress charts and trends
+role: learner
+story: >
+  As a learner, I want to view progress charts and performance trends over time so I can track improvement.
+acceptance_criteria:
+  - Feature works as described.
+  - Errors handled gracefully.
+  - Accessible and responsive.
+priority: Medium
+status: Draft
+owner: TBD
+---
+
+---
+id: US-BOOK-001
+epic: Practice & Review
+title: Bookmark questions for later
+role: student
+story: >
+  As a student, I want to bookmark questions to review later so I can revisit difficult problems.
+acceptance_criteria:
+  - Feature works as described.
+  - Errors handled gracefully.
+  - Accessible and responsive.
+priority: Medium
+status: Draft
+owner: TBD
+---
+
+---
+id: US-REF-001
+epic: Referral & Growth
+title: Invite friends for rewards
+role: user
+story: >
+  As a user, I want to invite friends and earn rewards when they sign up so I can benefit from referrals.
+acceptance_criteria:
+  - Feature works as described.
+  - Errors handled gracefully.
+  - Accessible and responsive.
 priority: Low
 status: Draft
 owner: TBD
