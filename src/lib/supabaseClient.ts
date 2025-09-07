@@ -12,3 +12,7 @@ export const supabase = createClient(url, anon, {
     storage: localStorage,
   },
 })
+
+if (import.meta.env.VITE_AUTH_DEBUG === 'true') {
+  supabase.auth.onAuthStateChange((e, s) => console.log('[auth]', e, s))
+}

@@ -1,9 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { useSession } from '@/hooks/useSession';
 
 export function usePremium() {
+  const session = useSession();
+
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['billing-status'],
+    queryKey: ['billing-status', session?.user?.id],
+    enabled: !!session,
     queryFn: async (): Promise<{ premium: boolean }> => {
       try {
         const { data, error } = await supabase.functions.invoke('billing-status');

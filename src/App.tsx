@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as Sonner } from '@/components/ui/sonner'
+import AuthReadyGate from '@/components/AuthReadyGate'
 
 import Index from './pages/Index'
 import Auth from './pages/Auth'
@@ -49,12 +50,12 @@ const queryClient = new QueryClient()
 const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <>
+      <AuthReadyGate>
         {/* Global toasters */}
         <Toaster />
         <Sonner />
 
-        {/* Router is provided by BrowserRouter in src/main.tsx */}
+        {/* Router is provided by HashRouter in src/main.tsx */}
         <Routes>
           {/* Public */}
           <Route path="/" element={<Index />} />
@@ -161,7 +162,7 @@ const App: React.FC = () => {
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </>
+      </AuthReadyGate>
     </QueryClientProvider>
   )
 }

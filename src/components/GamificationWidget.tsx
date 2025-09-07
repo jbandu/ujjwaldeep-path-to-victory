@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Flame, Trophy, Zap, Crown, Star, Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
+import { useSession } from '@/hooks/useSession';
 import { useToast } from '@/hooks/use-toast';
 
 interface GamificationData {
@@ -29,7 +29,8 @@ const BADGE_THRESHOLDS = {
 };
 
 const GamificationWidget: React.FC = () => {
-  const { user } = useAuth();
+  const session = useSession();
+  const user = session?.user;
   const { toast } = useToast();
   const [gamificationData, setGamificationData] = useState<GamificationData>({
     streak_days: 0,
@@ -41,11 +42,11 @@ const GamificationWidget: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
+    if (session) {
       fetchGamificationData();
       fetchLeaderboard();
     }
-  }, [user]);
+  }, [session]);
 
   const fetchGamificationData = async () => {
     try {
