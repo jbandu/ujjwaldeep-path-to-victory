@@ -31,7 +31,7 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --no-audit --no-fund
 
       # Optional: keep this only if you want to share node_modules to other jobs;
       # setup-node's npm cache is usually enough by itself.
@@ -84,12 +84,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-modules-
 
-      - name: Run unit tests (Vitest)
-        run: npx vitest --run
-
       - name: Install Playwright browsers (only when enabled)
         if: ${{ env.PLAYWRIGHT == 'true' }}
         run: npx playwright install --with-deps
+
+      - name: Run unit tests (Vitest)
+        run: npx vitest --run
 
       - name: Run Playwright tests (optional)
         if: ${{ env.PLAYWRIGHT == 'true' }}
