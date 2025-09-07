@@ -30,12 +30,29 @@ jobs:
       - name: Build app
         run: npm run build
 
-      # ----- E2E (Playwright) -----
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+# cache Playwright browsers between runs (big speedup)
+- uses: actions/cache@v4
+  with:
+    path: ~/.cache/ms-playwright
+    key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+    restore-keys: |
+      ${{ runner.os }}-playwright-
 
-      - name: Run E2E (Playwright)
-        run: npx playwright test e2e --reporter=html
+# install just Chromium (not all 3 browsers + ffmpeg)
+- name: Install Playwright browsers
+  run: npx playwright install --with-deps chromium
+
+# run only the Chromium project
+- name: Run E2E (Playwright)
+  run: npx playwright test --project=chromium e2e --reporter=html
+
+
+      # ----- E2E (Playwright) -----
+#      - name: Install Playwright browsers
+ #       run: npx playwright install --with-deps
+
+  #    - name: Run E2E (Playwright)
+   #     run: npx playwright test e2e --reporter=html
 
       - name: Upload Playwright HTML report
         if: always()
