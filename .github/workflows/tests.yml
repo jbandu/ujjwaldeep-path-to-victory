@@ -1,4 +1,4 @@
-  ename: tests
+name: tests
 
 on: [push, pull_request]
 
@@ -13,19 +13,24 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: package-lock.json
+          registry-url: https://registry.npmjs.org
 
-      - name: Install deps (lockfile must be committed)
+      - name: Verify lockfile (fail fast)
+        run: npm ci --no-audit --no-fund --dry-run
+
+      - name: Install deps
         run: npm ci --no-audit --no-fund
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
+      # ---- UNIT (Vitest) ----
       - name: Run unit tests (Vitest)
         run: npx vitest run --reporter=dot --coverage
 
+      # ---- BUILD for Playwright preview ----
       - name: Build app
         run: npm run build
 
+      # ---- E2E (Playwright) ----
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
