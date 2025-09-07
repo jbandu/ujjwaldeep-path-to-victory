@@ -5,7 +5,16 @@ import { componentTagger } from 'lovable-tagger'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-// inside defineConfig(...)
+
+  // vitest.config.ts
+coverage: {
+  reporter: ['text', 'lcov'],
+  include: ['src/lib/**/*.{ts,tsx}'],      // narrow to the units you care about
+  exclude: ['src/components/**'],
+  thresholds: { statements: 5, branches: 5, functions: 5, lines: 5 }
+}
+
+  // inside defineConfig(...)
 base: process.env.GITHUB_PAGES === 'true' ? '/ujjwaldeep-path-to-victory/' : '/',
 
   server: {
