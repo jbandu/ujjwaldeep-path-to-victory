@@ -20,6 +20,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Question } from '@/types/questions';
+import { useSession } from '@/hooks/useSession';
 
 interface QuestionFormData {
   subject: string;
@@ -40,6 +41,7 @@ const QuestionForm: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const session = useSession();
   const isEdit = Boolean(id);
 
   const [loading, setLoading] = useState(false);
@@ -64,19 +66,21 @@ const QuestionForm: React.FC = () => {
   });
 
   useEffect(() => {
+    if (!session) return;
     if (isEdit && id) {
       fetchQuestion();
     }
-  }, [id, isEdit]);
+  }, [id, isEdit, session]);
 
   useEffect(() => {
+    if (!session) return;
     if (formData.subject) {
       fetchChapters();
     }
-  }, [formData.subject]);
+  }, [formData.subject, session]);
 
   const fetchQuestion = async () => {
-    if (!id) return;
+    if (!session || !id) return;
     
     setLoading(true);
     try {
@@ -115,6 +119,7 @@ const QuestionForm: React.FC = () => {
   };
 
   const fetchChapters = async () => {
+    if (!session) return;
     try {
       const { data } = await (supabase as any).rpc('get_distinct_chapters', {
         subjects: [formData.subject]

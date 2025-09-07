@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { getPrintUploads, updatePrintUpload } from '@/lib/data/print';
+import { useSession } from '@/hooks/useSession';
 import { FileText, Eye, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,12 +15,15 @@ const PrintReview = () => {
   const [filter, setFilter] = useState<string>('needs_review');
   const { toast } = useToast();
   const navigate = useNavigate();
+  const session = useSession();
 
   useEffect(() => {
+    if (!session) return;
     loadUploads();
-  }, [filter]);
+  }, [filter, session]);
 
   const loadUploads = async () => {
+    if (!session) return;
     try {
       const data = await getPrintUploads(undefined, undefined, filter || undefined);
       setUploads(data);

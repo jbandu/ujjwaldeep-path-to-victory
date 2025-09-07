@@ -12,6 +12,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useSession } from '@/hooks/useSession';
 
 interface DashboardStats {
   totalQuestions: number;
@@ -32,9 +33,11 @@ const Dashboard: React.FC = () => {
     recentAdditions: 0,
   });
   const [loading, setLoading] = useState(true);
+  const session = useSession();
 
   useEffect(() => {
     const fetchStats = async () => {
+      if (!session) return;
       try {
         // Total questions
         const { count: totalQuestions } = await (supabase as any)
@@ -85,7 +88,7 @@ const Dashboard: React.FC = () => {
     };
 
     fetchStats();
-  }, []);
+  }, [session]);
 
   const statCards = [
     {

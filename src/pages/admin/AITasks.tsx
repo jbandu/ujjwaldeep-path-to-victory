@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, Play, RefreshCw, Settings } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useSession } from '@/hooks/useSession';
 
 interface AITask {
   id: string;
@@ -21,6 +22,7 @@ interface AITask {
 
 const AITasks: React.FC = () => {
   const { toast } = useToast();
+  const session = useSession();
   const [tasks, setTasks] = useState<AITask[]>([]);
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
@@ -32,6 +34,7 @@ const AITasks: React.FC = () => {
   });
 
   const fetchTasks = async () => {
+    if (!session) return;
     try {
       const { data, error } = await supabase
         .from('ai_tasks')
@@ -142,8 +145,9 @@ const AITasks: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!session) return;
     fetchTasks();
-  }, []);
+  }, [session]);
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, any> = {

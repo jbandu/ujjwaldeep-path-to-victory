@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Question } from '@/types/questions';
+import { useSession } from '@/hooks/useSession';
 
 interface QuestionsFilters {
   subject: string;
@@ -31,6 +32,7 @@ interface QuestionsFilters {
 const Questions: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
+  const session = useSession();
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState<QuestionsFilters>({
     subject: '',
@@ -49,19 +51,22 @@ const Questions: React.FC = () => {
   const pageSize = 20;
 
   useEffect(() => {
+    if (!session) return;
     fetchSubjects();
     fetchQuestions();
-  }, [currentPage, filters]);
+  }, [currentPage, filters, session]);
 
   useEffect(() => {
+    if (!session) return;
     if (filters.subject) {
       fetchChapters();
     } else {
       setChapters([]);
     }
-  }, [filters.subject]);
+  }, [filters.subject, session]);
 
   const fetchSubjects = async () => {
+    if (!session) return;
     try {
       const { data } = await (supabase as any).rpc('get_distinct_subjects');
       setSubjects(data?.map((row: any) => row.subject) || []);
@@ -71,6 +76,7 @@ const Questions: React.FC = () => {
   };
 
   const fetchChapters = async () => {
+    if (!session) return;
     try {
       const { data } = await (supabase as any).rpc('get_distinct_chapters', {
         subjects: [filters.subject]
@@ -82,6 +88,7 @@ const Questions: React.FC = () => {
   };
 
   const fetchQuestions = async () => {
+    if (!session) return;
     setLoading(true);
     try {
       let query = (supabase as any)
