@@ -43,14 +43,13 @@ const AuthCallback: React.FC = () => {
         if (data.session?.user) {
           // Check if user has a complete profile
           try {
-            const { data: profile, error: profileError } = await (supabase as any)
+            const { data: profile, error: profileError } = await supabase
               .from('profiles')
-              .select('*')
+              .select('full_name, user_id')
               .eq('user_id', data.session.user.id)
-              .single();
+              .maybeSingle();
 
-            if (profileError && profileError.code !== 'PGRST116') {
-              // PGRST116 is "not found" error, which is expected for new users
+            if (profileError) {
               console.error('Profile fetch error:', profileError);
             }
 

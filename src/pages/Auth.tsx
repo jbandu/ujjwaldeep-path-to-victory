@@ -50,11 +50,21 @@ const Auth: React.FC = () => {
 
   const checkUserProfile = async () => {
     try {
-      const { data: profile } = await (supabase as any)
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate('/auth');
+        return;
+      }
+
+      const { data: profile, error } = await supabase
         .from('profiles')
-        .select('*')
-        .eq('user_id', (await supabase.auth.getUser()).data.user?.id)
-        .single();
+        .select('full_name, user_id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Profile fetch error:', error);
+      }
 
       if (profile && profile.full_name) {
         navigate('/app');
@@ -62,6 +72,7 @@ const Auth: React.FC = () => {
         navigate('/onboarding');
       }
     } catch (error) {
+      console.error('Unexpected error checking profile:', error);
       navigate('/onboarding');
     }
   };

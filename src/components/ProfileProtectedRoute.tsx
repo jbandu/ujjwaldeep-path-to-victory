@@ -25,7 +25,7 @@ const ProfileProtectedRoute: React.FC<ProfileProtectedRouteProps> = ({ children 
           .from('profiles')
           .select('user_id')
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();
 
         console.log('Profile check result:', { data, error });
 

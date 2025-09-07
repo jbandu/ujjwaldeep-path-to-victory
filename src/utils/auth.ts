@@ -34,11 +34,11 @@ export const getCurrentUser = async () => {
 
 export const getUserProfile = async (userId: string) => {
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await supabase
       .from('profiles')
       .select('*')
       .eq('user_id', userId)
-      .single();
+      .maybeSingle();
     
     if (error && error.code !== 'PGRST116') {
       // PGRST116 is "not found" error, which is expected for new users
