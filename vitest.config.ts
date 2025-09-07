@@ -6,14 +6,16 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: './tests/setupTests.ts',
-    reporters: ['dot'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    exclude: [
+      'e2e/**',            // <- keep Playwright specs out of Vitest
+      'node_modules/**',
+      'dist/**',
+      '.{git,github,husky,cache}/**'
+    ],
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'lcov', 'html'],
-      all: true,
-      include: ['src/**/*.{ts,tsx,js,jsx}'],
-      exclude: ['**/__tests__/**', 'dist/**', 'node_modules/**', '**/*.d.ts'],
-    },
-  },
+      reporter: ['text', 'lcov'],
+      include: ['src/**/*.{ts,tsx}']
+    }
+  }
 })
