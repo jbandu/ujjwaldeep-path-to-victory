@@ -1,4 +1,4 @@
-import { supabase } from './supabaseClient'
+import { supabase } from '@/integrations/supabase/client'
 
 function buildBase(): string {
   // e.g. "https://ujjwaldeep-path-to-victory.lovable.app/" or "https://jbandu.github.io/ujjwaldeep-path-to-victory/"

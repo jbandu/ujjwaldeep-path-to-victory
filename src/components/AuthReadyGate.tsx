@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabaseClient'
+import { supabase } from '@/integrations/supabase/client'
 
 export default function AuthReadyGate({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false)

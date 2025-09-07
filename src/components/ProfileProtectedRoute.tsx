@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { supabase } from '@/lib/supabaseClient'
+import { supabase } from '@/integrations/supabase/client'
 
 type Props = { children: ReactNode }
 
@@ -16,8 +16,8 @@ export default function ProfileProtectedRoute({ children }: Props) {
       // Check if profile row exists (adjust table/column names if different)
       const { data, error } = await supabase
         .from('profiles')
-        .select('id')
-        .eq('id', session.user.id)
+        .select('user_id')
+        .eq('user_id', session.user.id)
         .maybeSingle()
 
       if (error) {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { supabase } from '@/lib/supabaseClient'
+import { supabase } from '@/integrations/supabase/client'
 
 export default function AuthCallback() {
   const navigate = useNavigate()
@@ -11,22 +11,14 @@ export default function AuthCallback() {
         const qs = new URLSearchParams(window.location.search)
         const next = qs.get('next') || '/app'
 
-        const hasCode = qs.has('code')
-        const hash = window.location.hash
+        // Handle both OAuth (PKCE) and magic-link/hash flows
+        const { error } = await supabase.auth.exchangeCodeForSession(window.location.href)
+        if (error) throw error
 
-        if (hasCode) {
-          // OAuth (PKCE) → exchange code for session
-          const { error } = await supabase.auth.exchangeCodeForSession({ storeSession: true })
-          if (error) throw error
-        } else if (hash.includes('access_token')) {
-          // Magic link (hash tokens) → create session
-          const { error } = await supabase.auth.getSessionFromUrl({ storeSession: true })
-          if (error) throw error
-        }
-
-        // Clean URL (removes code/hash) before navigation
-        const base = import.meta.env.BASE_URL || '/'
-        window.history.replaceState({}, document.title, base)
+        // Clean URL (remove code/hash) before navigation
+        const base = (import.meta.env.BASE_URL || '/') as string
+        const cleanUrl = base.endsWith('/') ? base : base + '/'
+        window.history.replaceState({}, document.title, cleanUrl)
 
         const { data: { session } } = await supabase.auth.getSession()
         if (!session) return navigate('/auth', { replace: true })
@@ -34,7 +26,7 @@ export default function AuthCallback() {
         navigate(next, { replace: true })
       } catch (e) {
         console.error('Auth callback error:', e)
-        navigate('/', { replace: true })
+        navigate('/auth', { replace: true })
       }
     })()
   }, [navigate])
