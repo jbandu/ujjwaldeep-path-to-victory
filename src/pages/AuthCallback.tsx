@@ -28,6 +28,9 @@ export default function AuthCallback() {
         const base = import.meta.env.BASE_URL || '/'
         window.history.replaceState({}, document.title, base)
 
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) return navigate('/auth', { replace: true })
+
         navigate(next, { replace: true })
       } catch (e) {
         console.error('Auth callback error:', e)

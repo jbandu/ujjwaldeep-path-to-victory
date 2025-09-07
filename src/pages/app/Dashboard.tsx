@@ -16,27 +16,28 @@ import {
   BarChart3,
   Calendar
 } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
+import { useSession } from '@/hooks/useSession';
 import GamificationWidget from '@/components/GamificationWidget';
 
 const Dashboard: React.FC = () => {
-  const { user } = useAuth();
+  const session = useSession();
+  const user = session?.user;
   const navigate = useNavigate();
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      if (!user) return;
-      
+      if (!session) return;
+
       try {
         const { data } = await (supabase as any)
           .from('profiles')
           .select('full_name')
-          .eq('user_id', user.id)
+          .eq('user_id', session.user.id)
           .single();
-        
+
         setProfile(data);
       } catch (error) {
         console.error('Error fetching profile:', error);
@@ -46,7 +47,7 @@ const Dashboard: React.FC = () => {
     };
 
     fetchProfile();
-  }, [user]);
+  }, [session]);
 
   const getUserName = () => {
     if (profile?.full_name) return profile.full_name;
