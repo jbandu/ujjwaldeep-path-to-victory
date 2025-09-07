@@ -22,15 +22,15 @@ jobs:
       - name: Install deps
         run: npm ci --no-audit --no-fund
 
-      # ---- UNIT (Vitest) ----
+      # ----- UNIT (Vitest) -----
       - name: Run unit tests (Vitest)
         run: npx vitest run src --reporter=dot --coverage
 
-      # ---- BUILD for Playwright preview ----
+      # ----- BUILD for Playwright preview -----
       - name: Build app
         run: npm run build
 
-      # ---- E2E (Playwright) ----
+      # ----- E2E (Playwright) -----
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
