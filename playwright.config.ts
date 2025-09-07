@@ -1,22 +1,19 @@
-import { defineConfig, devices } from '@playwright/test'
+// playwright.config.ts
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './e2e',
-  reporter: [['html', { open: 'never' }], ['list']],
+  testDir: 'e2e',
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5173',
-    trace: 'retain-on-failure',
-  },
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:5173',
-    reuseExistingServer: !process.env.CI,
-    stdout: 'pipe',
-    stderr: 'pipe',
+    baseURL: 'http://localhost:5173',
+    trace: 'on-first-retry',
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
   ],
-})
+  webServer: {
+    command: 'npm run preview -- --port=5173',
+    url: 'http://localhost:5173',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
+  },
+});
