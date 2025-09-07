@@ -14,8 +14,8 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install deps
-        run: npm ci
+      - name: Install deps (lockfile must be committed)
+        run: npm ci --no-audit --no-fund
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
