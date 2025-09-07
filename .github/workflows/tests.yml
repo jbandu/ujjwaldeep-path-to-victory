@@ -1,4 +1,4 @@
-ename: tests
+  ename: tests
 
 on: [push, pull_request]
 
@@ -22,6 +22,12 @@ jobs:
 
       - name: Run unit tests (Vitest)
         run: npx vitest run --reporter=dot --coverage
+
+      - name: Build app
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
       - name: Run E2E (Playwright)
         run: npx playwright test e2e --reporter=html
