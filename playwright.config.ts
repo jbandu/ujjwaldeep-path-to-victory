@@ -1,4 +1,3 @@
-// playwright.config.ts
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
@@ -9,7 +8,9 @@ export default defineConfig({
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    // add firefox/webkit later if you want
   ],
+  // Start a server for the tests. We serve the built app via Vite preview.
   webServer: {
     command: 'npm run preview -- --port=5173',
     url: 'http://localhost:5173',
