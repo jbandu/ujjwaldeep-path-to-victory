@@ -232,7 +232,15 @@ const Onboarding: React.FC = () => {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => navigate('/auth')}
+                onClick={async () => {
+                  try {
+                    await supabase.auth.signOut({ scope: 'global' });
+                  } catch (e) {
+                    console.error('Sign out error:', e);
+                  } finally {
+                    navigate('/auth');
+                  }
+                }}
                 disabled={isLoading}
                 className="sm:w-auto"
               >
