@@ -5,13 +5,23 @@ import { fileURLToPath, URL } from 'node:url'
 import { componentTagger } from 'lovable-tagger'
 
 export default defineConfig(({ mode }) => ({
-  #base: mode === 'production' ? '/ujjwaldeep-path-to-victory/' : '/',  // <-- here
-  base: './',         // <- relative paths; works anywhere (including GH Pages)
+  // Use relative paths so the app loads correctly under a project subpath on GitHub Pages
+  base: './',
 
-  server: { host: '::', port: 8080 },
-  plugins: [react(), mode === 'development' && componentTagger()].filter(Boolean),
+  server: {
+    host: '::',
+    port: 8080,
+  },
+
+  plugins: [
+    react(),
+    mode === 'development' && componentTagger(),
+  ].filter(Boolean),
+
   resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
     dedupe: ['react', 'react-dom', 'react/jsx-runtime'],
   },
 }))
