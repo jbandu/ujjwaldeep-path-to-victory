@@ -13,20 +13,26 @@ export default function ProfileProtectedRoute({ children }: Props) {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) return setStatus('unauthed')
 
-      // Check if profile row exists (adjust table/column names if different)
+      console.log('ProfileProtectedRoute: Checking profile for user:', session.user.id)
+
+      // Check if profile row exists
       const { data, error } = await supabase
         .from('profiles')
-        .select('user_id')
+        .select('user_id, full_name')
         .eq('user_id', session.user.id)
         .maybeSingle()
 
+      console.log('ProfileProtectedRoute: Profile query result:', { data, error })
+
       if (error) {
         console.error('profiles check failed', error)
-        // default to authed to avoid loops; we’ll let app handle missing fields later
+        // default to authed to avoid loops; we'll let app handle missing fields later
         return setStatus('authed')
       }
 
-      setStatus(data ? 'authed' : 'needs-onboarding')
+      const hasProfile = !!data
+      console.log('ProfileProtectedRoute: Setting status to:', hasProfile ? 'authed' : 'needs-onboarding')
+      setStatus(hasProfile ? 'authed' : 'needs-onboarding')
     })()
   }, [])
 
