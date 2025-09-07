@@ -17,29 +17,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
 
-      - name: Ensure test deps in package.json
-        run: |
-          npm pkg set devDependencies["@playwright/test"]="1.55.0"
-          npm pkg set devDependencies["playwright"]="1.55.0"
-          npm pkg set devDependencies["vitest"]="2.1.9"
-          npm pkg set devDependencies["@vitest/coverage-v8"]="2.1.9"
-          npm pkg set devDependencies["jsdom"]="24.1.3"
-          npm pkg set devDependencies["@testing-library/react"]="15.0.7"
-          npm pkg set devDependencies["@testing-library/jest-dom"]="6.8.0"
-
-      - name: Regenerate lockfile only
+      # Regenerate lockfile to exactly match package.json with npm@10 (Node 20)
+      - name: Regenerate package-lock.json
         run: npm install --package-lock-only
 
-      - name: Commit lockfile
+      - name: Commit lockfile changes
         run: |
           if git diff --quiet; then
             echo "No changes to commit."
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package.json package-lock.json
-            git commit -m "chore: repair package-lock.json to match test deps"
+            git add package-lock.json
+            git commit -m "chore: repair package-lock.json to match package.json"
             git push
           fi
