@@ -1,27 +1,24 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
+import { ReactNode, useEffect, useState } from 'react'
+import { Navigate, useLocation } from 'react-router-dom'
+import { supabase } from '@/lib/supabaseClient'
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
+type Props = { children: ReactNode }
+
+export default function ProtectedRoute({ children }: Props) {
+  const [status, setStatus] = useState<'loading'|'authed'|'unauthed'>('loading')
+  const location = useLocation()
+
+  useEffect(() => {
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      setStatus(session ? 'authed' : 'unauthed')
+    })()
+  }, [])
+
+  if (status === 'loading') return <div style={{ padding: 24 }}>Loading…</div>
+  if (status === 'unauthed') {
+    const next = location.pathname + location.search + location.hash
+    return <Navigate to={`/auth?next=${encodeURIComponent(next)}`} replace />
+  }
+  return <>{children}</>
 }
-
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/auth" replace />;
-  }
-
-  return <>{children}</>;
-};
-
-export default ProtectedRoute;

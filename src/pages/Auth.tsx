@@ -3,7 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabaseClient';
+import { signInWithGoogle, signInWithOtp, authRedirect } from '@/lib/auth';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -96,14 +97,12 @@ const Auth: React.FC = () => {
           password: data.password,
         });
       } else {
+        const next = searchParams.get('next') || '/app';
         authResult = await supabase.auth.signUp({
           email: data.email,
           password: data.password,
           options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
-            data: {
-              redirect_url: `${window.location.origin}/auth/callback`
-            }
+            emailRedirectTo: authRedirect(next),
           },
         });
       }
@@ -147,12 +146,8 @@ const Auth: React.FC = () => {
   const onSendMagicLink = async (data: AuthFormData) => {
     setIsLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: data.email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
+      const next = searchParams.get('next') || '/app';
+      const { error } = await signInWithOtp(data.email, next);
 
       if (error) {
         toast({
@@ -215,16 +210,8 @@ const Auth: React.FC = () => {
   const onGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          }
-        },
-      });
+      const next = searchParams.get('next') || '/app';
+      const { error } = await signInWithGoogle(next);
 
       if (error) {
         toast({

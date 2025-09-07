@@ -1,72 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/integrations/supabase/client';
+import { ReactNode, useEffect, useState } from 'react'
+import { Navigate, useLocation } from 'react-router-dom'
+import { supabase } from '@/lib/supabaseClient'
 
-interface ProfileProtectedRouteProps {
-  children: React.ReactNode;
-}
+type Props = { children: ReactNode }
 
-const ProfileProtectedRoute: React.FC<ProfileProtectedRouteProps> = ({ children }) => {
-  const { user, loading: authLoading } = useAuth();
-  const [profileLoading, setProfileLoading] = useState(true);
-  const [hasProfile, setHasProfile] = useState(false);
+export default function ProfileProtectedRoute({ children }: Props) {
+  const [status, setStatus] = useState<'loading'|'authed'|'needs-onboarding'|'unauthed'>('loading')
+  const location = useLocation()
 
   useEffect(() => {
-    const checkProfile = async () => {
-      if (!user) {
-        setProfileLoading(false);
-        return;
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return setStatus('unauthed')
+
+      // Check if profile row exists (adjust table/column names if different)
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', session.user.id)
+        .maybeSingle()
+
+      if (error) {
+        console.error('profiles check failed', error)
+        // default to authed to avoid loops; we’ll let app handle missing fields later
+        return setStatus('authed')
       }
 
-      try {
-        console.log('Checking profile for user:', user.id);
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('user_id')
-          .eq('user_id', user.id)
-          .maybeSingle();
+      setStatus(data ? 'authed' : 'needs-onboarding')
+    })()
+  }, [])
 
-        console.log('Profile check result:', { data, error });
-
-        if (error && error.code !== 'PGRST116') {
-          console.error('Error checking profile:', error);
-          setHasProfile(false);
-        } else {
-          setHasProfile(!!data);
-          console.log('Has profile:', !!data);
-        }
-      } catch (error) {
-        console.error('Error checking profile:', error);
-        setHasProfile(false);
-      } finally {
-        setProfileLoading(false);
-      }
-    };
-
-    if (!authLoading) {
-      checkProfile();
-    }
-  }, [user, authLoading]);
-
-  if (authLoading || profileLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+  if (status === 'loading') return <div style={{ padding: 24 }}>Loading…</div>
+  if (status === 'unauthed') {
+    const base = import.meta.env.BASE_URL || '/'
+    const next = location.pathname + location.search + location.hash
+    return <Navigate to={`/auth?next=${encodeURIComponent(next)}`} replace />
   }
-
-  if (!user) {
-    return <Navigate to="/auth" replace />;
+  if (status === 'needs-onboarding') {
+    return <Navigate to="/onboarding" replace />
   }
-
-  if (!hasProfile) {
-    console.log('No profile found, redirecting to onboarding');
-    return <Navigate to="/onboarding" replace />;
-  }
-
-  return <>{children}</>;
-};
-
-export default ProfileProtectedRoute;
+  return <>{children}</>
+}
