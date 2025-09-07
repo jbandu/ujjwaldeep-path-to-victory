@@ -20,7 +20,7 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
 
-      # (Optional) Quick debug to confirm registry and npm versions
+      # Just to confirm env
       - name: Show npm environment
         run: |
           node --version
@@ -28,7 +28,7 @@ jobs:
           npm config get registry
           npm config get always-auth || true
 
-      # Ensure required test devDependencies exist (idempotent; updates only if missing/different)
+      # (Idempotent) make sure the test stack is present/pinned in package.json
       - name: Ensure test devDependencies
         run: |
           npm pkg set devDependencies["@playwright/test"]="1.55.0"
@@ -39,7 +39,7 @@ jobs:
           npm pkg set devDependencies["@testing-library/react"]="15.0.7"
           npm pkg set devDependencies["@testing-library/jest-dom"]="6.8.0"
 
-      # Rebuild the lockfile to match package.json using npm@10 (Node 20)
+      # Rebuild lockfile with npm 10 (Node 20) to exactly match package.json
       - name: Regenerate package-lock.json
         run: npm install --package-lock-only
 
