@@ -1,193 +1,57 @@
+// Deno Deploy runtime
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.56.1'
 
-const corsHeaders = {
+const cors = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'authorization, content-type',
 }
 
-interface TestConfig {
-  subjects: string[];
-  chapters: string[];
-  difficulty: number[];
-  questionCount: number;
-  duration: number;
-}
-
-Deno.serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
+Deno.serve(async (req: Request) => {
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: cors })
 
   try {
-    // Initialize Supabase client
+    const authHeader = req.headers.get('Authorization') ?? ''
     const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      {
-        global: {
-          headers: { Authorization: req.headers.get('Authorization')! },
-        },
-      }
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_ANON_KEY')!,
+      { global: { headers: { Authorization: authHeader } } } // <-- forward JWT
     )
 
-    // Verify authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    
-    if (authError || !user) {
-      console.error('Authentication error:', authError)
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { 
-          status: 401, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+    // Who is calling?
+    const { data: { user }, error: userErr } = await supabase.auth.getUser()
+    if (userErr || !user) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers: { ...cors, 'Content-Type': 'application/json' }})
     }
 
-    if (req.method !== 'POST') {
-      return new Response(
-        JSON.stringify({ error: 'Method not allowed' }),
-        { 
-          status: 405, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
+    const payload = await req.json().catch(() => ({} as any))
+    // Minimal validation + safe defaults
+    const mode = payload.mode ?? 'custom'
+    const duration_sec = Number(payload.duration_sec ?? 3600)
+    const visibility = payload.visibility ?? 'private'
+    const config = payload.config ?? { questions: [] }
+    const total_marks = payload.total_marks ?? null
 
-    // Parse request body
-    const testConfig: TestConfig = await req.json()
-    
-    // Validate required fields
-    if (!testConfig.subjects || testConfig.subjects.length === 0) {
-      return new Response(
-        JSON.stringify({ error: 'At least one subject is required' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    if (!testConfig.questionCount || !testConfig.duration) {
-      return new Response(
-        JSON.stringify({ error: 'Question count and duration are required' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    console.log('Creating test for user:', user.id)
-    console.log('Test config:', testConfig)
-
-    // Select questions based on the criteria
-    let questionQuery = supabase
-      .from('questions')
-      .select('id')
-      .eq('status', 'active')
-      .in('subject', testConfig.subjects)
-
-    // Add chapter filter if specified
-    if (testConfig.chapters && testConfig.chapters.length > 0) {
-      questionQuery = questionQuery.in('chapter', testConfig.chapters)
-    }
-
-    // Add difficulty filter
-    const difficultyLevel = testConfig.difficulty?.[0] || 3
-    questionQuery = questionQuery.eq('difficulty', difficultyLevel)
-    
-    // Limit and randomize
-    questionQuery = questionQuery.limit(testConfig.questionCount * 3) // Get extra to randomize
-
-    const { data: availableQuestions, error: questionsError } = await questionQuery
-
-    if (questionsError) {
-      console.error('Error fetching questions:', questionsError)
-      return new Response(
-        JSON.stringify({ error: 'Failed to fetch questions', details: questionsError.message }),
-        { 
-          status: 500, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    if (!availableQuestions || availableQuestions.length === 0) {
-      return new Response(
-        JSON.stringify({ error: 'No questions found matching the criteria' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    // Shuffle and select the required number of questions
-    const shuffledQuestions = availableQuestions.sort(() => Math.random() - 0.5)
-    const selectedQuestions = shuffledQuestions.slice(0, testConfig.questionCount)
-    const questionIds = selectedQuestions.map(q => q.id.toString())
-
-    console.log(`Selected ${questionIds.length} questions from ${availableQuestions.length} available`)
-
-    // Create test record with selected question IDs
-    const { data: test, error: insertError } = await supabase
+    // Insert with owner_id enforced server-side (RLS will re-check)
+    const { data, error } = await supabase
       .from('tests')
-      .insert({
+      .insert([{
         owner_id: user.id,
-        config: {
-          subjects: testConfig.subjects,
-          chapters: testConfig.chapters || [],
-          difficulty: testConfig.difficulty || [3],
-          questionCount: testConfig.questionCount,
-          questions: questionIds, // Store the actual selected question IDs
-        },
-        duration_sec: testConfig.duration * 60, // Convert minutes to seconds
-        mode: 'custom', // User-created custom test
-        visibility: 'private', // Default visibility
-        total_marks: testConfig.questionCount, // Assuming 1 mark per question
-      })
+        mode,
+        config,
+        duration_sec,
+        visibility,
+        total_marks,
+      }])
       .select()
       .single()
 
-    if (insertError) {
-      console.error('Database insert error:', insertError)
-      return new Response(
-        JSON.stringify({ error: 'Failed to create test', details: insertError.message }),
-        { 
-          status: 500, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+    if (error) {
+      return new Response(JSON.stringify({ error: error.message, details: error.details }), { status: 400, headers: { ...cors, 'Content-Type': 'application/json' }})
     }
 
-    console.log('Test created successfully:', test.id)
-
-    return new Response(
-      JSON.stringify({ 
-        success: true, 
-        test: {
-          id: test.id,
-          config: test.config,
-          duration_sec: test.duration_sec,
-          created_at: test.created_at
-        }
-      }),
-      { 
-        status: 201, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    )
-
-  } catch (error) {
-    console.error('Unexpected error:', error)
-    return new Response(
-      JSON.stringify({ error: 'Internal server error', details: error.message }),
-      { 
-        status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    )
+    return new Response(JSON.stringify(data), { status: 200, headers: { ...cors, 'Content-Type': 'application/json' }})
+  } catch (e: any) {
+    return new Response(JSON.stringify({ error: e?.message ?? 'unknown_error' }), { status: 500, headers: { ...cors, 'Content-Type': 'application/json' }})
   }
 })
