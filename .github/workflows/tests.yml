@@ -1,4 +1,4 @@
-name: tests
+ename: tests
 
 on: [push, pull_request]
 
@@ -24,7 +24,7 @@ jobs:
         run: npx vitest run --reporter=dot --coverage
 
       - name: Run E2E (Playwright)
-        run: npx playwright test --reporter=html
+        run: npx playwright test e2e --reporter=html
 
       - name: Upload Playwright HTML report
         if: always()
