@@ -15,10 +15,12 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useSession } from '@/hooks/useSession';
 import { Question } from '@/types/questions';
 
 const Review: React.FC = () => {
   const { toast } = useToast();
+  const session = useSession();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -27,6 +29,7 @@ const Review: React.FC = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<number | null>(null);
 
   useEffect(() => {
+    if (!session) return;
     fetchMissingAnswerQuestions();
     
     // Keyboard shortcuts
@@ -59,9 +62,10 @@ const Review: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentIndex]);
+  }, [currentIndex, session]);
 
   const fetchMissingAnswerQuestions = async () => {
+    if (!session) return;
     setLoading(true);
     try {
       const { data, error } = await (supabase as any)

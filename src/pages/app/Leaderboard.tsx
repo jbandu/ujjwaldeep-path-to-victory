@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Trophy, Medal, Award, Crown, Users, Calendar, TrendingUp } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { useSession } from '@/hooks/useSession';
 
 interface LeaderboardEntry {
   rank: number;
@@ -15,12 +16,14 @@ interface LeaderboardEntry {
 
 const Leaderboard: React.FC = () => {
   const { user } = useAuth();
+  const session = useSession();
   const [dailyLeaderboard, setDailyLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!session) return;
     fetchDailyLeaderboard();
-  }, []);
+  }, [session]);
 
   const fetchDailyLeaderboard = async () => {
     try {

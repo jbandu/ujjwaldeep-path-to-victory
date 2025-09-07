@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { useSession } from '@/hooks/useSession';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,10 +27,13 @@ const UserManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
   const queryClient = useQueryClient();
+  const session = useSession();
 
   // Fetch all users
+  // Gate fetching on a real session to avoid 401s
   const { data: users, isLoading, error } = useQuery({
-    queryKey: ['admin-users'],
+    queryKey: ['admin-users', session?.user?.id],
+    enabled: !!session,
     queryFn: async () => {
       const { data, error } = await supabase.rpc('get_all_users_admin');
       if (error) throw error;
@@ -52,7 +56,7 @@ const UserManagement: React.FC = () => {
         title: "User Deleted",
         description: `User and all associated data deleted successfully. Deleted: ${JSON.stringify(data.deletedCounts)}`,
       });
-      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-users', session?.user?.id] });
     },
     onError: (error: any) => {
       toast({

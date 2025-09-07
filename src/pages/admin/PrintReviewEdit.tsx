@@ -9,12 +9,14 @@ import { useToast } from '@/hooks/use-toast';
 import { getPrintUpload, updatePrintUpload } from '@/lib/data/print';
 import { getTest } from '@/lib/data/tests';
 import { supabase } from '@/integrations/supabase/client';
+import { useSession } from '@/hooks/useSession';
 import { Save, ArrowLeft, AlertTriangle } from 'lucide-react';
 
 const PrintReviewEdit = () => {
   const { uploadId } = useParams<{ uploadId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const session = useSession();
   
   const [upload, setUpload] = useState<any>(null);
   const [test, setTest] = useState<any>(null);
@@ -23,12 +25,12 @@ const PrintReviewEdit = () => {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (uploadId) {
-      loadData();
-    }
-  }, [uploadId]);
+    if (!session || !uploadId) return;
+    loadData();
+  }, [uploadId, session]);
 
   const loadData = async () => {
+    if (!session) return;
     try {
       const uploadData = await getPrintUpload(uploadId!);
       if (!uploadData) {
