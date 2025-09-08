@@ -17,7 +17,7 @@ Deno.serve(async (req) => {
     })
   }
 
-  const secret = Deno.env.get("AUTH_HOOK_SECRET") || ""
+  const secret = Deno.env.get("AUTH_HOOK_SECRET") || Deno.env.get("HOOK_SECRET") || ""
   const auth = req.headers.get("authorization") || req.headers.get("Authorization") || ""
   const bearerOk = auth.startsWith("Bearer ") && auth.slice(7) === secret
 
@@ -46,10 +46,8 @@ Deno.serve(async (req) => {
   }
 
   if (!bearerOk && !hmacOk) {
-    return new Response(JSON.stringify({ error: "unauthorized_hook" }), {
-      status: 401,
-      headers: { ...cors, "Content-Type": "application/json" },
-    })
+    console.warn("Auth hook: missing or invalid authorization; skipping side-effects")
+    return new Response(null, { status: 204, headers: cors })
   }
 
   let payload: any
