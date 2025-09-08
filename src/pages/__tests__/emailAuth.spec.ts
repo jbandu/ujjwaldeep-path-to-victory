@@ -9,12 +9,16 @@ describe('email auth helpers', () => {
       value: { origin: 'https://example.com' },
       writable: true,
     })
+
     vi.stubEnv('BASE_URL', './')
+
 
     const url = authRedirect('/foo')
     expect(url).toBe('https://example.com/auth/callback?next=%2Ffoo')
 
+
     vi.unstubAllEnvs()
+
     Object.defineProperty(window, 'location', { value: original })
   })
 
