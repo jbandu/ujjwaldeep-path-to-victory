@@ -48,8 +48,8 @@ const TestPrintMode = () => {
   const generatePDFs = async () => {
     if (!testId) return;
     
-    // Check if test has questions before attempting generation
-    const questionCount = test.config?.questions?.length || 0;
+    // Check if test has questions configured
+    const questionCount = test.config?.questionCount || 0;
     if (questionCount === 0) {
       toast({
         title: "Cannot Generate PDFs",
@@ -168,7 +168,7 @@ const TestPrintMode = () => {
             <Clock className="h-4 w-4" />
             <span>Duration: {Math.floor(test.duration_sec / 60)} minutes</span>
           </div>
-          <div>Questions: {test.config?.questions?.length || 0}</div>
+          <div>Questions: {test.config?.questionCount || 0}</div>
           <div>Mode: {test.mode}</div>
         </CardContent>
       </Card>
@@ -177,7 +177,7 @@ const TestPrintMode = () => {
         <Card>
           <CardContent className="text-center py-8">
             <h3 className="text-lg font-semibold mb-4">No Print Package Available</h3>
-            {(test.config?.questions?.length || 0) === 0 ? (
+            {(test.config?.questionCount || 0) === 0 ? (
               <div className="space-y-4">
                 <p className="text-destructive mb-4">
                   ⚠️ This test has no questions configured. Please add questions before generating PDFs.
