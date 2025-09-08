@@ -1,227 +1,104 @@
+// functions/start-attempt/index.ts
+// Deno Deploy runtime
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.56.1'
 
-const corsHeaders = {
+const cors = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'authorization, content-type',
 }
 
-interface StartAttemptRequest {
-  testId: string;
-}
-
-Deno.serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+Deno.serve(async (req: Request) => {
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: cors })
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'method_not_allowed' }), { status: 405, headers: { ...cors, 'Content-Type': 'application/json' }})
   }
 
   try {
-    // Initialize Supabase client
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      {
-        global: {
-          headers: { Authorization: req.headers.get('Authorization')! },
-        },
-      }
-    )
+    const authHeader = req.headers.get('Authorization') ?? ''
 
-    // Verify authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    
-    if (authError || !user) {
-      console.error('Authentication error:', authError)
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { 
-          status: 401, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+    const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
+    const ANON = Deno.env.get('SUPABASE_ANON_KEY')!
+    const SERVICE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+
+    // user-scoped client (enforces RLS with user's JWT)
+    const userClient = createClient(SUPABASE_URL, ANON, {
+      global: { headers: { Authorization: authHeader } },
+      auth: { persistSession: false },
+    })
+
+    // admin client (bypasses RLS for reads)
+    const adminClient = createClient(SUPABASE_URL, SERVICE, {
+      auth: { persistSession: false },
+    })
+
+    // 1) Verify user
+    const { data: { user }, error: userErr } = await userClient.auth.getUser()
+    if (userErr || !user) {
+      return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401, headers: { ...cors, 'Content-Type': 'application/json' }})
     }
 
-    if (req.method !== 'POST') {
-      return new Response(
-        JSON.stringify({ error: 'Method not allowed' }),
-        { 
-          status: 405, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    // Parse request body
-    const { testId }: StartAttemptRequest = await req.json()
-    
+    // 2) Read payload
+    const body = await req.json().catch(() => ({}))
+    const testId: string | undefined = body?.testId
     if (!testId) {
-      return new Response(
-        JSON.stringify({ error: 'Test ID is required' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+      return new Response(JSON.stringify({ error: 'missing_testId' }), { status: 400, headers: { ...cors, 'Content-Type': 'application/json' }})
     }
 
-    console.log('Starting attempt for user:', user.id, 'test:', testId)
-
-    // Get test configuration
-    const { data: test, error: testError } = await supabase
+    // 3) Load test (user-scoped; RLS applies)
+    const { data: test, error: testErr } = await userClient
       .from('tests')
-      .select('*')
+      .select('id, owner_id, duration_sec, config')
       .eq('id', testId)
-      .single()
+      .maybeSingle()
 
-    if (testError || !test) {
-      console.error('Test fetch error:', testError)
-      return new Response(
-        JSON.stringify({ error: 'Test not found' }),
-        { 
-          status: 404, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+    if (testErr || !test) {
+      return new Response(JSON.stringify({ error: 'test_not_found' }), { status: 404, headers: { ...cors, 'Content-Type': 'application/json' }})
     }
 
-    // Check if user has access to this test (owner or shared)
-    if (test.owner_id !== user.id && test.visibility === 'private') {
-      return new Response(
-        JSON.stringify({ error: 'Access denied to this test' }),
-        { 
-          status: 403, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
+    // 4) Derive question filters from test.config (adjust to your schema)
+    const cfg = test.config ?? {}
+    const subjects = Array.isArray(cfg.subjects) && cfg.subjects.length ? cfg.subjects : ['PHYSICS', 'CHEMISTRY', 'BIOLOGY']
+    const chapters = Array.isArray(cfg.chapters) && cfg.chapters.length ? cfg.chapters : null
+    const difficulty = Array.isArray(cfg.difficulty) && cfg.difficulty.length ? Number(cfg.difficulty[0]) : null
+    const questionCount = Number(cfg.questionCount ?? 25)
 
-    const config = test.config as any;
-    console.log('Test config:', config)
+    // normalize to uppercase if your data uses UPPER() check
+    const subjectsUpper = subjects.map((s: string) => s.toUpperCase())
 
-    // Build question query based on test configuration
-    let questionsQuery = supabase
+    // 5) Fetch questions with SERVICE ROLE (bypass RLS)
+    let q = adminClient
       .from('questions')
-      .select('*')
+      .select('id, subject, chapter, stem, options, correct_index, difficulty')
       .eq('status', 'active')
+      .in('subject', subjectsUpper)
+      .limit(questionCount)
 
-    // Filter by subjects
-    if (config.subjects && config.subjects.length > 0) {
-      questionsQuery = questionsQuery.in('subject', config.subjects)
+    if (chapters) q = q.in('chapter', chapters)
+    if (difficulty) q = q.eq('difficulty', difficulty)
+
+    const { data: questions, error: qErr } = await q
+    if (qErr) {
+      return new Response(JSON.stringify({ error: 'question_fetch_failed', details: qErr.message }), { status: 400, headers: { ...cors, 'Content-Type': 'application/json' }})
     }
 
-    // Filter by chapters if specified
-    if (config.chapters && config.chapters.length > 0) {
-      questionsQuery = questionsQuery.in('chapter', config.chapters)
-    }
-
-    // Filter by difficulty range
-    if (config.difficulty && config.difficulty.length > 0) {
-      const minDifficulty = Math.min(...config.difficulty)
-      const maxDifficulty = Math.max(...config.difficulty)
-      questionsQuery = questionsQuery
-        .gte('difficulty', minDifficulty)
-        .lte('difficulty', maxDifficulty)
-    }
-
-    // Get questions
-    const { data: availableQuestions, error: questionsError } = await questionsQuery
-
-    if (questionsError) {
-      console.error('Questions fetch error:', questionsError)
-      return new Response(
-        JSON.stringify({ error: 'Failed to fetch questions', details: questionsError.message }),
-        { 
-          status: 500, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    if (!availableQuestions || availableQuestions.length === 0) {
-      return new Response(
-        JSON.stringify({ error: 'No questions available for the selected criteria' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    console.log(`Found ${availableQuestions.length} available questions`)
-
-    // Randomly select the required number of questions
-    const questionCount = Math.min(config.questionCount || 25, availableQuestions.length)
-    const shuffled = availableQuestions.sort(() => 0.5 - Math.random())
-    const selectedQuestions = shuffled.slice(0, questionCount)
-
-    console.log(`Selected ${selectedQuestions.length} questions for the test`)
-
-    // Create attempt record
-    const { data: attempt, error: attemptError } = await supabase
+    // 6) Create attempt with USER client (RLS enforces user_id)
+    const { data: attempt, error: aErr } = await userClient
       .from('attempts')
-      .insert({
-        user_id: user.id,
-        test_id: testId,
-        started_at: new Date().toISOString(),
-        summary: {
-          selected_questions: selectedQuestions.map(q => q.id),
-          total_questions: selectedQuestions.length,
-          test_config: config
-        }
-      })
-      .select()
+      .insert({ user_id: user.id, test_id: test.id })
+      .select('id')
       .single()
 
-    if (attemptError) {
-      console.error('Attempt creation error:', attemptError)
-      return new Response(
-        JSON.stringify({ error: 'Failed to create attempt', details: attemptError.message }),
-        { 
-          status: 500, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+    if (aErr || !attempt) {
+      return new Response(JSON.stringify({ error: 'attempt_create_failed', details: aErr?.message }), { status: 400, headers: { ...cors, 'Content-Type': 'application/json' }})
     }
 
-    console.log('Attempt created successfully:', attempt.id)
-
-    // Return attempt with questions (without correct answers for security)
-    const questionsForFrontend = selectedQuestions.map(q => ({
-      id: q.id,
-      subject: q.subject,
-      chapter: q.chapter,
-      stem: q.stem,
-      options: q.options,
-      difficulty: q.difficulty,
-      // Note: correct_index and explanation are intentionally omitted for security
-    }))
-
-    return new Response(
-      JSON.stringify({ 
-        success: true, 
-        attempt: {
-          id: attempt.id,
-          test_id: attempt.test_id,
-          started_at: attempt.started_at,
-          duration_sec: test.duration_sec,
-          questions: questionsForFrontend,
-          total_questions: questionsForFrontend.length
-        }
-      }),
-      { 
-        status: 201, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    )
-
-  } catch (error) {
-    console.error('Unexpected error:', error)
-    return new Response(
-      JSON.stringify({ error: 'Internal server error', details: error.message }),
-      { 
-        status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    )
+    // 7) Optionally pre-seed items_attempted here, or return questions to client
+    return new Response(JSON.stringify({ attempt, questions }), {
+      status: 200,
+      headers: { ...cors, 'Content-Type': 'application/json' },
+    })
+  } catch (e: any) {
+    return new Response(JSON.stringify({ error: e?.message ?? 'unknown_error' }), { status: 500, headers: { ...cors, 'Content-Type': 'application/json' }})
   }
 })
