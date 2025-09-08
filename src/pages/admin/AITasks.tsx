@@ -13,7 +13,7 @@ interface AITask {
   task_type: string;
   question_id: number;
   locale?: string;
-  status: 'queued' | 'processing' | 'done' | 'error';
+  status: 'queued' | 'processing' | 'done' | 'error' | 'running' | 'succeeded' | 'failed';
   result?: any;
   error?: string;
   created_at: string;

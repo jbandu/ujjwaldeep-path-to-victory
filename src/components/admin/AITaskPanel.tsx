@@ -15,7 +15,7 @@ interface AITaskPanelProps {
 interface AITask {
   id: string;
   task_type: string;
-  status: 'queued' | 'processing' | 'done' | 'error';
+  status: 'queued' | 'processing' | 'done' | 'error' | 'running' | 'succeeded' | 'failed';
   result?: any;
   error?: string;
   created_at: string;
