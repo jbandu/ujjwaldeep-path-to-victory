@@ -37,6 +37,7 @@ const Auth: React.FC = () => {
   const [userEmail, setUserEmail] = useState('')
   const [cooldownStart, setCooldownStart] = useState<number | null>(null)
   const [secondsLeft, setSecondsLeft] = useState(0)
+  const [repeated, setRepeated] = useState(false)
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const { toast } = useToast()
@@ -62,33 +63,25 @@ const Auth: React.FC = () => {
     setIsLoading(true)
     try {
       const next = searchParams.get('next') || '/app'
-      const { error } = await continueWithEmail(data.email, next)
+      const { error, repeated: wasRepeated } = await continueWithEmail(data.email, next)
 
       if (error) {
-        if (error.message && error.message.includes('repeated signup')) {
-          await resendSignup(data.email, next)
-          toast({
-            title: 'Email re-sent',
-            description: `We've re-sent your confirmation to ${data.email}`,
-          })
-          setShowSuccess(true)
-          setUserEmail(data.email)
-          setCooldownStart(Date.now())
-        } else {
-          toast({
-            title: 'Error',
-            description: error.message,
-            variant: 'destructive',
-          })
-        }
+        toast({
+          title: 'Error',
+          description: error.message,
+          variant: 'destructive',
+        })
       } else {
         toast({
-          title: 'Check your inbox',
-          description: `We've sent a magic link to ${data.email}`,
+          title: wasRepeated ? 'Account exists' : 'Check your inbox',
+          description: wasRepeated
+            ? "We've resent the magic link."
+            : `We've sent a magic link to ${data.email}`,
         })
         setShowSuccess(true)
         setUserEmail(data.email)
         setCooldownStart(Date.now())
+        setRepeated(!!wasRepeated)
       }
     } catch (err) {
       toast({
@@ -115,8 +108,8 @@ const Auth: React.FC = () => {
         })
       } else {
         toast({
-          title: 'Email re-sent',
-          description: `We've sent another link to ${userEmail}`,
+          title: 'Magic link re-sent',
+          description: "We've emailed you a new sign-in link.",
         })
         setCooldownStart(Date.now())
       }
@@ -159,6 +152,7 @@ const Auth: React.FC = () => {
     setUserEmail('')
     setCooldownStart(null)
     setSecondsLeft(0)
+    setRepeated(false)
     reset()
   }
 
@@ -175,7 +169,9 @@ const Auth: React.FC = () => {
                 Check your email
               </CardTitle>
               <CardDescription className="text-muted-foreground">
-                We've sent a magic link to {userEmail}
+                {repeated
+                  ? `Account exists. We've resent the magic link to ${userEmail}`
+                  : `We've sent a magic link to ${userEmail}`}
               </CardDescription>
             </div>
           </CardHeader>
@@ -191,7 +187,9 @@ const Auth: React.FC = () => {
                 disabled={secondsLeft > 0 || isLoading}
                 className="w-full"
               >
-                {secondsLeft > 0 ? `Resend (${secondsLeft})` : 'Resend'}
+                {secondsLeft > 0
+                  ? `Resend in ${secondsLeft}s`
+                  : 'Resend email'}
               </Button>
             </div>
 

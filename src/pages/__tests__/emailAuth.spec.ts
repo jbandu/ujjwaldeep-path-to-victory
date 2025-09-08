@@ -38,5 +38,27 @@ describe('email auth helpers', () => {
     expect(cooldownRemaining(start, start + 30000, 60)).toBe(30)
     expect(cooldownRemaining(start, start + 60000, 60)).toBe(0)
   })
+
+  it('continueWithEmail resends on repeated signup', async () => {
+    const signInSpy = vi
+      .spyOn(supabase.auth, 'signInWithOtp')
+      .mockResolvedValue({ data: {}, error: { message: 'repeated signup' } } as any)
+    const resendSpy = vi
+      .spyOn(supabase.auth, 'resend')
+      .mockResolvedValue({ data: {}, error: null } as any)
+
+    const res = await continueWithEmail('test@example.com', '/next')
+
+    expect(signInSpy).toHaveBeenCalled()
+    expect(resendSpy).toHaveBeenCalledWith({
+      type: 'signup',
+      email: 'test@example.com',
+      options: { emailRedirectTo: authRedirect('/next') },
+    })
+    expect((res as any).repeated).toBe(true)
+
+    signInSpy.mockRestore()
+    resendSpy.mockRestore()
+  })
 })
 

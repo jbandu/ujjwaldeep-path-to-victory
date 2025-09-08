@@ -22,13 +22,21 @@ export async function signInWithGoogle(next: string = '/app') {
 
 // Send magic link and create user if needed
 export async function continueWithEmail(email: string, next: string = '/app') {
-  return supabase.auth.signInWithOtp({
+  const result = await supabase.auth.signInWithOtp({
     email,
     options: {
       shouldCreateUser: true,
       emailRedirectTo: authRedirect(next),
     },
   })
+
+  const message = result.error?.message?.toLowerCase() ?? ''
+  if (message.includes('repeated signup') || message.includes('already registered')) {
+    const resend = await resendSignup(email, next)
+    return { ...resend, repeated: true as const }
+  }
+
+  return result as typeof result & { repeated?: boolean }
 }
 
 // Resend confirmation for unconfirmed users
