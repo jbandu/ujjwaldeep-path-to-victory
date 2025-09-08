@@ -961,6 +961,31 @@ export type Database = {
       }
     }
     Functions: {
+      admin_upsert_profile: {
+        Args: {
+          p_board?: string
+          p_class_level?: string
+          p_district?: string
+          p_full_name?: string
+          p_is_admin?: boolean
+          p_medium?: string
+          p_state?: string
+          p_user_id: string
+        }
+        Returns: undefined
+      }
+      admin_user_directory: {
+        Args: { p_limit?: number; p_offset?: number; p_search?: string }
+        Returns: {
+          created_at: string
+          email: string
+          full_name: string
+          is_admin: boolean
+          last_sign_in_at: string
+          providers: string[]
+          user_id: string
+        }[]
+      }
       ai_apply_result: {
         Args: { p_result: Json; p_task_id: string }
         Returns: undefined
@@ -992,6 +1017,10 @@ export type Database = {
       }
       ai_mark_error: {
         Args: { p_error: string; p_task_id: string }
+        Returns: undefined
+      }
+      assert_is_admin: {
+        Args: Record<PropertyKey, never>
         Returns: undefined
       }
       cascade_delete_user_data: {
