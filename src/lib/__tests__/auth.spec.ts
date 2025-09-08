@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { authRedirect, signInWithGoogle, resendSignup } from '../auth'
+import { authRedirect, signInWithGoogle, signUpWithEmail, signInWithEmail, resetPassword } from '../auth'
 import { supabase } from '@/integrations/supabase/client'
 
 // Unit tests for authentication helpers that interact with Supabase
@@ -20,17 +20,45 @@ describe('auth helpers', () => {
     spy.mockRestore()
   })
 
-  it('resendSignup forwards email and redirect options', async () => {
+  it('signUpWithEmail calls supabase with email and password', async () => {
     const spy = vi
-      .spyOn(supabase.auth, 'resend')
+      .spyOn(supabase.auth, 'signUp')
       .mockResolvedValue({ data: {}, error: null } as any)
 
-    await resendSignup('test@example.com', '/next')
+    await signUpWithEmail('test@example.com', 'password123')
 
     expect(spy).toHaveBeenCalledWith({
-      type: 'signup',
       email: 'test@example.com',
-      options: { emailRedirectTo: authRedirect('/next') },
+      password: 'password123',
+    })
+
+    spy.mockRestore()
+  })
+
+  it('signInWithEmail calls supabase with email and password', async () => {
+    const spy = vi
+      .spyOn(supabase.auth, 'signInWithPassword')
+      .mockResolvedValue({ data: {}, error: null } as any)
+
+    await signInWithEmail('test@example.com', 'password123')
+
+    expect(spy).toHaveBeenCalledWith({
+      email: 'test@example.com',
+      password: 'password123',
+    })
+
+    spy.mockRestore()
+  })
+
+  it('resetPassword calls supabase with reset options', async () => {
+    const spy = vi
+      .spyOn(supabase.auth, 'resetPasswordForEmail')
+      .mockResolvedValue({ data: {}, error: null } as any)
+
+    await resetPassword('test@example.com')
+
+    expect(spy).toHaveBeenCalledWith('test@example.com', {
+      redirectTo: expect.stringContaining('auth/reset-password'),
     })
 
     spy.mockRestore()

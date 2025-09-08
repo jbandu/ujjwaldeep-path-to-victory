@@ -20,31 +20,29 @@ export async function signInWithGoogle(next: string = '/app') {
   })
 }
 
-// Send magic link and create user if needed
-export async function continueWithEmail(email: string, next: string = '/app') {
-  const result = await supabase.auth.signInWithOtp({
+// Sign up with email and password
+export async function signUpWithEmail(email: string, password: string) {
+  return supabase.auth.signUp({
     email,
-    options: {
-      shouldCreateUser: true,
-      emailRedirectTo: authRedirect(next),
-    },
+    password,
   })
-
-  const message = result.error?.message?.toLowerCase() ?? ''
-  if (message.includes('repeated signup') || message.includes('already registered')) {
-    const resend = await resendSignup(email, next)
-    return { ...resend, repeated: true as const }
-  }
-
-  return result as typeof result & { repeated?: boolean }
 }
 
-// Resend confirmation for unconfirmed users
-export async function resendSignup(email: string, next: string = '/app') {
-  return supabase.auth.resend({
-    type: 'signup',
+// Sign in with email and password
+export async function signInWithEmail(email: string, password: string) {
+  return supabase.auth.signInWithPassword({
     email,
-    options: { emailRedirectTo: authRedirect(next) },
+    password,
+  })
+}
+
+// Send password reset email
+export async function resetPassword(email: string) {
+  const base = buildBase()
+  const redirectTo = `${base}auth/reset-password`
+  
+  return supabase.auth.resetPasswordForEmail(email, {
+    redirectTo,
   })
 }
 

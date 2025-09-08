@@ -5,10 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
 import {
-  continueWithEmail,
-  resendSignup,
+  signUpWithEmail,
+  signInWithEmail,
   signInWithGoogle,
-  cooldownRemaining,
+  resetPassword,
 } from '@/lib/auth'
 import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
@@ -27,17 +27,21 @@ import { Mail, ArrowLeft } from 'lucide-react'
 
 const authSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+})
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
 })
 
 type AuthFormData = z.infer<typeof authSchema>
+type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>
 
 const Auth: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const [showSuccess, setShowSuccess] = useState(false)
-  const [userEmail, setUserEmail] = useState('')
-  const [cooldownStart, setCooldownStart] = useState<number | null>(null)
-  const [secondsLeft, setSecondsLeft] = useState(0)
-  const [repeated, setRepeated] = useState(false)
+  const [isSignUp, setIsSignUp] = useState(false)
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
+  const [showResetSuccess, setShowResetSuccess] = useState(false)
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const { toast } = useToast()
@@ -49,39 +53,44 @@ const Auth: React.FC = () => {
     reset,
   } = useForm<AuthFormData>({ resolver: zodResolver(authSchema) })
 
-  useEffect(() => {
-    if (!cooldownStart) return
-    const timer = setInterval(() => {
-      const remaining = cooldownRemaining(cooldownStart, Date.now())
-      setSecondsLeft(remaining)
-      if (remaining === 0) clearInterval(timer)
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [cooldownStart])
+  const {
+    register: registerForgot,
+    handleSubmit: handleSubmitForgot,
+    formState: { errors: errorsForgot },
+    reset: resetForgot,
+  } = useForm<ForgotPasswordFormData>({ resolver: zodResolver(forgotPasswordSchema) })
 
   const onSubmit = async (data: AuthFormData) => {
     setIsLoading(true)
     try {
       const next = searchParams.get('next') || '/app'
-      const { error, repeated: wasRepeated } = await continueWithEmail(data.email, next)
-
-      if (error) {
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        })
+      
+      if (isSignUp) {
+        const { error } = await signUpWithEmail(data.email, data.password)
+        if (error) {
+          toast({
+            title: 'Error',
+            description: error.message,
+            variant: 'destructive',
+          })
+        } else {
+          toast({
+            title: 'Account created!',
+            description: 'You have been signed up successfully.',
+          })
+          navigate(next)
+        }
       } else {
-        toast({
-          title: wasRepeated ? 'Account exists' : 'Check your inbox',
-          description: wasRepeated
-            ? "We've resent the magic link."
-            : `We've sent a magic link to ${data.email}`,
-        })
-        setShowSuccess(true)
-        setUserEmail(data.email)
-        setCooldownStart(Date.now())
-        setRepeated(!!wasRepeated)
+        const { error } = await signInWithEmail(data.email, data.password)
+        if (error) {
+          toast({
+            title: 'Error',
+            description: error.message,
+            variant: 'destructive',
+          })
+        } else {
+          navigate(next)
+        }
       }
     } catch (err) {
       toast({
@@ -94,12 +103,10 @@ const Auth: React.FC = () => {
     }
   }
 
-  const handleResend = async () => {
-    if (secondsLeft > 0) return
+  const onForgotPasswordSubmit = async (data: ForgotPasswordFormData) => {
     setIsLoading(true)
     try {
-      const next = searchParams.get('next') || '/app'
-      const { error } = await resendSignup(userEmail, next)
+      const { error } = await resetPassword(data.email)
       if (error) {
         toast({
           title: 'Error',
@@ -107,11 +114,11 @@ const Auth: React.FC = () => {
           variant: 'destructive',
         })
       } else {
+        setShowResetSuccess(true)
         toast({
-          title: 'Magic link re-sent',
-          description: "We've emailed you a new sign-in link.",
+          title: 'Reset email sent',
+          description: `We've sent a password reset link to ${data.email}`,
         })
-        setCooldownStart(Date.now())
       }
     } catch (err) {
       toast({
@@ -148,15 +155,14 @@ const Auth: React.FC = () => {
   }
 
   const resetToAuthForm = () => {
-    setShowSuccess(false)
-    setUserEmail('')
-    setCooldownStart(null)
-    setSecondsLeft(0)
-    setRepeated(false)
+    setShowForgotPassword(false)
+    setShowResetSuccess(false)
+    setIsSignUp(false)
     reset()
+    resetForgot()
   }
 
-  if (showSuccess) {
+  if (showResetSuccess) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">
         <Card className="w-full max-w-md shadow-warm">
@@ -169,9 +175,7 @@ const Auth: React.FC = () => {
                 Check your email
               </CardTitle>
               <CardDescription className="text-muted-foreground">
-                {repeated
-                  ? `Account exists. We've resent the magic link to ${userEmail}`
-                  : `We've sent a magic link to ${userEmail}`}
+                We've sent you a password reset link
               </CardDescription>
             </div>
           </CardHeader>
@@ -179,18 +183,8 @@ const Auth: React.FC = () => {
             <div className="text-center p-6 bg-muted/30 rounded-lg">
               <Mail className="h-12 w-12 mx-auto mb-4 text-primary" />
               <p className="text-sm text-muted-foreground mb-4">
-                Click the link in your email to continue. You can close this tab.
+                Click the link in your email to reset your password.
               </p>
-              <Button
-                variant="outline"
-                onClick={handleResend}
-                disabled={secondsLeft > 0 || isLoading}
-                className="w-full"
-              >
-                {secondsLeft > 0
-                  ? `Resend in ${secondsLeft}s`
-                  : 'Resend email'}
-              </Button>
             </div>
 
             <Button
@@ -199,7 +193,69 @@ const Auth: React.FC = () => {
               className="w-full text-sm text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Try a different email
+              Back to login
+            </Button>
+
+            <div className="text-center">
+              <Button
+                variant="ghost"
+                onClick={() => navigate('/')}
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                ← Back to Home
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md shadow-warm">
+          <CardHeader className="text-center space-y-4">
+            <div className="flex justify-center">
+              <Logo className="h-12 w-auto" />
+            </div>
+            <div>
+              <CardTitle className="text-2xl font-bold text-foreground">
+                Reset Password
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">
+                Enter your email to receive a reset link
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <form onSubmit={handleSubmitForgot(onForgotPasswordSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="forgot-email">Email</Label>
+                <Input
+                  id="forgot-email"
+                  type="email"
+                  placeholder="Enter your email address"
+                  {...registerForgot('email')}
+                  disabled={isLoading}
+                />
+                {errorsForgot.email && (
+                  <p className="text-sm text-destructive">{errorsForgot.email.message}</p>
+                )}
+              </div>
+
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Sending...' : 'Send Reset Link'}
+              </Button>
+            </form>
+
+            <Button
+              variant="ghost"
+              onClick={() => setShowForgotPassword(false)}
+              className="w-full text-sm text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to login
             </Button>
 
             <div className="text-center">
@@ -226,10 +282,10 @@ const Auth: React.FC = () => {
           </div>
           <div>
             <CardTitle className="text-2xl font-bold text-foreground">
-              Continue with email
+              {isSignUp ? 'Create Account' : 'Welcome Back'}
             </CardTitle>
             <CardDescription className="text-muted-foreground">
-              We'll send you a magic link
+              {isSignUp ? 'Sign up to get started' : 'Sign in to your account'}
             </CardDescription>
           </div>
         </CardHeader>
@@ -249,10 +305,48 @@ const Auth: React.FC = () => {
               )}
             </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                {...register('password')}
+                disabled={isLoading}
+              />
+              {errors.password && (
+                <p className="text-sm text-destructive">{errors.password.message}</p>
+              )}
+            </div>
+
+            {!isSignUp && (
+              <div className="text-right">
+                <Button
+                  type="button"
+                  variant="link"
+                  onClick={() => setShowForgotPassword(true)}
+                  className="p-0 h-auto text-sm text-primary hover:text-primary/80"
+                >
+                  Forgot password?
+                </Button>
+              </div>
+            )}
+
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Sending...' : 'Continue'}
+              {isLoading ? (isSignUp ? 'Creating Account...' : 'Signing In...') : (isSignUp ? 'Create Account' : 'Sign In')}
             </Button>
           </form>
+
+          <div className="text-center">
+            <Button
+              type="button"
+              variant="link"
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
+              {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
+            </Button>
+          </div>
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">

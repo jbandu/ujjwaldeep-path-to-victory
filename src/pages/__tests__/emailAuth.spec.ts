@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { continueWithEmail, authRedirect, cooldownRemaining } from '../../lib/auth'
+import { signInWithEmail, signUpWithEmail, authRedirect, resetPassword } from '../../lib/auth'
 import { supabase } from '../../integrations/supabase/client'
 
 describe('email auth helpers', () => {
@@ -16,49 +16,54 @@ describe('email auth helpers', () => {
     Object.defineProperty(window, 'location', { value: original })
   })
 
-  it('continueWithEmail passes creation and redirect options', async () => {
+  it('signInWithEmail passes email and password', async () => {
     const spy = vi
-      .spyOn(supabase.auth, 'signInWithOtp')
+      .spyOn(supabase.auth, 'signInWithPassword')
       .mockResolvedValue({ data: {}, error: null } as any)
 
-    await continueWithEmail('test@example.com', '/next')
+    await signInWithEmail('test@example.com', 'password123')
 
     expect(spy).toHaveBeenCalledWith({
       email: 'test@example.com',
-      options: {
-        shouldCreateUser: true,
-        emailRedirectTo: authRedirect('/next'),
-      },
+      password: 'password123',
     })
+
+    spy.mockRestore()
   })
 
-  it('cooldownRemaining calculates remaining seconds', () => {
-    const start = 0
-    expect(cooldownRemaining(start, start, 60)).toBe(60)
-    expect(cooldownRemaining(start, start + 30000, 60)).toBe(30)
-    expect(cooldownRemaining(start, start + 60000, 60)).toBe(0)
-  })
-
-  it('continueWithEmail resends on repeated signup', async () => {
-    const signInSpy = vi
-      .spyOn(supabase.auth, 'signInWithOtp')
-      .mockResolvedValue({ data: {}, error: { message: 'repeated signup' } } as any)
-    const resendSpy = vi
-      .spyOn(supabase.auth, 'resend')
+  it('signUpWithEmail passes email and password', async () => {
+    const spy = vi
+      .spyOn(supabase.auth, 'signUp')
       .mockResolvedValue({ data: {}, error: null } as any)
 
-    const res = await continueWithEmail('test@example.com', '/next')
+    await signUpWithEmail('test@example.com', 'password123')
 
-    expect(signInSpy).toHaveBeenCalled()
-    expect(resendSpy).toHaveBeenCalledWith({
-      type: 'signup',
+    expect(spy).toHaveBeenCalledWith({
       email: 'test@example.com',
-      options: { emailRedirectTo: authRedirect('/next') },
+      password: 'password123',
     })
-    expect((res as any).repeated).toBe(true)
 
-    signInSpy.mockRestore()
-    resendSpy.mockRestore()
+    spy.mockRestore()
+  })
+
+  it('resetPassword sends reset email with redirect URL', async () => {
+    const original = window.location
+    Object.defineProperty(window, 'location', {
+      value: { origin: 'https://example.com' },
+      writable: true,
+    })
+
+    const spy = vi
+      .spyOn(supabase.auth, 'resetPasswordForEmail')
+      .mockResolvedValue({ data: {}, error: null } as any)
+
+    await resetPassword('test@example.com')
+
+    expect(spy).toHaveBeenCalledWith('test@example.com', {
+      redirectTo: 'https://example.com/auth/reset-password',
+    })
+
+    spy.mockRestore()
+    Object.defineProperty(window, 'location', { value: original })
   })
 })
-
