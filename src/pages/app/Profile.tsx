@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { supabase } from '@/integrations/supabase/client';
@@ -27,7 +27,8 @@ import {
   Save,
   Edit,
   LogOut,
-  Languages
+  Languages,
+  Key
 } from 'lucide-react';
 
 const profileSchema = z.object({
@@ -37,10 +38,112 @@ const profileSchema = z.object({
   class_level: z.string().min(1, 'Please select your class level'),
   state: z.string().min(1, 'Please enter your state'),
   district: z.string().min(1, 'Please enter your district'),
-  language: z.string().default('English'),
+  language: z.string().min(1, 'Please select a language'),
 });
 
-type ProfileFormData = z.infer<typeof profileSchema>;
+type ProfileFormData = {
+  full_name: string;
+  board: string;
+  medium: string;
+  class_level: string;
+  state: string;
+  district: string;
+  language: string;
+};
+
+// Password Form Schema
+const passwordSchema = z.object({
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+type PasswordFormData = z.infer<typeof passwordSchema>;
+
+// Password Form Component
+const PasswordForm: React.FC = () => {
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    register: registerPassword,
+    handleSubmit: handlePasswordSubmit,
+    formState: { errors: passwordErrors },
+    reset: resetPassword
+  } = useForm<PasswordFormData>({
+    resolver: zodResolver(passwordSchema)
+  });
+
+  const onPasswordSubmit: SubmitHandler<PasswordFormData> = async (data) => {
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: data.password
+      });
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Password Set",
+          description: "You can now log in with email and password.",
+        });
+        resetPassword();
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred while setting your password.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handlePasswordSubmit(onPasswordSubmit)} className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="password">New Password</Label>
+        <Input
+          id="password"
+          type="password"
+          placeholder="Enter new password"
+          {...registerPassword('password')}
+          disabled={isLoading}
+        />
+        {passwordErrors.password && (
+          <p className="text-sm text-destructive">{passwordErrors.password.message}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="confirmPassword">Confirm Password</Label>
+        <Input
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm new password"
+          {...registerPassword('confirmPassword')}
+          disabled={isLoading}
+        />
+        {passwordErrors.confirmPassword && (
+          <p className="text-sm text-destructive">{passwordErrors.confirmPassword.message}</p>
+        )}
+      </div>
+
+      <Button type="submit" disabled={isLoading} className="w-full">
+        {isLoading ? 'Setting Password...' : 'Set Password'}
+        <Key className="h-4 w-4 ml-2" />
+      </Button>
+    </form>
+  );
+};
 
 const Profile: React.FC = () => {
   const { user, signOut } = useAuth();
@@ -56,7 +159,10 @@ const Profile: React.FC = () => {
     setValue,
     reset
   } = useForm<ProfileFormData>({
-    resolver: zodResolver(profileSchema)
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      language: 'English'
+    }
   });
 
   useEffect(() => {
@@ -113,7 +219,7 @@ const Profile: React.FC = () => {
     }
   };
 
-  const onSubmit = async (data: ProfileFormData) => {
+  const onSubmit: SubmitHandler<ProfileFormData> = async (data) => {
     if (!user) return;
 
     setIsLoading(true);
@@ -422,7 +528,7 @@ const Profile: React.FC = () => {
                     Customize your app experience and interface language
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
                   <div className="space-y-2">
                     <Label>Interface Language</Label>
                     <Select
@@ -468,6 +574,24 @@ const Profile: React.FC = () => {
                     <p className="text-xs text-muted-foreground">
                       This will change the language for menus, buttons, and interface text
                     </p>
+                  </div>
+
+                  {/* Password Setting Section */}
+                  <div className="pt-4 border-t">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <Settings className="h-5 w-5 text-primary" />
+                          Set Password
+                        </CardTitle>
+                        <CardDescription>
+                          Add a password to your account for email/password login
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <PasswordForm />
+                      </CardContent>
+                    </Card>
                   </div>
                   
                   <div className="pt-4 border-t">
