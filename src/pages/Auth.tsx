@@ -1,243 +1,166 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { supabase } from '@/integrations/supabase/client';
-import { signInWithGoogle, signInWithOtp, authRedirect } from '@/lib/auth';
-import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/hooks/use-toast';
-import { Mail, ArrowLeft } from 'lucide-react';
-import Logo from '@/components/Logo';
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+
+import {
+  continueWithEmail,
+  resendSignup,
+  signInWithGoogle,
+  cooldownRemaining,
+} from '@/lib/auth'
+import { useToast } from '@/hooks/use-toast'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import Logo from '@/components/Logo'
+import { Mail, ArrowLeft } from 'lucide-react'
 
 const authSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters').optional(),
-});
+})
 
-type AuthFormData = z.infer<typeof authSchema>;
+type AuthFormData = z.infer<typeof authSchema>
 
 const Auth: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'magic' | 'reset'>('signin');
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const { toast } = useToast();
-  const { isAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [userEmail, setUserEmail] = useState('')
+  const [cooldownStart, setCooldownStart] = useState<number | null>(null)
+  const [secondsLeft, setSecondsLeft] = useState(0)
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const { toast } = useToast()
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
-  } = useForm<AuthFormData>({
-    resolver: zodResolver(authSchema)
-  });
+    reset,
+  } = useForm<AuthFormData>({ resolver: zodResolver(authSchema) })
 
   useEffect(() => {
-    if (isAuthenticated) {
-      // Check if user has profile
-      checkUserProfile();
-    }
-  }, [isAuthenticated]);
+    if (!cooldownStart) return
+    const timer = setInterval(() => {
+      const remaining = cooldownRemaining(cooldownStart, Date.now())
+      setSecondsLeft(remaining)
+      if (remaining === 0) clearInterval(timer)
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [cooldownStart])
 
-  const checkUserProfile = async () => {
+  const onSubmit = async (data: AuthFormData) => {
+    setIsLoading(true)
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate('/auth');
-        return;
-      }
-
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('full_name, user_id')
-        .eq('user_id', user.id)
-        .maybeSingle();
+      const next = searchParams.get('next') || '/app'
+      const { error } = await continueWithEmail(data.email, next)
 
       if (error) {
-        console.error('Profile fetch error:', error);
-      }
-
-      if (profile && profile.full_name) {
-        navigate('/app');
-      } else {
-        navigate('/onboarding');
-      }
-    } catch (error) {
-      console.error('Unexpected error checking profile:', error);
-      navigate('/onboarding');
-    }
-  };
-
-  const onPasswordAuth = async (data: AuthFormData) => {
-    setIsLoading(true);
-    if (!data.password) {
-      toast({
-        title: "Error",
-        description: "Password is required",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-    try {
-      let authResult;
-      if (authMode === 'signin') {
-        authResult = await supabase.auth.signInWithPassword({
-          email: data.email,
-          password: data.password,
-        });
-      } else {
-        const next = searchParams.get('next') || '/app';
-        authResult = await supabase.auth.signUp({
-          email: data.email,
-          password: data.password,
-          options: {
-            emailRedirectTo: authRedirect(next),
-          },
-        });
-      }
-
-      if (authResult.error) {
-        toast({
-          title: "Error",
-          description: authResult.error.message,
-          variant: "destructive",
-        });
-      } else if (authMode === 'signup' && !authResult.data.session) {
-        setUserEmail(data.email);
-        setSuccessMessage(`We've sent a confirmation link to ${data.email}`);
-        setShowSuccess(true);
-        toast({
-          title: "Check your email",
-          description: "Please confirm your email address to complete signup.",
-        });
-      } else {
-        toast({
-          title: "Success",
-          description: authMode === 'signin' ? "Signed in successfully!" : "Account created successfully!",
-        });
-
-        // Ensure user is redirected after successful authentication
-        if (authResult.data.session) {
-          await checkUserProfile();
+        if (error.message && error.message.includes('repeated signup')) {
+          await resendSignup(data.email, next)
+          toast({
+            title: 'Email re-sent',
+            description: `We've re-sent your confirmation to ${data.email}`,
+          })
+          setShowSuccess(true)
+          setUserEmail(data.email)
+          setCooldownStart(Date.now())
+        } else {
+          toast({
+            title: 'Error',
+            description: error.message,
+            variant: 'destructive',
+          })
         }
+      } else {
+        toast({
+          title: 'Check your inbox',
+          description: `We've sent a magic link to ${data.email}`,
+        })
+        setShowSuccess(true)
+        setUserEmail(data.email)
+        setCooldownStart(Date.now())
       }
-    } catch (error) {
+    } catch (err) {
       toast({
-        title: "Error",
-        description: "An unexpected error occurred.",
-        variant: "destructive",
-      });
+        title: 'Error',
+        description: 'An unexpected error occurred.',
+        variant: 'destructive',
+      })
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
-  const onSendMagicLink = async (data: AuthFormData) => {
-    setIsLoading(true);
+  const handleResend = async () => {
+    if (secondsLeft > 0) return
+    setIsLoading(true)
     try {
-      const next = searchParams.get('next') || '/app';
-      const { error } = await signInWithOtp(data.email, next);
-
+      const next = searchParams.get('next') || '/app'
+      const { error } = await resendSignup(userEmail, next)
       if (error) {
         toast({
-          title: "Error",
+          title: 'Error',
           description: error.message,
-          variant: "destructive",
-        });
+          variant: 'destructive',
+        })
       } else {
-        setUserEmail(data.email);
-        setSuccessMessage(`We've sent a magic link to ${data.email}`);
-        setShowSuccess(true);
         toast({
-          title: "Magic link sent!",
-          description: "Check your email for the login link.",
-        });
+          title: 'Email re-sent',
+          description: `We've sent another link to ${userEmail}`,
+        })
+        setCooldownStart(Date.now())
       }
-    } catch (error) {
+    } catch (err) {
       toast({
-        title: "Error",
-        description: "An unexpected error occurred.",
-        variant: "destructive",
-      });
+        title: 'Error',
+        description: 'An unexpected error occurred.',
+        variant: 'destructive',
+      })
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
-
-  const onResetPassword = async (data: AuthFormData) => {
-    setIsLoading(true);
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
-      });
-      if (error) {
-        toast({
-          title: "Error",
-          description: error.message,
-          variant: "destructive",
-        });
-      } else {
-        setUserEmail(data.email);
-        setSuccessMessage(`We've sent a password reset link to ${data.email}`);
-        setShowSuccess(true);
-        toast({
-          title: "Password reset email sent",
-          description: "Check your email for the reset link.",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }
 
   const onGoogleSignIn = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const next = searchParams.get('next') || '/app';
-      const { error } = await signInWithGoogle(next);
-
+      const next = searchParams.get('next') || '/app'
+      const { error } = await signInWithGoogle(next)
       if (error) {
         toast({
-          title: "Error",
+          title: 'Error',
           description: error.message,
-          variant: "destructive",
-        });
+          variant: 'destructive',
+        })
       }
-    } catch (error) {
+    } catch (err) {
       toast({
-        title: "Error",
-        description: "Failed to sign in with Google.",
-        variant: "destructive",
-      });
+        title: 'Error',
+        description: 'Failed to sign in with Google.',
+        variant: 'destructive',
+      })
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const resetToAuthForm = () => {
-    setShowSuccess(false);
-    setUserEmail('');
-    setSuccessMessage('');
-    setAuthMode('signin');
-    reset();
-  };
+    setShowSuccess(false)
+    setUserEmail('')
+    setCooldownStart(null)
+    setSecondsLeft(0)
+    reset()
+  }
 
   if (showSuccess) {
     return (
@@ -252,9 +175,9 @@ const Auth: React.FC = () => {
                 Check your email
               </CardTitle>
               <CardDescription className="text-muted-foreground">
-                {successMessage}
+                We've sent a magic link to {userEmail}
               </CardDescription>
-              </div>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center p-6 bg-muted/30 rounded-lg">
@@ -262,8 +185,16 @@ const Auth: React.FC = () => {
               <p className="text-sm text-muted-foreground mb-4">
                 Click the link in your email to continue. You can close this tab.
               </p>
+              <Button
+                variant="outline"
+                onClick={handleResend}
+                disabled={secondsLeft > 0 || isLoading}
+                className="w-full"
+              >
+                {secondsLeft > 0 ? `Resend (${secondsLeft})` : 'Resend'}
+              </Button>
             </div>
-            
+
             <Button
               variant="ghost"
               onClick={resetToAuthForm}
@@ -272,7 +203,7 @@ const Auth: React.FC = () => {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Try a different email
             </Button>
-            
+
             <div className="text-center">
               <Button
                 variant="ghost"
@@ -285,7 +216,7 @@ const Auth: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
@@ -297,56 +228,15 @@ const Auth: React.FC = () => {
           </div>
           <div>
             <CardTitle className="text-2xl font-bold text-foreground">
-              {authMode === 'signin'
-                ? 'Sign In'
-                : authMode === 'signup'
-                  ? 'Create Account'
-                  : authMode === 'magic'
-                    ? 'Magic Link'
-                    : 'Reset Password'}
+              Continue with email
             </CardTitle>
             <CardDescription className="text-muted-foreground">
-              {authMode === 'signin'
-                ? 'Sign in to your account'
-                : authMode === 'signup'
-                  ? 'Create a new account'
-                  : authMode === 'magic'
-                    ? 'Send yourself a magic link'
-                    : 'Enter your email to receive a reset link'}
+              We'll send you a magic link
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Auth Mode Tabs */}
-          <div className="flex space-x-1 bg-muted p-1 rounded-lg">
-            <Button
-              variant={authMode === 'signin' ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => setAuthMode('signin')}
-              className="flex-1"
-            >
-              Sign In
-            </Button>
-            <Button
-              variant={authMode === 'signup' ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => setAuthMode('signup')}
-              className="flex-1"
-            >
-              Sign Up
-            </Button>
-            <Button
-              variant={authMode === 'magic' ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => setAuthMode('magic')}
-              className="flex-1"
-            >
-              Magic Link
-            </Button>
-          </div>
-
-          {/* Auth Form */}
-          <form onSubmit={handleSubmit(authMode === 'magic' ? onSendMagicLink : authMode === 'reset' ? onResetPassword : onPasswordAuth)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -360,54 +250,12 @@ const Auth: React.FC = () => {
                 <p className="text-sm text-destructive">{errors.email.message}</p>
               )}
             </div>
-            
-            {authMode !== 'magic' && authMode !== 'reset' && (
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  {...register('password')}
-                  disabled={isLoading}
-                />
-                {errors.password && (
-                  <p className="text-sm text-destructive">{errors.password.message}</p>
-                )}
-              </div>
-            )}
 
-            {authMode === 'signin' && (
-              <div className="text-right">
-                <Button
-                  type="button"
-                  variant="link"
-                  className="px-0"
-                  onClick={() => setAuthMode('reset')}
-                >
-                  Forgot password?
-                </Button>
-              </div>
-            )}
-            
-            <Button 
-              type="submit" 
-              className="w-full" 
-              disabled={isLoading}
-              variant="default"
-            >
-              {isLoading
-                ? 'Loading...'
-                : authMode === 'magic'
-                  ? 'Send Magic Link'
-                  : authMode === 'signin'
-                    ? 'Sign In'
-                    : authMode === 'signup'
-                      ? 'Sign Up'
-                      : 'Send Reset Link'}
-              </Button>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? 'Sending...' : 'Continue'}
+            </Button>
           </form>
-          
+
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <Separator className="w-full" />
@@ -418,11 +266,10 @@ const Auth: React.FC = () => {
               </span>
             </div>
           </div>
-          
-          {/* Google OAuth Button */}
-          <Button 
+
+          <Button
             onClick={onGoogleSignIn}
-            variant="outline" 
+            variant="outline"
             className="w-full"
             disabled={isLoading}
           >
@@ -437,16 +284,16 @@ const Auth: React.FC = () => {
               />
               <path
                 fill="currentColor"
-                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.66-2.06z"
               />
               <path
                 fill="currentColor"
-                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"
               />
             </svg>
             Continue with Google
           </Button>
-          
+
           <div className="text-center">
             <Button
               variant="ghost"
@@ -459,7 +306,8 @@ const Auth: React.FC = () => {
         </CardContent>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default Auth;
+export default Auth
+
