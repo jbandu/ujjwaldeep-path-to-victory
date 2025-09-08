@@ -1,0 +1,7 @@
+# Auth / RLS / Edge functions require review
+/supabase/**        @jbandu
+/supabase/**/policy.sql @jbandu
+/supabase/functions/**  @jbandu
+
+# Build & deployment
+/.github/workflows/** @jbandu
