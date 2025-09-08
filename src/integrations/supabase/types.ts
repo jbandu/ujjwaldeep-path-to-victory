@@ -121,13 +121,6 @@ export type Database = {
             referencedRelation: "tests"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "fk_attempts_test_id"
-            columns: ["test_id"]
-            isOneToOne: false
-            referencedRelation: "tests"
-            referencedColumns: ["id"]
-          },
         ]
       }
       gamification: {
@@ -225,7 +218,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_items_attempted_attempt_id"
+            foreignKeyName: "items_attempted_attempt_id_fkey"
             columns: ["attempt_id"]
             isOneToOne: false
             referencedRelation: "attempts"
@@ -235,7 +228,7 @@ export type Database = {
             foreignKeyName: "items_attempted_attempt_id_fkey"
             columns: ["attempt_id"]
             isOneToOne: false
-            referencedRelation: "attempts"
+            referencedRelation: "v_attempts_my"
             referencedColumns: ["id"]
           },
           {
@@ -415,6 +408,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "print_uploads_attempt_id_fkey"
+            columns: ["attempt_id"]
+            isOneToOne: false
+            referencedRelation: "v_attempts_my"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "print_uploads_test_id_fkey"
             columns: ["test_id"]
             isOneToOne: false
@@ -430,7 +430,7 @@ export type Database = {
           code: string
           created_at: string | null
           id: string
-          interval: string
+          interval: Database["public"]["Enums"]["plan_interval"]
           name: string
         }
         Insert: {
@@ -439,7 +439,7 @@ export type Database = {
           code: string
           created_at?: string | null
           id?: string
-          interval: string
+          interval?: Database["public"]["Enums"]["plan_interval"]
           name: string
         }
         Update: {
@@ -448,7 +448,7 @@ export type Database = {
           code?: string
           created_at?: string | null
           id?: string
-          interval?: string
+          interval?: Database["public"]["Enums"]["plan_interval"]
           name?: string
         }
         Relationships: []
@@ -717,7 +717,7 @@ export type Database = {
           duration_sec: number
           id: string
           mode: string
-          owner_id: string | null
+          owner_id: string
           total_marks: number | null
           visibility: string | null
         }
@@ -727,7 +727,7 @@ export type Database = {
           duration_sec: number
           id?: string
           mode: string
-          owner_id?: string | null
+          owner_id: string
           total_marks?: number | null
           visibility?: string | null
         }
@@ -737,7 +737,7 @@ export type Database = {
           duration_sec?: number
           id?: string
           mode?: string
-          owner_id?: string | null
+          owner_id?: string
           total_marks?: number | null
           visibility?: string | null
         }
@@ -884,6 +884,38 @@ export type Database = {
           rank: number | null
         }
         Relationships: []
+      }
+      v_attempts_my: {
+        Row: {
+          id: string | null
+          score: number | null
+          started_at: string | null
+          submitted_at: string | null
+          test_id: string | null
+        }
+        Insert: {
+          id?: string | null
+          score?: number | null
+          started_at?: string | null
+          submitted_at?: string | null
+          test_id?: string | null
+        }
+        Update: {
+          id?: string | null
+          score?: number | null
+          started_at?: string | null
+          submitted_at?: string | null
+          test_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attempts_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       v_examday_context: {
         Row: {
@@ -1032,6 +1064,10 @@ export type Database = {
         Args: { p_user?: string }
         Returns: boolean
       }
+      is_slug_array: {
+        Args: { a: string[] }
+        Returns: boolean
+      }
       set_limit: {
         Args: { "": number }
         Returns: number
@@ -1054,7 +1090,14 @@ export type Database = {
       }
     }
     Enums: {
-      ai_task_status: "queued" | "processing" | "done" | "error"
+      ai_task_status:
+        | "queued"
+        | "processing"
+        | "done"
+        | "error"
+        | "running"
+        | "succeeded"
+        | "failed"
       ai_task_type:
         | "explain"
         | "difficulty"
@@ -1063,6 +1106,18 @@ export type Database = {
         | "translate"
         | "qc"
         | "summary"
+        | "generate"
+        | "review"
+        | "score"
+      invoice_status: "paid" | "open" | "void" | "uncollectible"
+      payment_status:
+        | "created"
+        | "authorized"
+        | "captured"
+        | "failed"
+        | "refunded"
+      plan_interval: "month"
+      test_visibility: "private" | "shared" | "school"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1190,7 +1245,15 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      ai_task_status: ["queued", "processing", "done", "error"],
+      ai_task_status: [
+        "queued",
+        "processing",
+        "done",
+        "error",
+        "running",
+        "succeeded",
+        "failed",
+      ],
       ai_task_type: [
         "explain",
         "difficulty",
@@ -1199,7 +1262,20 @@ export const Constants = {
         "translate",
         "qc",
         "summary",
+        "generate",
+        "review",
+        "score",
       ],
+      invoice_status: ["paid", "open", "void", "uncollectible"],
+      payment_status: [
+        "created",
+        "authorized",
+        "captured",
+        "failed",
+        "refunded",
+      ],
+      plan_interval: ["month"],
+      test_visibility: ["private", "shared", "school"],
     },
   },
 } as const
