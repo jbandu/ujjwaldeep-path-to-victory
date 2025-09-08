@@ -66,23 +66,17 @@ const TestPlayer: React.FC = () => {
       if (!attemptId) return;
 
       try {
-        // Call GET /api/attempts/[id] endpoint
-        const response = await fetch(`https://orxjqiegmocarwdedkpu.supabase.co/functions/v1/get-attempt/${attemptId}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
-            'Content-Type': 'application/json',
-          },
+        // Use supabase.functions.invoke for better integration
+        const { data, error } = await supabase.functions.invoke('get-attempt', {
+          body: { attemptId },
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-          if (data.error && data.error.includes('already submitted')) {
+        if (error) {
+          if (error.message && error.message.includes('already submitted')) {
             navigate(`/app/results/${attemptId}`);
             return;
           }
-          throw new Error(data.error || 'Failed to load attempt');
+          throw new Error(error.message || 'Failed to load attempt');
         }
         
         setAttempt(data);

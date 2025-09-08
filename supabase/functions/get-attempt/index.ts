@@ -1,118 +1,108 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.56.1'
 
-const corsHeaders = {
+const cors = {
   'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+const json = (status: number, body: any) =>
+  new Response(JSON.stringify(body), { 
+    status, 
+    headers: { ...cors, 'Content-Type': 'application/json' } 
+  })
+
 Deno.serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: cors })
 
   try {
-    // Initialize Supabase client
+    const authHeader = req.headers.get('Authorization') ?? ''
     const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      {
-        global: {
-          headers: { Authorization: req.headers.get('Authorization')! },
-        },
-      }
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_ANON_KEY')!,
+      { global: { headers: { Authorization: authHeader } } }
     )
 
-    // Verify authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
-    
     if (authError || !user) {
       console.error('Authentication error:', authError)
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { 
-          status: 401, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+      return json(401, { error: 'unauthorized' })
     }
 
-    if (req.method !== 'GET') {
-      return new Response(
-        JSON.stringify({ error: 'Method not allowed' }),
-        { 
-          status: 405, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    // Extract attempt ID from URL path
+    // Support both GET path params and POST body
     const url = new URL(req.url)
-    const pathParts = url.pathname.split('/')
-    const attemptId = pathParts[pathParts.length - 1]
+    const pathId = url.pathname.match(/\/get-attempt\/([0-9a-f-]{36})$/i)?.[1]
+    const body = req.method === 'POST' ? (await req.json().catch(() => ({}))) : {}
+    const attemptId: string | undefined = body.attemptId || pathId
     
     if (!attemptId) {
-      return new Response(
-        JSON.stringify({ error: 'Attempt ID is required' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+      return json(400, { error: 'missing_attempt_id' })
     }
 
     console.log('Getting attempt:', attemptId, 'for user:', user.id)
 
-    // Get attempt data
+    // Load attempt (must belong to user)
     const { data: attempt, error: attemptError } = await supabase
       .from('attempts')
-      .select('*')
+      .select('id, test_id, started_at, submitted_at, summary')
       .eq('id', attemptId)
       .eq('user_id', user.id)
-      .single()
+      .maybeSingle()
 
-    if (attemptError || !attempt) {
+    if (attemptError) {
       console.error('Attempt fetch error:', attemptError)
-      return new Response(
-        JSON.stringify({ error: 'Attempt not found or access denied' }),
-        { 
-          status: 404, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+      return json(403, { error: 'attempt_select_denied', details: attemptError.message })
+    }
+    if (!attempt) {
+      return json(404, { error: 'attempt_not_found' })
     }
 
     // Check if already submitted
     if (attempt.submitted_at) {
-      return new Response(
-        JSON.stringify({ error: 'Attempt already submitted', redirectTo: `/app/results/${attemptId}` }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+      return json(400, { error: 'Attempt already submitted', redirectTo: `/app/results/${attemptId}` })
     }
 
-    // Get test data for duration and user language preference
+    // Get test data for duration
     const { data: test, error: testError } = await supabase
       .from('tests')
-      .select('duration_sec')
+      .select('duration_sec, config')
       .eq('id', attempt.test_id)
-      .single()
+      .maybeSingle()
 
-    if (testError) {
+    if (testError || !test) {
       console.error('Test fetch error:', testError)
-      return new Response(
-        JSON.stringify({ error: 'Test not found' }),
-        { 
-          status: 404, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+      return json(404, { error: 'test_not_found' })
     }
 
-    // Fetch user profile to determine language preference for questions
+    // Determine question ids from attempt summary or derive from test config
+    let qids: number[] = Array.isArray(attempt.summary?.question_ids) ? attempt.summary.question_ids : []
+
+    if (!qids.length && attempt.test_id) {
+      // Fallback: derive from test.config (same logic as start-attempt)
+      const cfg = test.config ?? {}
+      const subjects: string[] = cfg.subjects ?? []
+      const chapters: string[] = cfg.chapters ?? []
+      const difficulty: number = cfg.difficulty?.[0] ?? 3
+      const questionCount: number = cfg.questionCount ?? 25
+
+      let q = supabase
+        .from('questions')
+        .select('id')
+        .eq('status', 'active')
+        .in('subject', subjects.length ? subjects : ['Physics','Chemistry','Biology'])
+        .gte('difficulty', difficulty)
+        .limit(questionCount)
+
+      if (chapters.length) q = q.in('chapter', chapters)
+      const { data: qs } = await q
+      qids = (qs ?? []).map(r => r.id as number)
+    }
+
+    if (qids.length === 0) {
+      return json(400, { error: 'empty_question_set' })
+    }
+
+    // Fetch user profile for language preference
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('language')
@@ -127,35 +117,16 @@ Deno.serve(async (req) => {
     const langMap: Record<string, string> = { English: 'en', Hindi: 'hi', Telugu: 'te', Tamil: 'ta' }
     const userLangCode = langMap[userLangName] || 'en'
 
-    // Get questions from the attempt summary
-    const summary = attempt.summary as any;
-    const questionIds = summary?.selected_questions || []
-
-    if (questionIds.length === 0) {
-      return new Response(
-        JSON.stringify({ error: 'No questions found for this attempt' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
     // Get questions (without correct answers for security)
     const { data: questions, error: questionsError } = await supabase
       .from('questions')
       .select('id, subject, chapter, stem, options, difficulty')
-      .in('id', questionIds)
+      .in('id', qids)
+      .eq('status', 'active')
 
     if (questionsError) {
       console.error('Questions fetch error:', questionsError)
-      return new Response(
-        JSON.stringify({ error: 'Failed to fetch questions' }),
-        { 
-          status: 500, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
+      return json(403, { error: 'questions_select_denied', details: questionsError.message })
     }
 
     // Apply localization if available and preferred language is not English
@@ -189,7 +160,7 @@ Deno.serve(async (req) => {
     const responseMap = new Map(responses?.map(r => [r.question_id, r.selected_index]) || [])
 
     // Sort questions according to the original order and merge localizations
-    const sortedQuestions = questionIds
+    const sortedQuestions = qids
       .map((id: number) => questions?.find(q => q.id === id))
       .filter(Boolean)
       .map((q: any) => {
@@ -207,31 +178,19 @@ Deno.serve(async (req) => {
     const elapsedSeconds = Math.floor((currentTime - startTime) / 1000)
     const timeRemaining = Math.max(0, test.duration_sec - elapsedSeconds)
 
-    return new Response(
-      JSON.stringify({ 
-        id: attempt.id,
-        test_id: attempt.test_id,
-        started_at: attempt.started_at,
-        duration_sec: test.duration_sec,
-        time_remaining: timeRemaining,
-        questions: sortedQuestions,
-        total_questions: sortedQuestions.length,
-        existing_responses: Object.fromEntries(responseMap)
-      }),
-      { 
-        status: 200, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    )
+    return json(200, { 
+      id: attempt.id,
+      test_id: attempt.test_id,
+      started_at: attempt.started_at,
+      duration_sec: test.duration_sec,
+      time_remaining: timeRemaining,
+      questions: sortedQuestions,
+      total_questions: sortedQuestions.length,
+      existing_responses: Object.fromEntries(responseMap)
+    })
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Unexpected error:', error)
-    return new Response(
-      JSON.stringify({ error: 'Internal server error', details: error.message }),
-      { 
-        status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    )
+    return json(500, { error: 'internal_server_error', details: error.message })
   }
 })
