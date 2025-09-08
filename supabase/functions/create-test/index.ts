@@ -13,10 +13,9 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.56.1'
 
 // CORS helpers ---------------------------------------------------------------
 const corsHeaders: Record<string, string> = {
-  'Access-Control-Allow-Origin': '*', // or set to specific origins if you prefer
+  'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Vary': 'Origin',
 }
 
 function json(

@@ -33,10 +33,38 @@ Deno.serve(async (req: Request) => {
     // Payload
     const body = await req.json().catch(() => ({} as any))
     const testId: string | undefined = body?.testId
-    const questionIds: number[] = Array.isArray(body?.question_ids) ? body.question_ids : []
+    let questionIds: number[] = Array.isArray(body?.question_ids) ? body.question_ids : []
 
     if (!testId) return json(400, { error: 'missing_testId' })
-    if (!questionIds.length) return json(400, { error: 'empty_question_set' })
+
+    // If no question list provided, derive from test.config
+    if (!questionIds.length) {
+      const { data: test } = await supabase
+        .from('tests')
+        .select('config')
+        .eq('id', testId)
+        .maybeSingle()
+
+      const cfg = test?.config ?? {}
+      const subjects: string[] = cfg.subjects ?? []
+      const chapters: string[] = cfg.chapters ?? []
+      const difficulty: number = cfg.difficulty?.[0] ?? 3
+      const questionCount: number = cfg.questionCount ?? 25
+
+      let q = supabase
+        .from('questions')
+        .select('id', { count: 'exact' })
+        .eq('status', 'active')
+        .in('subject', subjects.length ? subjects : ['Physics','Chemistry','Biology'])
+        .gte('difficulty', difficulty)
+        .limit(questionCount)
+
+      if (chapters.length) q = q.in('chapter', chapters)
+
+      const { data: qs } = await q
+      questionIds = (qs ?? []).map(r => r.id as number)
+      if (!questionIds.length) return json(400, { error: 'empty_question_set' })
+    }
 
     // INSERT with default (return=minimal) — no reselect yet
     const { error: insErr } = await supabase

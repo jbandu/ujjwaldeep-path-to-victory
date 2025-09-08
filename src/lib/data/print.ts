@@ -36,13 +36,9 @@ export async function getPrintPackage(testId: string): Promise<PrintPackage | nu
       .eq('test_id', testId)
       .order('version', { ascending: false })
       .limit(1)
-      .single()
     
-    if (error) {
-      if (error.code === 'PGRST116') return null // No rows found
-      throw error
-    }
-    return data as PrintPackage
+    if (error) throw error
+    return data?.[0] as PrintPackage || null
   } catch (error) {
     console.error('Error fetching print package:', error)
     return null
