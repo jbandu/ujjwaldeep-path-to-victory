@@ -1,238 +1,277 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Slider } from '@/components/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/hooks/use-toast';
-import { useDemoMode } from '@/hooks/useDemoMode';
-import { supabase } from '@/integrations/supabase/client';
-import { 
-  fetchSubjects, 
-  fetchChapters, 
+// src/pages/app/Builder.tsx
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Slider } from '@/components/ui/slider'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useToast } from '@/hooks/use-toast'
+import { useDemoMode } from '@/hooks/useDemoMode'
+import { supabase } from '@/integrations/supabase/client'
+import {
+  fetchSubjects,
+  fetchChapters,
   getAvailableQuestionCount,
-  type QuestionFilters 
-} from '@/lib/data/questions';
-import { 
-  BookOpen, 
-  Target, 
-  Clock, 
-  Settings, 
-  Play, 
+  type QuestionFilters,
+} from '@/lib/data/questions'
+import {
+  BookOpen,
+  Target,
+  Clock,
+  Settings,
+  Play,
   CheckCircle,
   ArrowRight,
-  Zap
-} from 'lucide-react';
+  Zap,
+} from 'lucide-react'
 
 interface TestConfig {
-  subjects: string[];
-  chapters: string[];
-  difficulty: number[];
-  questionCount: number;
-  duration: number;
+  subjects: string[]
+  chapters: string[]
+  difficulty: number[] // using slider [value], we’ll read value[0]
+  questionCount: number
+  duration: number // minutes in UI; will convert to seconds for API
 }
 
 const Builder: React.FC = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const { demoMode } = useDemoMode();
-  
-  const [isLoading, setIsLoading] = useState(false);
-  const [testCreated, setTestCreated] = useState(false);
-  const [createdTestId, setCreatedTestId] = useState<string>('');
-  const [subjects, setSubjects] = useState<string[]>([]);
-  const [availableChapters, setAvailableChapters] = useState<string[]>([]);
-  const [loadingSubjects, setLoadingSubjects] = useState(true);
-  const [loadingChapters, setLoadingChapters] = useState(false);
-  const [availableCount, setAvailableCount] = useState<number | null>(null);
-  
+  const navigate = useNavigate()
+  const { toast } = useToast()
+  const { demoMode } = useDemoMode()
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [testCreated, setTestCreated] = useState(false)
+  const [createdTestId, setCreatedTestId] = useState<string>('')
+
+  const [subjects, setSubjects] = useState<string[]>([])
+  const [availableChapters, setAvailableChapters] = useState<string[]>([])
+  const [loadingSubjects, setLoadingSubjects] = useState(true)
+  const [loadingChapters, setLoadingChapters] = useState(false)
+  const [availableCount, setAvailableCount] = useState<number | null>(null)
+
   const [config, setConfig] = useState<TestConfig>({
     subjects: [],
     chapters: [],
     difficulty: [3],
     questionCount: 25,
-    duration: 60
-  });
+    duration: 60, // minutes
+  })
 
   // Load subjects on mount or when demo mode changes
   useEffect(() => {
-    loadSubjects();
-  }, [demoMode]);
+    loadSubjects()
+  }, [demoMode])
 
   // Load chapters when subjects change
   useEffect(() => {
     if (config.subjects.length > 0) {
-      loadChapters();
+      loadChapters()
     } else {
-      setAvailableChapters([]);
+      setAvailableChapters([])
     }
-  }, [config.subjects, demoMode]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config.subjects, demoMode])
 
   // Update available question count when filters change
   useEffect(() => {
-    updateAvailableCount();
-  }, [config.subjects, config.chapters, config.difficulty, demoMode]);
+    updateAvailableCount()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config.subjects, config.chapters, config.difficulty, demoMode])
+
+  async function ensureAuthed(): Promise<boolean> {
+    const { data } = await supabase.auth.getSession()
+    if (!data.session) {
+      toast({
+        title: 'Sign in required',
+        description: 'Please sign in to create a test.',
+        variant: 'destructive',
+      })
+      navigate('/auth?next=/app/builder', { replace: true })
+      return false
+    }
+    return true
+  }
 
   const loadSubjects = async () => {
-    setLoadingSubjects(true);
+    setLoadingSubjects(true)
     try {
-      const subjectsList = await fetchSubjects();
-      setSubjects(subjectsList);
+      const subjectsList = await fetchSubjects()
+      setSubjects(subjectsList)
     } catch (error) {
-      console.error('Error loading subjects:', error);
+      console.error('Error loading subjects:', error)
       toast({
-        title: "Failed to load subjects",
-        description: "Please try refreshing the page.",
-        variant: "destructive"
-      });
+        title: 'Failed to load subjects',
+        description: 'Please try refreshing the page.',
+        variant: 'destructive',
+      })
     } finally {
-      setLoadingSubjects(false);
+      setLoadingSubjects(false)
     }
-  };
+  }
 
   const loadChapters = async () => {
-    setLoadingChapters(true);
+    setLoadingChapters(true)
     try {
-      const chaptersList = await fetchChapters(config.subjects);
-      setAvailableChapters(chaptersList);
+      const chaptersList = await fetchChapters(config.subjects)
+      setAvailableChapters(chaptersList)
     } catch (error) {
-      console.error('Error loading chapters:', error);
+      console.error('Error loading chapters:', error)
       toast({
-        title: "Failed to load chapters",
-        description: "Please try again.",
-        variant: "destructive"
-      });
+        title: 'Failed to load chapters',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })
     } finally {
-      setLoadingChapters(false);
+      setLoadingChapters(false)
     }
-  };
+  }
 
   const updateAvailableCount = async () => {
     if (config.subjects.length === 0) {
-      setAvailableCount(null);
-      return;
+      setAvailableCount(null)
+      return
     }
-
     try {
       const filters: Omit<QuestionFilters, 'limit'> = {
         subjects: config.subjects,
         chapters: config.chapters.length > 0 ? config.chapters : undefined,
-        difficulty: [config.difficulty[0], config.difficulty[0]]
-      };
-      
-      const count = await getAvailableQuestionCount(filters);
-      setAvailableCount(count);
+        difficulty: [config.difficulty[0], config.difficulty[0]],
+      }
+      const count = await getAvailableQuestionCount(filters)
+      setAvailableCount(count)
     } catch (error) {
-      console.error('Error getting question count:', error);
-      setAvailableCount(null);
+      console.error('Error getting question count:', error)
+      setAvailableCount(null)
     }
-  };
+  }
 
   const handleSubjectChange = (subject: string, checked: boolean) => {
-    setConfig(prev => ({
-      ...prev,
-      subjects: checked 
+    setConfig((prev) => {
+      const nextSubjects = checked
         ? [...prev.subjects, subject]
-        : prev.subjects.filter(s => s !== subject),
-      // Reset chapters when deselecting subjects
-      chapters: checked 
-        ? prev.chapters
-        : prev.chapters.filter(chapter => 
-            availableChapters.includes(chapter)
-          )
-    }));
-  };
+        : prev.subjects.filter((s) => s !== subject)
+
+      // If deselecting subjects, drop chapters that no longer exist
+      const nextChapters = prev.chapters.filter((ch) => availableChapters.includes(ch))
+
+      return {
+        ...prev,
+        subjects: nextSubjects,
+        chapters: checked ? prev.chapters : nextChapters,
+      }
+    })
+  }
 
   const handleChapterChange = (chapter: string) => {
-    setConfig(prev => ({
+    setConfig((prev) => ({
       ...prev,
       chapters: prev.chapters.includes(chapter)
-        ? prev.chapters.filter(c => c !== chapter)
-        : [...prev.chapters, chapter]
-    }));
-  };
+        ? prev.chapters.filter((c) => c !== chapter)
+        : [...prev.chapters, chapter],
+    }))
+  }
 
   const createTest = async () => {
     if (config.subjects.length === 0) {
       toast({
-        title: "Select Subjects",
-        description: "Please select at least one subject to continue.",
-        variant: "destructive"
-      });
-      return;
+        title: 'Select Subjects',
+        description: 'Please select at least one subject to continue.',
+        variant: 'destructive',
+      })
+      return
     }
 
-    setIsLoading(true);
-    
-    try {
-      const { data, error } = await (supabase as any).functions.invoke('create-test', {
-        body: config
-      });
+    if (!(await ensureAuthed())) return
 
-      if (error) {
-        throw new Error(error.message);
+    setIsLoading(true)
+    try {
+      // Build payload expected by the Edge Function
+      const payload = {
+        mode: 'custom' as const, // or 'chapter' | 'difficulty_mix' | 'pyp'
+        duration_sec: Math.max(1, config.duration) * 60, // convert minutes → seconds
+        visibility: 'private' as const,
+        config: {
+          subjects: config.subjects,
+          chapters: config.chapters,
+          difficulty: config.difficulty[0],
+          questionCount: config.questionCount,
+        },
+        // Optional: if your scoring uses +4 for each correct
+        // total_marks: config.questionCount * 4,
       }
 
-      setCreatedTestId(data.test.id);
-      setTestCreated(true);
-      
+      const { data, error } = await supabase.functions.invoke('create-test', {
+        body: payload,
+      })
+
+      if (error) throw error
+
+      // Tolerate a few possible server shapes
+      const newId: string | undefined =
+        data?.test?.id ?? data?.id ?? data?.test_id ?? data?.testId
+
+      if (!newId) {
+        throw new Error('No test id returned by create-test')
+      }
+
+      setCreatedTestId(newId)
+      setTestCreated(true)
+
       toast({
-        title: "Test Created Successfully! 🎉",
-        description: `Your custom test with ${config.questionCount} questions is ready.`
-      });
+        title: 'Test Created Successfully! 🎉',
+        description: `Your custom test with ${config.questionCount} questions is ready.`,
+      })
     } catch (error: any) {
-      console.error('Test creation error:', error);
+      console.error('Test creation error:', error)
       toast({
-        title: "Creation Failed",
-        description: error.message || "Failed to create test. Please try again.",
-        variant: "destructive"
-      });
+        title: 'Creation Failed',
+        description: error?.message || 'Failed to create test. Please try again.',
+        variant: 'destructive',
+      })
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const startTest = async () => {
-    setIsLoading(true);
-    
+    if (!(await ensureAuthed())) return
+
+    setIsLoading(true)
     try {
-      const { data, error } = await (supabase as any).functions.invoke('start-attempt', {
-        body: { testId: createdTestId }
-      });
+      const { data, error } = await supabase.functions.invoke('start-attempt', {
+        body: { testId: createdTestId },
+      })
+      if (error) throw error
 
-      if (error) {
-        throw new Error(error.message);
-      }
+      const attemptId: string | undefined = data?.attempt?.id ?? data?.id ?? data?.attempt_id
+      if (!attemptId) throw new Error('No attempt id returned by start-attempt')
 
-      // Navigate to test page with attempt ID
-      navigate(`/app/test/${data.attempt.id}`);
+      navigate(`/app/test/${attemptId}`)
     } catch (error: any) {
-      console.error('Start attempt error:', error);
+      console.error('Start attempt error:', error)
       toast({
-        title: "Failed to Start",
-        description: error.message || "Could not start the test. Please try again.",
-        variant: "destructive"
-      });
-      setIsLoading(false);
+        title: 'Failed to Start',
+        description: error?.message || 'Could not start the test. Please try again.',
+        variant: 'destructive',
+      })
+      setIsLoading(false)
     }
-  };
+  }
 
   const resetForm = () => {
-    setTestCreated(false);
-    setCreatedTestId('');
+    setTestCreated(false)
+    setCreatedTestId('')
     setConfig({
       subjects: [],
       chapters: [],
       difficulty: [3],
       questionCount: 25,
-      duration: 60
-    });
-  };
+      duration: 60,
+    })
+  }
 
   if (testCreated) {
     return (
@@ -242,12 +281,12 @@ const Builder: React.FC = () => {
             <div className="mx-auto w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center animate-bounce-in">
               <CheckCircle className="w-8 h-8 text-primary" />
             </div>
-            
+
             <div className="space-y-2">
               <h2 className="text-2xl font-bold text-foreground">Test Ready! 🚀</h2>
               <p className="text-muted-foreground">
-                Your custom test has been created with {config.questionCount} questions
-                from {config.subjects.join(', ')} for {config.duration} minutes.
+                Your custom test has been created with {config.questionCount} questions from{' '}
+                {config.subjects.join(', ')} for {config.duration} minutes.
               </p>
             </div>
 
@@ -260,7 +299,7 @@ const Builder: React.FC = () => {
                 {isLoading ? 'Starting...' : 'Start Test Now'}
                 <Play className="w-4 h-4 ml-2" />
               </Button>
-              
+
               <Button
                 onClick={() => navigate(`/app/tests/${createdTestId}/print`)}
                 variant="outline"
@@ -269,12 +308,8 @@ const Builder: React.FC = () => {
                 Print Mode
                 <BookOpen className="w-4 h-4 ml-2" />
               </Button>
-              
-              <Button
-                onClick={resetForm}
-                variant="outline"
-                className="flex-1"
-              >
+
+              <Button onClick={resetForm} variant="outline" className="flex-1">
                 Create Another
                 <Zap className="w-4 h-4 ml-2" />
               </Button>
@@ -282,16 +317,14 @@ const Builder: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
     <div className="p-4 md:p-6 space-y-6 animate-fade-in">
       <div className="space-y-2 text-center md:text-left">
         <h1 className="text-2xl md:text-3xl font-bold text-foreground">Test Builder ⚡</h1>
-        <p className="text-muted-foreground">
-          Create a personalized test tailored to your study needs
-        </p>
+        <p className="text-muted-foreground">Create a personalized test tailored to your study needs</p>
       </div>
 
       <div className="max-w-2xl mx-auto">
@@ -301,11 +334,9 @@ const Builder: React.FC = () => {
               <Settings className="w-6 h-6 text-primary" />
             </div>
             <CardTitle>Customize Your Test</CardTitle>
-            <CardDescription>
-              Select subjects, difficulty, and duration for your practice session
-            </CardDescription>
+            <CardDescription>Select subjects, difficulty, and duration for your practice session</CardDescription>
           </CardHeader>
-          
+
           <CardContent className="space-y-6">
             {/* Subjects Selection */}
             <div className="space-y-3">
@@ -321,17 +352,17 @@ const Builder: React.FC = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {subjects.map(subject => (
-                    <div key={subject} className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                  {subjects.map((subject) => (
+                    <div
+                      key={subject}
+                      className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                    >
                       <Checkbox
                         id={subject}
                         checked={config.subjects.includes(subject)}
-                        onCheckedChange={(checked) => handleSubjectChange(subject, checked as boolean)}
+                        onCheckedChange={(checked) => handleSubjectChange(subject, !!checked)}
                       />
-                      <Label 
-                        htmlFor={subject} 
-                        className="text-sm font-medium cursor-pointer flex-1"
-                      >
+                      <Label htmlFor={subject} className="text-sm font-medium cursor-pointer flex-1">
                         {subject}
                       </Label>
                     </div>
@@ -343,25 +374,23 @@ const Builder: React.FC = () => {
             {/* Chapters Selection */}
             {config.subjects.length > 0 && (
               <div className="space-y-3">
-                <Label className="text-base font-medium">
-                  Chapters (Optional)
-                </Label>
+                <Label className="text-base font-medium">Chapters (Optional)</Label>
                 {loadingChapters ? (
                   <Skeleton className="h-32 w-full" />
                 ) : availableChapters.length > 0 ? (
                   <div className="border rounded-lg p-3 max-h-48 overflow-y-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {availableChapters.map(chapter => (
-                        <div key={chapter} className="flex items-center space-x-2 p-2 hover:bg-muted/50 rounded transition-colors">
+                      {availableChapters.map((chapter) => (
+                        <div
+                          key={chapter}
+                          className="flex items-center space-x-2 p-2 hover:bg-muted/50 rounded transition-colors"
+                        >
                           <Checkbox
                             id={chapter}
                             checked={config.chapters.includes(chapter)}
                             onCheckedChange={() => handleChapterChange(chapter)}
                           />
-                          <Label 
-                            htmlFor={chapter} 
-                            className="text-sm cursor-pointer flex-1"
-                          >
+                          <Label htmlFor={chapter} className="text-sm cursor-pointer flex-1">
                             {chapter}
                           </Label>
                         </div>
@@ -387,7 +416,7 @@ const Builder: React.FC = () => {
               <div className="space-y-3">
                 <Slider
                   value={config.difficulty}
-                  onValueChange={(value) => setConfig(prev => ({ ...prev, difficulty: value }))}
+                  onValueChange={(value) => setConfig((prev) => ({ ...prev, difficulty: value }))}
                   max={5}
                   min={1}
                   step={1}
@@ -405,11 +434,11 @@ const Builder: React.FC = () => {
             <div className="space-y-3">
               <Label className="text-base font-medium">Number of Questions</Label>
               <div className="grid grid-cols-3 gap-2">
-                {[10, 25, 50].map(count => (
+                {[10, 25, 50].map((count) => (
                   <Button
                     key={count}
-                    variant={config.questionCount === count ? "default" : "outline"}
-                    onClick={() => setConfig(prev => ({ ...prev, questionCount: count }))}
+                    variant={config.questionCount === count ? 'default' : 'outline'}
+                    onClick={() => setConfig((prev) => ({ ...prev, questionCount: count }))}
                     className="w-full"
                   >
                     {count}
@@ -425,11 +454,11 @@ const Builder: React.FC = () => {
                 Duration
               </Label>
               <div className="grid grid-cols-3 gap-2">
-                {[30, 60, 90].map(duration => (
+                {[30, 60, 90].map((duration) => (
                   <Button
                     key={duration}
-                    variant={config.duration === duration ? "default" : "outline"}
-                    onClick={() => setConfig(prev => ({ ...prev, duration }))}
+                    variant={config.duration === duration ? 'default' : 'outline'}
+                    onClick={() => setConfig((prev) => ({ ...prev, duration }))}
                     className="w-full"
                   >
                     {duration}m
@@ -454,7 +483,7 @@ const Builder: React.FC = () => {
                   <Badge variant="outline">{config.duration} minutes</Badge>
                 </div>
               </div>
-              
+
               {/* Available Questions Count */}
               {availableCount !== null && config.subjects.length > 0 && (
                 <div className="pt-2 border-t">
@@ -482,7 +511,7 @@ const Builder: React.FC = () => {
         </Card>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Builder;
+export default Builder
