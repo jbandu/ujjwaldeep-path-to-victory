@@ -70,20 +70,40 @@ serve(async (req) => {
       )
     }
 
-    // Get question IDs from test config
-    const questionIds = test.config?.questions || []
-    if (!questionIds.length) {
+    // Build query filters from test config
+    const config = test.config || {}
+    const subjects = config.subjects || []
+    const chapters = config.chapters || []
+    const difficulty = config.difficulty || []
+    const questionCount = config.questionCount || 0
+
+    if (!questionCount || questionCount <= 0) {
       return new Response(
         JSON.stringify({ error: 'Test has no questions configured' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    // Fetch questions in the correct order
-    const { data: questions, error: questionsError } = await supabase
+    // Build dynamic query based on test configuration
+    let query = supabase
       .from('questions')
       .select('id, subject, chapter, stem, options, correct_index, difficulty')
-      .in('id', questionIds)
+      .eq('status', 'active')
+
+    // Apply filters
+    if (subjects.length > 0) {
+      query = query.in('subject', subjects)
+    }
+    if (chapters.length > 0) {
+      query = query.in('chapter', chapters)
+    }
+    if (difficulty.length > 0) {
+      query = query.in('difficulty', difficulty)
+    }
+
+    // Fetch questions with limit
+    const { data: questions, error: questionsError } = await query
+      .limit(questionCount)
 
     if (questionsError || !questions) {
       return new Response(
@@ -92,10 +112,15 @@ serve(async (req) => {
       )
     }
 
-    // Order questions according to test config
-    const orderedQuestions = questionIds.map(id => 
-      questions.find(q => q.id.toString() === id.toString())
-    ).filter(Boolean)
+    if (questions.length === 0) {
+      return new Response(
+        JSON.stringify({ error: 'No questions found matching the test criteria' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Use questions as ordered (no need to reorder since we're fetching based on config)
+    const orderedQuestions = questions
 
     // Generate QR payload
     const qrPayload = {
