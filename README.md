@@ -95,3 +95,24 @@ Public variables:
 ### Webhooks
 
 Configure the Razorpay dashboard to send webhooks to `/api/billing/webhook`. The endpoint verifies the signature and updates `payments`, `user_subscriptions` and `invoices` tables.
+
+## Supabase Auth Hooks
+
+The project uses a Supabase Auth Hook to trigger the `welcome-email` edge function for signup and recovery events. To enable it:
+
+1. In **Supabase Dashboard → Project Settings → Functions → Secrets**, add the secret used to authenticate the hook:
+
+   ```
+   AUTH_HOOK_SECRET=<random-string>
+   ```
+
+   (Optional) add `RESEND_API_KEY` and `RESEND_FROM_EMAIL` if you want the function to send transactional emails.
+
+2. In **Auth → Auth Hooks (BETA)** create a hook with:
+
+   - URL: `https://orxjqiegmocarwdedkpu.supabase.co/functions/v1/welcome-email`
+   - Header: `Authorization: Bearer ${AUTH_HOOK_SECRET}`
+
+3. The edge function validates the token or `x-supabase-signature` and returns `204` for `user_signed_up`, `user_repeated_signup` and `user_recovery_requested` events. Unauthorized or invalid requests receive a `401` JSON response.
+
+These quick responses ensure that magic link and recovery emails are not blocked by hook failures.
