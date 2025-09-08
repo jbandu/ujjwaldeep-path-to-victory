@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -182,17 +183,15 @@ const Profile: React.FC = () => {
                 <Badge variant="outline">{profile.class_level}</Badge>
               </div>
             )}
-            {profile?.is_admin && (
               <Button 
                 className="w-full mb-4 bg-admin-accent hover:bg-admin-accent/90 text-admin-accent-foreground font-semibold" 
                 asChild
               >
-                <a href="/admin">
+                <Link to="/admin">
                   <Settings className="h-4 w-4 mr-2" />
                   🔧 Admin Access
-                </a>
+                </Link>
               </Button>
-            )}
 
             <Button 
               className="w-full" 
