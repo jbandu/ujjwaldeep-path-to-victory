@@ -203,9 +203,25 @@ const Builder: React.FC = () => {
         // total_marks: config.questionCount * 4,
       }
 
-      const { data, error } = await supabase.functions.invoke('create-test', {
-        body: payload,
-      })
+//      const { data, error } = await supabase.functions.invoke('create-test', {
+  //      body: payload,
+    //  })
+// in Builder.tsx createTest()
+const { data, error } = await supabase.functions.invoke('create-test', {
+  body: {
+    mode: 'custom',
+    duration_sec: (config.duration ?? 60) * 60, // minutes → seconds
+    visibility: 'private',
+    total_marks: 720,
+    // persist the filters; start-attempt will resolve them to actual questions
+    config: {
+      subjects: config.subjects,
+      chapters: config.chapters,
+      difficulty: config.difficulty,      // [level] or [min,max]
+      questionCount: config.questionCount // how many to sample
+    }
+  }
+})
 
       if (error) throw error
 
