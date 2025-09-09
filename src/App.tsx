@@ -10,6 +10,7 @@ import AuthReadyGate from '@/components/AuthReadyGate'
 import Index from './pages/Index'
 import Auth from './pages/Auth'
 import AuthCallback from './pages/AuthCallback'
+import AuthDebug from './pages/AuthDebug'
 import ResetPassword from './pages/ResetPassword'
 import Onboarding from './pages/Onboarding'
 import Pricing from './pages/Pricing'
@@ -61,6 +62,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/auth/debug" element={<AuthDebug />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
           <Route path="/pricing" element={<Pricing />} />
 

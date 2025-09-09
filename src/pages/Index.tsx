@@ -1,14 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import HeroSection from '@/components/HeroSection';
-import GameficationSection from '@/components/GameficationSection';
 import FeatureSection from '@/components/FeatureSection';
+import GameficationSection from '@/components/GameficationSection';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/hooks/useAuth';
+import { AlertCircle, Bug } from 'lucide-react';
 
-const Index = () => {
+const Index: React.FC = () => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
+      {/* Debug Panel for Development */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="bg-yellow-100 border-b border-yellow-200 p-2">
+          <div className="container mx-auto flex items-center justify-between text-sm">
+            <div className="flex items-center gap-2">
+              <Bug className="h-4 w-4" />
+              <span>Development Mode</span>
+              <Badge variant="outline">Auth: {isAuthenticated ? 'Yes' : 'No'}</Badge>
+            </div>
+            <Link to="/auth/debug">
+              <Button variant="outline" size="sm">
+                <AlertCircle className="h-4 w-4 mr-2" />
+                Auth Debug
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
       <HeroSection />
       
       {/* Enter App CTA Section */}

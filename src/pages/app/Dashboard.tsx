@@ -19,6 +19,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useSession } from '@/hooks/useSession';
 import GamificationWidget from '@/components/GamificationWidget';
+import { fetchUserProfileSafe } from '@/utils/profileUtils';
 
 const Dashboard: React.FC = () => {
   const session = useSession();
@@ -32,15 +33,15 @@ const Dashboard: React.FC = () => {
       if (!session) return;
 
       try {
-        const { data } = await (supabase as any)
-          .from('profiles')
-          .select('full_name')
-          .eq('user_id', session.user.id)
-          .single();
-
-        setProfile(data);
+        const { profile, error } = await fetchUserProfileSafe(session.user.id);
+        
+        if (error) {
+          console.error('Error fetching user profile:', error);
+        }
+        
+        setProfile(profile);
       } catch (error) {
-        console.error('Error fetching profile:', error);
+        console.error('Unexpected error fetching user profile:', error);
       } finally {
         setLoading(false);
       }
