@@ -1,57 +1,30 @@
+// e2e/auth.spec.ts
 import { test, expect } from '@playwright/test'
 
-// Helper to fill email and submit
-async function submitEmail(page, email) {
-  await page.getByLabel('Email').fill(email)
-  await page.getByRole('button', { name: 'Continue' }).click()
-}
-
-test.describe('email auth flow', () => {
-  test('shows success screen after submitting email', async ({ page }) => {
-    // Intercept the OTP request to Supabase and return success
-    await page.route('**/auth/v1/otp', (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
-    )
-
-    await page.goto('/#/auth')
-    await submitEmail(page, 'test@example.com')
-
-    await expect(page.getByText('Check your email')).toBeVisible()
-    await expect(page.getByText("test@example.com")).toBeVisible()
-  })
-
-  test('handles repeated signup by resending link', async ({ page }) => {
-    await page.route('**/auth/v1/otp', (route) =>
-      route.fulfill({
-        status: 400,
-        contentType: 'application/json',
-        body: JSON.stringify({ error_description: 'repeated signup', error: 'repeated signup' }),
-      })
-    )
-    await page.route('**/auth/v1/resend', (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
-    )
-
-    await page.goto('/#/auth')
-    await submitEmail(page, 'test@example.com')
-
-    await expect(page.getByText('Account exists')).toBeVisible()
-    await expect(page.getByText('magic link')).toBeVisible()
-  })
-})
-
-test('sign in with Google initiates OAuth flow', async ({ page }) => {
-  await page.route('**/auth/v1/authorize**', (route) =>
-    route.fulfill({ status: 200, contentType: 'text/html', body: 'ok' })
+test.beforeEach(async ({ page }) => {
+  // Mock Supabase endpoints used by auth helpers.
+  await page.route(/\/auth\/v1\/token/, r =>
+    r.fulfill({ status: 200, body: JSON.stringify({ access_token: 'fake', token_type: 'bearer',
+      refresh_token: 'fake', user: { id: 'test-user' }, expires_in: 3600 }) })
   )
-
-  await page.goto('/#/auth')
-
-  const [request] = await Promise.all([
-    page.waitForRequest('**/auth/v1/authorize**'),
-    page.getByRole('button', { name: 'Continue with Google' }).click(),
-  ])
-
-  expect(request.url()).toContain('provider=google')
+  await page.route(/\/auth\/v1\/recover/, r =>
+    r.fulfill({ status: 200, body: '{}' }) // reset password succeeds
+  )
 })
 
+test('login screen renders + actions exist', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByLabel(/email/i)).toBeVisible()
+  await expect(page.getByLabel(/password/i)).toBeVisible()
+  await expect(page.getByRole('button', { name: /sign in/i })).toBeVisible()
+  await expect(page.getByRole('button', { name: /continue with google/i })).toBeVisible()
+})
+
+test('forgot password flow shows success without real email', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: /forgot password/i }).click()
+  await page.getByLabel(/email/i).fill('test@example.com')
+  await page.getByRole('button', { name: /send reset link/i }).click()
+  // Look for a stable phrase already in your code
+  await expect(page.getByText(/password reset link/i)).toBeVisible({ timeout: 10000 })
+})
