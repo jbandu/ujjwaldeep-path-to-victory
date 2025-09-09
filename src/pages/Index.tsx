@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,14 @@ import { AlertCircle, Bug } from 'lucide-react';
 
 const Index: React.FC = () => {
   const { isAuthenticated, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect authenticated users to app
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      navigate('/app', { replace: true });
+    }
+  }, [isAuthenticated, loading, navigate]);
 
   if (loading) {
     return (
@@ -56,18 +64,18 @@ const Index: React.FC = () => {
             Join thousands of students who are already using UjjwalDeep to ace their exams.
             Start your journey today with our comprehensive test platform.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/app">
-              <Button size="lg" className="min-w-[200px]">
-                Enter App
-              </Button>
-            </Link>
-            <Link to="/auth">
-              <Button size="lg" variant="outline" className="min-w-[200px]">
-                Sign Up Free
-              </Button>
-            </Link>
-          </div>
+           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+             <Link to={isAuthenticated ? "/app" : "/auth"}>
+               <Button size="lg" className="min-w-[200px]">
+                 {isAuthenticated ? "Enter App" : "Get Started"}
+               </Button>
+             </Link>
+             <Link to="/auth">
+               <Button size="lg" variant="outline" className="min-w-[200px]">
+                 Sign Up Free
+               </Button>
+             </Link>
+           </div>
         </div>
       </section>
       
