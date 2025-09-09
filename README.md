@@ -72,6 +72,26 @@ To connect a domain, navigate to Project > Settings > Domains and click Connect 
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
 
+## Auth0 Integration
+
+### Auth0 Provisioning Endpoint
+
+The project includes an Auth0 provisioning endpoint at `/functions/v1/auth0-provision` that is called by an **Auth0 Post-Login Action**. This endpoint automatically creates or updates user records in the Supabase database when users authenticate through Auth0.
+
+**Required Environment Variables:**
+- `SUPABASE_URL` - Your Supabase project URL
+- `SUPABASE_SERVICE_ROLE_KEY` - Service role key for database access
+- `PROVISIONING_SECRET` - Secret key passed in the `x-provisioning-secret` header for authentication
+
+The Auth0 Post-Login Action should make a POST request to this endpoint with:
+```json
+{
+  "auth0_user_id": "auth0|user_id",
+  "email": "user@example.com",
+  "full_name": "User Name"
+}
+```
+
 ## Premium subscriptions
 
 This project includes basic premium subscription support using Razorpay and Supabase.

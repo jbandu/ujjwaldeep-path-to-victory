@@ -1,5 +1,8 @@
 project_id = "orxjqiegmocarwdedkpu"
 
+[functions.auth0-provision]
+verify_jwt = false
+
 [functions.gamification-ping]
 verify_jwt = true
 
