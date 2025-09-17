@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -8,8 +8,10 @@ import {
   LogOut,
   Trophy,
   Calendar,
-  Printer
+  Printer,
+  Shield
 } from 'lucide-react';
+import { checkIsAdmin } from '@/lib/admin/auth';
 import {
   Sidebar,
   SidebarContent,
@@ -66,13 +68,38 @@ const menuItems = [
   },
 ];
 
+const adminMenuItems = [
+  {
+    title: 'Admin Dashboard',
+    url: '/admin/dashboard',
+    icon: Shield,
+    description: 'Admin Panel'
+  },
+];
+
 export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const { user, signOut } = useAuth();
   const currentPath = location.pathname;
+  const [isAdmin, setIsAdmin] = useState(false);
   
   const collapsed = state === 'collapsed';
+
+  // Check admin status
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (!user) {
+        setIsAdmin(false);
+        return;
+      }
+      
+      const { isAdmin } = await checkIsAdmin(user.id);
+      setIsAdmin(isAdmin);
+    };
+
+    checkAdminStatus();
+  }, [user]);
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
@@ -132,6 +159,42 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {isAdmin && (
+          <SidebarGroup>
+            <SidebarGroupLabel className={collapsed ? 'sr-only' : ''}>
+              Administration
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className="space-y-1">
+                {adminMenuItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild className="h-12">
+                      <NavLink 
+                        to={item.url} 
+                        end 
+                        className={getNavCls}
+                        title={collapsed ? item.title : undefined}
+                      >
+                        <item.icon className="h-5 w-5 flex-shrink-0" />
+                        {!collapsed && (
+                          <div className="min-w-0 flex-1">
+                            <span className="block text-sm font-medium truncate">
+                              {item.title}
+                            </span>
+                            <span className="block text-xs text-muted-foreground truncate">
+                              {item.description}
+                            </span>
+                          </div>
+                        )}
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
 
       <SidebarFooter className="border-t border-border/50 p-4">
