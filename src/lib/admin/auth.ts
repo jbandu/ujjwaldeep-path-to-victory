@@ -19,14 +19,18 @@ export async function getCurrentUser(): Promise<{ user: User | null; error?: str
 
 export async function checkIsAdmin(userId: string): Promise<{ isAdmin: boolean; error?: string }> {
   try {
-    const { data, error } = await supabase.rpc('is_admin');
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('user_id', userId)
+      .maybeSingle();
     
     if (error) {
       console.error('Error checking admin status:', error);
       return { isAdmin: false, error: error.message };
     }
     
-    return { isAdmin: data === true };
+    return { isAdmin: data?.is_admin === true };
   } catch (error) {
     console.error('Unexpected error checking admin status:', error);
     return { isAdmin: false, error: 'Unexpected error occurred' };
