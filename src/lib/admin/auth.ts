@@ -19,12 +19,15 @@ export async function getCurrentUser(): Promise<{ user: User | null; error?: str
 
 export async function checkIsAdmin(userId: string): Promise<{ isAdmin: boolean; error?: string }> {
   try {
+    console.log('[checkIsAdmin] start', { userId });
     // First try the server-side helper which also considers service role/admin
     const { data: isAdminFlag, error: rpcError } = await supabase.rpc('is_admin');
+    console.log('[checkIsAdmin] rpc result', { isAdminFlag, rpcError });
+    if (!rpcError && typeof isAdminFlag === 'boolean') {
+      return { isAdmin: isAdminFlag };
+    }
     if (rpcError) {
       console.warn('is_admin RPC failed, falling back to profiles lookup:', rpcError);
-    } else if (typeof isAdminFlag === 'boolean') {
-      return { isAdmin: isAdminFlag };
     }
 
     // Fallback: read from profiles (RLS: user can read own row)
@@ -33,6 +36,7 @@ export async function checkIsAdmin(userId: string): Promise<{ isAdmin: boolean; 
       .select('is_admin')
       .eq('user_id', userId)
       .maybeSingle();
+    console.log('[checkIsAdmin] profiles result', { data, error });
     
     if (error) {
       console.error('Error checking admin status via profiles:', error);

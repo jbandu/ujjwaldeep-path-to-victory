@@ -14,12 +14,14 @@ const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ children }) =
 
   useEffect(() => {
     const checkAdminStatus = async () => {
+      console.log('[AdminProtectedRoute] authLoading:', authLoading, 'user:', user?.id)
       if (!user) {
         setAdminLoading(false);
         return;
       }
 
       const { isAdmin } = await checkIsAdmin(user.id);
+      console.log('[AdminProtectedRoute] isAdmin:', isAdmin)
       setIsAdmin(isAdmin);
       setAdminLoading(false);
     };
@@ -38,10 +40,12 @@ const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ children }) =
   }
 
   if (!user) {
+    console.log('[AdminProtectedRoute] no user, redirecting to /auth')
     return <Navigate to="/auth" replace />;
   }
 
   if (!isAdmin) {
+    console.log('[AdminProtectedRoute] not admin, redirecting to /app')
     return <Navigate to="/app" replace />;
   }
 

@@ -90,11 +90,13 @@ export function AppSidebar() {
   useEffect(() => {
     const checkAdminStatus = async () => {
       if (!user) {
+        console.log('[AppSidebar] no user -> isAdmin false')
         setIsAdmin(false);
         return;
       }
-      
+      console.log('[AppSidebar] checking admin for', user.id)
       const { isAdmin } = await checkIsAdmin(user.id);
+      console.log('[AppSidebar] isAdmin result:', isAdmin)
       setIsAdmin(isAdmin);
     };
 
@@ -175,6 +177,7 @@ export function AppSidebar() {
                         end 
                         className={getNavCls}
                         title={collapsed ? item.title : undefined}
+                        onClick={() => console.log('[AppSidebar] Navigate to admin')}
                       >
                         <item.icon className="h-5 w-5 flex-shrink-0" />
                         {!collapsed && (
@@ -210,6 +213,9 @@ export function AppSidebar() {
                 </p>
                 <p className="text-xs text-muted-foreground truncate">
                   {user.email}
+                </p>
+                <p className="text-xs text-muted-foreground truncate">
+                  Admin: {String(isAdmin)}
                 </p>
               </div>
             </div>

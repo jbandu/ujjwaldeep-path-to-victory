@@ -264,6 +264,9 @@ const Profile: React.FC = () => {
         <p className="text-muted-foreground">
           Manage your account and track your progress
         </p>
+        {user && (
+          <p className="text-xs text-muted-foreground">UserID: {user.id}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -293,7 +296,7 @@ const Profile: React.FC = () => {
                 className="w-full mb-4 bg-admin-accent hover:bg-admin-accent/90 text-admin-accent-foreground font-semibold" 
                 asChild
               >
-                <Link to="/admin">
+                <Link to="/admin" onClick={() => console.log('[Profile] Admin Access clicked') }>
                   <Settings className="h-4 w-4 mr-2" />
                   🔧 Admin Access
                 </Link>
