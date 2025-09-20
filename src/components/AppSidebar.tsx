@@ -71,7 +71,7 @@ const menuItems = [
 const adminMenuItems = [
   {
     title: 'Admin Dashboard',
-    url: '/admin/dashboard',
+    url: '/admin',
     icon: Shield,
     description: 'Admin Panel'
   },
