@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
@@ -69,7 +70,7 @@ const Billing: React.FC = () => {
               )}
             </>
           ) : (
-            <p>No subscription. <a href="/pricing" className="text-blue-600 underline">Upgrade</a></p>
+            <p>No subscription. <Link to="/pricing" className="text-blue-600 underline">Upgrade</Link></p>
           )}
         </CardContent>
       </Card>

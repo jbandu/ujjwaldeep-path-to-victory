@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -333,10 +334,10 @@ const Import: React.FC = () => {
             </p>
             <div className="flex justify-center gap-4">
               <Button asChild variant="outline">
-                <a href="/admin/questions?sort=created_at:desc">
+                <Link to="/admin/questions?sort=created_at:desc">
                   <Eye className="h-4 w-4 mr-2" />
                   View Imported Questions
-                </a>
+                </Link>
               </Button>
               <Button 
                 onClick={() => {
