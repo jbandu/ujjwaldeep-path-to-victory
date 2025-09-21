@@ -11,3 +11,16 @@ verify_jwt = true
 
 [functions.welcome-email]
 verify_jwt = false
+
+[auth]
+site_url = "http://localhost:8080"
+additional_redirect_urls = [
+  "http://localhost:8080",
+  "http://127.0.0.1:8080",
+  "http://localhost:8080/*",
+  "http://127.0.0.1:8080/*"
+]
+
+[auth.external.google]
+enabled = false   # disable Google locally for now
+
