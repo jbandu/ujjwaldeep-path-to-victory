@@ -1,0 +1,1107 @@
+
+=== Chemistry Q55 ===
+55. Identify the incorrect statement from the
+following.
+
+=== Chemistry Q56 ===
+56. What mass of 95% pure CaCO will be required
+3
+Sol. Answer (2)
+to neutralise 50 mL of 0.5 M HCl solution
+according to the following reactions? KOH  Absorbs CO
+2
+CaCO 2HCl CaCl CO H O Li  Used in Electro chemical cells
+3(s) (aq) 2(aq) 2(g) 2 (l)
+[Calculate upto second place of decimal point] Na  Coolant in fast breeder reactors
+(1) 3.65 g (2) 9.50 g Cs  Used in photoelectric cells
+(3) 1.25 g (4) 1.32 g 59. Match List -I with List - II.
+Sol. Answer (4) List-I List-II
+(Drug class) (Drug molecule)
+| |
+CaCO 2HClCaCl CO HO (a) Antacids (i) Salvarsan
+3 2 2 2
+9 'w 5 ' % gm Pure 5 0 0 .5 m M l (b) Antihistamines (ii) Morphine
+w 95 1 (c) Analgesics (iii) Cimetidine
+  0.550103
+100 100 2
+(d) Antimicrobials (iv) Seldane
+w 1.315g
+(2)
+NEET Test Paper
+Choose the correct answer from the options (4) Fibers possess high tensile strength.
+given below:
+Sol. Answer (2)
+(1) (a) - (i), (b) - (iv), (c) - (ii), (d) - (iii)
+Thermosetting are not remoulded or reshaped
+(2) (a) - (iv), (b) - (iii), (c) - (i), (d) - (ii)
+ They cannot be reused. Rest all statement
+(3) (a) - (iii), (b) - (ii), (c) - (iv), (d) - (i) are correct.
+(4) (a) - (iii), (b) - (iv), (c) - (ii), (d) - (i) 62. Given below are two statements:
+Sol. Answer (4) Statement I :
+Antacids  Cimetidine The boiling points of aldehydes and ketones
+are higher than hydrocarbons of comparable
+Antihistamines  Seldane
+molecular masses because of weak molecular
+Analgesics  Morphine association in aldehydes and ketones due to
+dipole - dipole interactions.
+Antimicrobials  Salvarsan
+Statement II :
+
+=== Chemistry Q61 ===
+61. Which statement regarding polymers is not
+the H-bonding.
+correct ?
+
+=== Chemistry Q65 ===
+65. The Kjeldahl's method for the estimation of
+nitrogen can be used to estimate the amount of
+nitrogen in which one of the following
+compounds ?
+(1) 67. Identify the incorrect statement from the
+following
+(1) Ionisation enthalpy of alkali metals
+decreases from top to bottom in the group.
+(2)
+(2) Lithium is the strongest reducing agent
+among the alkali metals.
+(3) Alkali metals react with water to form their
+hydroxides.
+(3) (4) The oxidation number of K in KO 2 is +4
+Sol. Answer (4)
+KO K O
+2 2
+(4)
+ O.N. of K = +1
+(4)
+NEET Test Paper
+
+=== Chemistry Q72 ===
+72. Given below are two statements
+
+=== Chemistry Q76 ===
+76. Given below are two statement:
+Sol. Answer (4)
+Statement I:
+Gadolinium has 4f75d16s2. It 3rd electron also
+The boiling points of the following hydrides of
+lost, it will get stable 4f7 configuration which
+group 16 elements increases in the order:
+has high exchange energy.
+H O < H S < H Se < H Te
+2 2 2 2
+
+=== Chemistry Q77 ===
+77. The pH of the solution containing 50 mL each
+HF  electron rich of 0.10 sodium acetate and 0.01 M acetic acid
+is
+
+=== Chemistry Q79 ===
+79. The incorrect statement regarding chirality is:
+(1) Enantiomers are superimposable mirror (1) (2)
+images on each other.
+(2) A racemic mixture shows zero optical
+rotation.
+(3) S 1 reaction yields 1 : 1 mixture of both (3) (4)
+N
+enantiomers. Sol. Answer (2)
+(4) The product obtained by S 2 reaction of
+N
+haloalkane having chirality at the reactive
+site shows inversion of configuration.
+Sol. Answer (1)
+The enantiomers are non-superimposable
+mirror images.
+7th carbon atom is in sp3 hybridisation.
+
+=== Chemistry Q81 ===
+81. Which of the following is suitable to synthesize
+chlorobenzene?
+(1)
+(1)
+(2)
+(3) Benzene, Cl , anhydrous FeCl
+2 3
+(4) Phenol, NaNO , HCl CuCl
+2
+Sol. Answer (3) (2)
+(7)
+
+=== Chemistry Q89 ===
+89. Match List - I with List - II.
+List - I List - II
+(Ores) (Composition)
+(a) Haematite (i) Fe O
+3 4
+(b) Magnetite (ii) ZnCO
+3
+
+=== Chemistry Q90 ===
+90. The product formed from the following reaction
+sequence is
+
+=== Chemistry Q92 ===
+92. The order of energy absorbed which is
+responsible for the color of complexes
+(A) [Ni(H O) (en) ]2+
+2 2 2
+(B) [Ni(H O) (en) ]2+
+2 4 2
+(C) [Ni(en) ]2+
+3
+(1) (C) > (A) > (B) (2) (B) > (A) > (C)
+(1)
+(3) (A) > (B) > (C) (4) (C) > (B) > (A)
+Sol. Answer (1)
+Energy absorbed  
+(2) 0
+Energy absorbed: (C) > (A) > (B)
+
+=== Chemistry Q97 ===
+97. Find the emf of the cell in which the following
+
+=== Physics Q8 ===
+8. A spherical ball is dropped in a long column of
+a highly viscous liquid. The curve in the graph
+shown, which represents the speed of the ball
+(��) as a function of time (t) is:
+y �n� �n �
+1 1 2 2
+�n � �n �
+1 1 2 2
+n �
+�n � 1 1
+2
+�
+2
+600
+�8�
+400
+n �12
+2
+(1) C (2) D
+
+=== Physics Q11 ===
+11. Match List-I with List-II
+(3) A (4) B
+List-I List-II
+Sol. Answer (4)
+(Electromagnetic waves) (Wavelength)
+As time passes viscous drag acting on ball
+(a) AM radio waves (i) 10-10 m
+increases and finally a stage comes, when its
+speed become constant (called terminal speed) (b) Microwaves (ii) 102 m
+(2)
+Test-4 (Code-A)
+(c) Infrared radiations (iii) 10-2 m Sol. Answer (2)
+(d) X-rays (iv) 10-4 m h
+��
+Choose the correct answer from the options p
+given below:
+(1) (a)-(iii), (b)-(iv), (c)-(ii), d-(i)
+(2) (a)-(ii), (b)-(iii), (c)-(iv), d-(i)
+(3) (a)-(iv), (b)-(iii), (c)-(ii), d-(i)
+(4) (a)-(iii), (b)-(ii), (c)-(i), d-(iv)
+Sol. Answer (2) 13. When light propagates through a material
+AM radio waves - 102 m medium of relative permittivity � r and relative
+microwaves - 10-2 m permeability � r ,the velocity of light, � is given
+by (c-velocity of light in vacuum)
+Infrared - 10-4 m
+� c
+x-rays - 10-10 m (1) � � r (2) � �
+� � �
+a-(ii), b-(iii), c-(iv), d-(i) r r r
+
+=== Physics Q12 ===
+12. The graph which shows the variation of the de �
+(3) ��c (4) � � r
+Broglie wavelength (�) of a particle and its �
+r
+associated momentum (p) is:
+Sol. Answer (2)
+(1)
+1 � �� r � 0
+��
+�� ��� �
+r 0
+1 1
+�� c �
+� � � � � �
+0 r 0 r 0 0
+c
+� ��
+(2) � �
+r r
+
+=== Physics Q14 ===
+14. If a soap bubble expands, the pressure inside
+the bubble:
+(1) remains the same
+(2) is equal to the atmospheric pressure
+(3) decreases
+(3) (4) increases
+Sol. Answer (3)
+4T
+P �P �
+in out R
+as
+4T
+Rincreases� decreases
+R
+(4)
+�P decreases(P �constant)
+in out
+
+=== Physics Q22 ===
+22. As the temperature increases, the electrical
+resistance ��BA
+(1) Increases for conductors but decreases for
+��0.5�12
+semiconductors
+(2) Decreases for conductors but increases for = 0.5 weber
+semiconductors
+
+=== Physics Q25 ===
+25.
+(3) Increases for both conductors and
+semiconductors
+(4) Decreases for both conductors and
+semiconductors
+Sol. Answer (1)
+On increasing temperature, Resistance increases
+in conductors and decreases in semiconductors
+
+=== Physics Q26 ===
+26. A copper wire of length 10 m and radius
+Sol. Answer (2) (10�2 / �)m has electrical resistance of 10�.
+Slope of straight line in x - t graph gives velocity The current density in the wire for an electric
+field strength of 10 (V/m) is:
+(5)
+(1) 10-5 A/m2 being related to the field produced by a scalar
+(2) 105 A/m2 source, Idl while the latter being produced by a
+vector source, q:
+(3) 104 A/m2
+In light of above statements choose the most
+(4) 106 A/m2
+appropriate answer from the options given
+Sol. Answer (2) below:
+10�2 (1) Statement I is correct and Statement II is
+Given l �10m, r � m incorrect
+�
+(2) Statement I is incorrect and Statement II is
+R �10�,E �10v/m
+correct
+Current density J= ? (3) Both Statement I and Statement II are
+correct
+E
+We know J ��E �
+� (4) Both Statement I and Statement II are
+incorrect
+El 10�10
+J � � Sol. Answer (1)
+RA 10�4
+10���
+Biot-Savart's law give magnetic field due to
+�
+current element ‘Idl’ which is a vector source.
+J �105A/m2
+
+=== Physics Q29 ===
+29. Two resistors of resistance, 100 � and 200 �
+
+=== Physics Q28 ===
+28. Given below are two statements: � 1 �
+H 1
+2
+Statement-I :
+
+=== Physics Q34 ===
+34. The peak voltage of the ac source is equal to:
+E �100�103�60�60J
+(1) 2 times the rms value of the ac source
+E �36�107 J
+1
+(2) times the rms value of the ac source
+
+=== Physics Q31 ===
+31. A long solenoid of radius 1 mm has 100 turns
+2
+per mm. If 1 A current flows in the solenoid, the
+magnetic field strength at the centre of the (3) The value of voltage supplied to the circuit
+solenoid is: (4) The rms value of the ac source
+(1) 12.56 × 10-4 T Sol. Answer (1)
+(2) 6.28 × 10-4 T We know that RMS voltage is
+(3) 6.28 × 10-2 T V
+V � 0
+(4) 12.56 × 10-2 T RMS 2
+Sol. Answer (4)
+Peak voltage = 2�V
+RMS
+N 100
+Given, r �10�3m, n� � 35. If the initial tension on a stretched string is
+l 10�3
+doubled, then the ratio of the initial and final
+Magnetic field strength at the centre of solenoid speeds of a transverse wave along the string
+is:
+B �� ni
+0
+(1) 1 : 2
+100
+�4��10�7� �1
+10�3 (2) 1:2
+(3) 1:1
+B �12.56�10�2T
+(4) 2 :1
+Sol. Answer (1)
+
+=== Physics Q37 ===
+37. A ball is projected with a velocity, 10 ms-1, at
+and Q, the current through the arms will be
+an angle of 60° with the vertical direction. Its
+feeble. This will make the accurate
+speed at the highest point of its trajectory will
+determination of null point to be difficult.
+be:
+
+=== Physics Q39 ===
+39. Two point charges -q and +q are placed at a
+(1) 5 ms-1 distance of L, as shown in the figure.
+(2) 10 ms-1
+(3) Zero
+(4)5 3ms-1
+Sol. Answer (4) The magnitude of electric field intensity at a
+distance R(R>>L) varies as:
+The angle with horizontal will be 30°
+1
+�at highest point of trajectory. (1)
+R4
+Vertical velocity is zero but only horizontal
+velocity remain non zero. i.e., 1
+(2)
+R6
+3
+�ucos30º�10� �5 3ms-1
+2 1
+(3)
+R2
+
+=== Physics Q49 ===
+49.
+1 1 0 1 0
+
+=== Physics Q50 ===
+50. The volume occupied by the molecules
+contained in 4.5 kg water at STP, if the
+intermolecular forces vanish away is
+(1) 5.6 × 10-3 m3
+The truth table for the given logic circuit is
+(2) 5.6 m3
+(1)
+(3) 5.6 × 106 m3
+(4) 5.6 × 103 m3
+Sol. Answer (2)
+In absence of intermolecular forces water will
+exist in vapour phase
+(2)
+PV �nRT
+m
+PV � RT
+M
+1.01�105�V �
+4.5�103
+�8.3�273
+18
+(3)
+V = 5.6 m3
+������� �
+(11)
+17/07/2022 Test Booklet
+Code-S5
+Regd. Office : Aakash Tower, 8, Pusa Road, New Delhi-110005, Ph.011-47623456
+Answer Key
+NEET 2022
+1 (1) 36 (3)
+2 (4) 37 (4)
+3 (1) 38 (4)
+4 (4) 39 (4)
+5 (1) 40 (1)
+6 (4) 41 (1)
+7 (1) 42 (4)
+8 (4) 43 (2)
+9 (4) 44 (1)
+10 (2) 45 (4)
+11 (2) 46 (4)
+12 (2) 47 (1)
+13 (2) 48 (1)
+14 (3) 49 (1)
+15 (4) 50 (2)
+16 (1)
+17 (2)
+18 (...)
+19 (1)
+20 (1)
+21 (4)
+22 (1)
+23 (2)
+24 (4)
+25 (2)
+26 (2)
+27 (1)
+28 (1)
+29 (4)
+30 (3)
+31 (4)
+32 (3)
+33 (1)
+34 (1)
+35 (1)
+(12)
+
+=== Biology Q101 ===
+101. Which one of the following statement is not true
+regarding gel electrophoresis technique? (4) Both Statement I and Statement II are
+incorrect
+(1) The presence of chromogenic substrate
+give blue coloured DNA bands on the gel Sol. Answer (3)
+(2) Bright orange coloured bands of DNA can Explanation: Both the statements are correct
+be observed in the gel when exposed to UV
+
+=== Biology Q104 ===
+104. XO type of sex determination can be found in :
+
+=== Biology Q108 ===
+108. Given below are two statements:
+Explanation: In older trees the greater part of
+Statement I: secondary xylem is dark brown and resistant to
+insect attack due to secretion of secondary
+The primary CO acceptor in C plants is
+2 4
+metabolites and their deposition in the lumen of
+phosphoenolpyruvate and is found in the
+vessels and deposition of organic compounds
+mesophyll cells like tannins and resins in the central layer of
+Statement II: stem.
+Mesophyll cells of C4 plants lack RuBisCo 110. Which one of the following produces nitrogen
+enzyme. In the light of the above statements, fixing nodules on the roots of Alnus?
+choose the correct answer from the options (1) Rhodospirillum
+given below:
+(2) Beijernickia
+(1) Statement I is correct but Statement II is
+(3) Rhizobium
+incorrect
+(4) Frankia
+(2) Statement I is incorrect but Statement II is
+correct Sol. Answer (4)
+(3) Both Statement I and Statement II are Explanation: Frankia is a gram positive species
+correct of actinomycete filamentous bacterium that
+lives in symbiosis with actinorhizal plants in the
+(4) Both Statement I and Statement II are
+genus Alnus.
+incorrect
+
+=== Biology Q111 ===
+111. Given below are two statements:
+Sol. Answer (3)
+Statement I :
+(2)
+Test-4 (Code-A)
+Decomposition is a process in which the Explanation: Hydrocolloid carrageen is
+detritus is degraded into simpler substances obtained from red algae.
+by microbes.
+
+=== Biology Q115 ===
+115. The flowers are Zygomorphic in:
+Explanation: Decomposition is the process of
+conversion of complex organic matter into (a) Mustard
+simple inorganic matter. Under different
+(b) Gulmohar
+environmental conditions, the rate of
+(c) Cassia
+decomposition may vary. If detritus is rich in
+lignin and chitin, the rate of decomposition is (d) Datura
+low and for nitrogen rich detritus rate of
+(e) Chilly
+decompostion is fast.
+Choose the correct answer from the options
+
+=== Biology Q1 ===
+1. Habitat loss and fragmentation Mustard, Datura and Chilly
+
+=== Biology Q2 ===
+2. Over exploitation 116. Which one of the following is not true
+
+=== Biology Q3 ===
+3. Alien species invasion regarding the release of energy during ATP
+synthesis through chemiosmosis ? It involves :
+
+=== Biology Q4 ===
+4. Co-extinction
+(1) Movement of protons across the membrane
+
+=== Biology Q117 ===
+117. The device which can remove particulate environment or phases of life to form different
+matter present in the exhaust from a thermal kinds of structures The ability is called
+power plant is: plasticity, e.g., heterophylly in cotton, coriander
+and larkspur. In such plants, the leaves of the
+(1) Electrostatic Precipitator
+juvenile plant are different in shape from those
+(2) Catalytic Convertor
+in mature plants.
+(3) STP
+
+=== Biology Q120 ===
+120. The process of translation of mRNA to proteins
+(4) Incinerator begins as soon as
+Sol. Answer (1) (1) Both the subunit join together to bind rRNA
+Electrostatic Precipitators (ESP) are very (2) The tRNA is activated and the larger
+efficient devices which remove 99% of the subunit of ribosome encounters mRNA
+particulate present in the industrial and thermal
+(3) The small subunit of ribosome encounter
+plant exhaust.
+mRNA
+
+=== Biology Q118 ===
+118. Given below are two statements: one is
+(4) The larger subunit of ribosome encounter
+labelled as Assertion (A) and other is labelled
+mRNA
+as Reason (R).
+Sol. Answer (3)
+Assertion (A) :
+Process of translation begins when small
+Polymerase chain reaction is used in DNA
+subunit of ribosome encounter mRNA.
+amplification
+
+=== Biology Q119 ===
+119. Which one of the following plants does not A typical nucleosome contains 200 bp of DNA
+show plasticity? helix
+(1) Buttercup
+(4)
+Test-4 (Code-A)
+
+=== Biology Q122 ===
+122. Read the following statements about the (3) Movement of water occurs through
+vascular bundles : intercellular spaces and wall of the cells
+(a) In roots, xylem and phloem in a vascular (4) The movement does not involve crossing of
+bundle are arranged in an alternate manner cell membrane
+along the different radii.
+Sol. Answer (1)
+(b) Conjoint closed vascular bundles do not
+Apoplastic pathway is not aided by
+possess cambium
+cytoplasmic streaming
+(c) I n open vascular bundles, cambium is
+Cytoplasmic streaming helps in symplastic
+present in between xylem and phloem
+pathway.
+(d) The vascular bundles of dicotyledonous
+
+=== Biology Q123 ===
+123. Exoskeleton of arthropods is composed of
+Colchicum, Allium - Liliaceae
+(1) Chitin
+
+=== Biology Q124 ===
+124. What is the net gain of ATP when each
+DNA polymorphism is the basis of genetic
+molecule of glucose is converted to two
+mapping of genome and of DNA fingerprinting.
+molecules of pyruvic acid?
+
+=== Biology Q133 ===
+133. Match List- I with List- II.
+Bougainvillea
+(a) Manganese (i) Activates the
+
+=== Biology Q131 ===
+131. Given below are two statements: (2) (a)- (iii), (b)-(i), (c)-(ii), (d)- (iv)
+Statement I: Cleistogamous flowers are (3) (a)-(iii), (b)- (iv), (c)-(i), (d)-(ii)
+invariably autogamous
+(4) (a)-(iv), (b)- (iii), (c)- (ii), (d)-(i)
+Statement II: Cleistogamy is disadvantageous
+Sol. Answer (4)
+as there is no chance for cross pollination
+Iron - Activate catalase
+In the light of the above statements, choose the
+Boron - Help in pollen germination
+correct answer from the options given below :
+Manganese - Plays major role in splitting of
+(1) Statement I is correct but Statement II is
+water and release of oxygen during
+incorrect
+photosynthesis
+(2) Statement I is incorrect but Statement II is
+Magnesium - Activate several enzymes during
+correct
+photosynthesis and respiration.
+(3) Both Statement I and Statement II
+
+=== Biology Q134 ===
+134. Which one of the following never occurs during
+arecorrect
+mitotic cell division?
+(4) Both Statement I and Statement II are
+(1) Pairing of homologous chromosomes
+incorrect
+(2) Coiling and condensation of the chromatids
+Sol. Answer (3)
+(6)
+Test-4 (Code-A)
+(3) Spindle fibres attach to kinetochores of (1) (a)-(iii), (b)-(iv), (c)-(i), (d)-(ii)
+chromosomes
+(2) (a)-(ii), (b)-(iv), (c)-(i), (d)-(iii)
+(4) Movement of centrioles towards opposite
+(3) (a)- (iv),(b)-(i), (c)-(ii), (d)- (iii)
+poles
+(4) (a)-(ii), (b)-(iii), (c)-(iv), (d)-(i)
+Sol. Answer (1)
+Sol. Answer (4)
+Pairing of homologous chromosome (Synapsis)
+• Spirogyra is a green alage, haplontic life
+occurs during meiosis
+cycle.
+
+=== Biology Q142 ===
+142. Read the following statements on lipids and
+find out correct set of statements: Palindromic base sequence of DNA is one that
+reads the same in 5′ → 3′ and 3′ → 5′ direction
+(a) Lecithin found in the plasma membrane is a
+glycolipid 5′-G↓AATTC - 3′ This is the recognition
+(b) Saturated fatty acids possess one or more 3′-CTTAA G - 5′ Site for EcoRI enzyme.
+↑
+c = c bonds
+
+=== Biology Q102 ===
+102. Given below are two statements
+Commensalism - (+/o)
+Statement I:
+Competition - (-/-)
+Mendel studied seven pairs of contrasting traits
+Amensalism - (-/o)
+in pea plants and proposed the Laws of
+
+=== Biology Q103 ===
+103. Which of the following is incorrectly matched?
+(4) Pollination by wind is more common
+(1) Porphyra - Floridian Starch
+amongst abiotic pollination
+(2) Volvox - Starch
+Sol. Answer (2)
+(3) Ectocarpus - Fucoxanthin
+Explanation: The most dominant pollinating
+(4) Ulothrix - Mannitol
+agent among insects are Bees (80%).
+Sol. Answer (4)
+
+=== Biology Q108 ===
+108. Given below are two statements:
+Explanation: The reserve food material found in
+Statement I:
+Ulothrix (Green alga) is Starch.
+The primary CO acceptor in C plants is
+2 4
+
+=== Biology Q111 ===
+111. Given below are two statements:
+Sol. Answer (1)
+Statement I :
+Explanation: Hydrocolloid carrageen is
+Decomposition is a process in which the
+obtained from red algae.
+detritus is degraded into simpler substances
+by microbes. 114. "Girdling Experiment" was performed by
+Plant Physiologists to identify the plant tissue
+Statement II :
+through which:
+Decomposition is faster if the detritus is rich in
+(1) for both water and food transportation
+lignin and chitin
+(2) osmosis is observed
+In the light of the above statements, choose the
+correct answer from the options given below : (3) water is transported
+(1) Statement I is correct but Statement II is (4) food is transported
+incorrect
+Sol. Answer (4)
+(2) Statement I is incorrect but Statement II is
+Girdling experiment demonstrate that phloem is
+correct
+responsible for translocation of food because
+(3) Both Statement I and Statement II are the phloem is present outside the xylem, so
+correct when a ring of bark is removed from a woody
+plant, the woody xylem part remains intact,
+(4) Both Statement I and Statement II are
+which causes the water and the nutrients to
+incorrect
+reach the least.
+Sol. Answer (1)
+
+=== Biology Q115 ===
+115. The flowers are Zygomorphic in:
+Explanation: Decomposition is the process of
+(a) Mustard
+conversion of complex organic matter into
+(12)
+Test-4 (Code-A)
+(b) Gulmohar 118. Given below are two statements: one is
+labelled as Assertion (A) and other is labelled
+(c) Cassia
+as Reason (R).
+(d) Datura
+Assertion (A) :
+(e) Chilly
+Polymerase chain reaction is used in DNA
+Choose the correct answer from the options
+amplification
+given
+Reason (R):
+(1) (d), (e) Only
+The ampicillin resistant gene is used as a
+(2) (c), (d), (e) Only
+selectable marker to check transformation
+(3) (a), (b), (c) Only
+In the light of the above statements, choose the
+(4) (b), (c) Only correct answer from the options given below:
+Sol. Answer (4) (1) (A) is correct but (R) is not correct
+Examples of zygomorphic flowers : (2) (A) is not correct but (R) is correct
+Gulmohar and Cassia (3) Both (A) and (R) are correct and (R) is the
+correct explanation of (A)
+Examples of Actinomorphic flowers :
+(4) Both (A) and (R) are correct but (R) is not
+Mustard, Datura and Chilly
+the correct explanation of (A)
+
+=== Biology Q116 ===
+116. Which one of the following is not true
+Sol. Answer (4)
+regarding the release of energy during ATP
+synthesis through chemiosmosis ? It involves :  PCR enables the amplification of billions of
+copies of temtlate DNA.
+(1) Movement of protons across the membrane
+ Antibiotic resistance genes i.e. amplicillin
+to the stroma
+resistant and tetracycline resistant gene act
+(2) Reduction of NADP to NADPH on the
+2 as selectable markers to distinguish
+stroma side of the membrane
+between transformant and non
+(3) Breakdown of proton gradient transformant, recombinant and non
+recombinant.
+(4) Breakdown of electron gradient
+
+=== Biology Q119 ===
+119. Which one of the following plants does not
+Sol. Answer (4)
+show plasticity?
+Explanation: According to chemiosmotic
+(1) Buttercup
+hypothesis, there is a breakdown of proton
+gradient by the movement of protons across (2) Maize
+the membrane to the stroma and reduction of
+(3) Cotton
+NADP to NADPH2 on the stroma side of the
+(4) Coriander
+membrane.
+Sol. Answer (2)
+
+=== Biology Q120 ===
+120. The process of translation of mRNA to proteins
+Sol. Answer (1)
+begins as soon as
+Electrostatic Precipitators (ESP) are very
+(1) Both the subunit join together to bind rRNA
+efficient devices which remove 99% of the
+particulate present in the industrial and thermal (2) The tRNA is activated and the larger
+plant exhaust. subunit of ribosome encounters mRNA
+(3) The small subunit of ribosome encounter
+mRNA
+(13)
+(4) The larger subunit of ribosome encounter Sol. NA
+mRNA
+
+=== Biology Q123 ===
+123. Exoskeleton of arthropods is composed of
+Sol. Answer (3)
+(1) Chitin
+Process of translation begins when small
+(2) Glucosamine
+subunit of ribosome encounter mRNA.
+(3) Cutin
+
+=== Biology Q121 ===
+121. Read the following statements and choose the
+(4) Cellulose
+set of correct statements
+Sol. Answer (1)
+(a) Euchromatin is loosely packed chromatin
+The exoskeleton of arthropods is composed of
+(b) Heterochromatin is transcriptionally active
+Chitin.
+(c) Histone octomer is wrapped by negative
+
+=== Biology Q125 ===
+125. Which of the following is not observed during
+Euchromatin is loosely, lightly stained apoplastic pathway?
+chromatin.
+(1) The movement is aided by cytoplasmic
+Heterochromatin is transcriptionally inactive. streaming
+A typical nucleosome contains 200 bp of DNA (2) Apoplast is continuous and does not
+helix provide any barrier to water movement.
+
+=== Biology Q122 ===
+122. Read the following statements about the (3) Movement of water occurs through
+vascular bundles : intercellular spaces and wall of the cells
+(a) In roots, xylem and phloem in a vascular (4) The movement does not involve crossing of
+bundle are arranged in an alternate manner cell membrane
+along the different radii.
+Sol. Answer (1)
+(b) Conjoint closed vascular bundles do not
+Apoplastic pathway is not aided by
+possess cambium
+cytoplasmic streaming
+(c) I n open vascular bundles, cambium is
+Cytoplasmic streaming helps in symplastic
+present in between xylem and phloem
+pathway.
+(d) The vascular bundles of dicotyledonous
+
+=== Biology Q129 ===
+129. Identify the correct set of statements: correct
+(a) The leaflets are modified into pointed hard (3) Both Statement I and Statement II
+thorns in Citrus and Bougainvillea arecorrect
+(b) Axillary buds form slender and spirally (4) Both Statement I and Statement II are
+coiled tendrils in cucumber and pumpkin incorrect
+(c) Stem is flattened and fleshy in Opuntia and Sol. Answer (3)
+modified to perform the function of leaves
+Both the statements are correct.
+(d) Rhizophora shows vertically upward
+Cleistogamous flowers are close flowers so
+growing roots that help to get oxygen for
+they are invariably autogamous and there is no
+respiration
+chance of cross pollination due to which
+(e) Subaerially growing stems in grasses and genetic diversity is reduced
+strawberry help in vegetative propagation
+
+=== Biology Q142 ===
+142. Read the following statements on lipids and
+Sol. Answer (4)
+find out correct set of statements:
+(18)
+Test-4 (Code-A)
+Palindromic base sequence of DNA is one that (+) for one species and (-) for another species
+reads the same in 5′ → 3′ and 3′ → 5′ direction involved in the interaction ?
+5′-G↓AATTC - 3′ This is the recognition (1) Commensalism (2) Competition
+3′-CTTAA G - 5′ Site for EcoRI enzyme. (3) Predation (4) Amensalism
+↑
+
+=== Biology Q149 ===
+149. If a geneticist uses the blind approach for
+Same diesel engine cannot be used in CNG sequencing the whole genome of an organism,
+buses. followed by assignment of function to different
+segments, the methodology adopted by him is
+
+=== Biology Q147 ===
+147. Transposons can be used during which one of
+Annotation.
+the following?
+
+=== Biology Q151 ===
+151. Natural selection where more individuals
+
+=== Biology Q155 ===
+155. Tegmina in cockroach, arises from:
+For example, Industrial melanism
+(1) Metathorax
+
+=== Biology Q157 ===
+157. Identify the asexual reproductive structure
+statement 2 is incorrect.
+associated with Penicillium:
+
+=== Biology Q159 ===
+159. Breeding crops with higher levels of vitamins
+
+=== Biology Q160 ===
+160. Under normal physiological conditions in
+
+=== Biology Q161 ===
+161. In which of the following animals, digestive bind with inducer (lactose), so it will bind at
+tract has additional chambers like crop and operator region and will prevent RNA
+gizzard? polymerase from transcribing the operon.
+(1) Catla, Columba, Crocodilus If transcription of z, y, a gene will not occur
+then translation will also not occur.
+(2) Pavo, Psittacula, Corvus
+(21)
+
+=== Biology Q168 ===
+168. Given below are two statements:
+Between two adjacent vertebrae, a disc or pad
+Statement I :
+of fibrous cartilage is present called
+The release of sperms into the seminiferous
+intervertebral disc. It provides flexibility to
+tubules is called spermiation.
+vertebral column.
+Statement II :
+
+=== Biology Q169 ===
+169. Given below are two statements :
+(4) Both Statement I and Statement II are
+incorrect Statement I :
+Sol. Answer (3) The coagulum is formed of network of threads
+called thrombins.
+Fatty acids and glycerol being insoluble cannot
+be absorbed into the blood. They are first Statement II :
+incorporated into small droplets called micelles
+Spleen is the graveyard of erythrocytes.
+which move into intestinal mucosa. They are re-
+In the light of the above statements, choose the
+formed into very small protein coated fat
+most appropriate answer from the options
+globules called chylomicrons which are
+given below :
+transported into lymph capillaries(lacteals) in
+the villi. These release chylomicrons into lymph (1) Statement I is correct but Statement II is
+vessels which ultimately release absorbed incorrect
+substances into the bloodstream.
+(2) Statement I is incorrect but Statement II is
+
+=== Biology Q174 ===
+174. Which of the following is a correct match for
+Explanation: Source of cyclosporin is a fungus
+disease and its symptoms ?
+named Trichoderma polysporum. Cyclosporin
+(1) Myasthenia gravis - Genetic disorder
+is an immune suppresent which is used during
+resulting in weakening and paralysis of skeletal
+organ transplant to suppress the immune
+muscle
+response.
+(2) Muscular dystrophy - An autoimmune....
+
+=== Biology Q171 ===
+171. Which of the following statements are true for
+disorder causing progressive degeneration of
+spermatogenesis but do not hold true for
+skeletal muscle
+Oogenesis ?
+(3) Arthritis - Inflammed joints
+(a) It results in the formation of haploid
+gametes (4) Tetany - high Ca2+ level causing rapid
+spasms.
+(b) Differentiation of gamete occurs after the
+completion of meiosis Sol. Answer (3)
+(c) Meiosis occurs continuously in a mitotically Myasthenia Gravis: Autoimmune disorder
+dividing stem cell population affecting neuromuscular junction leading to
+fatigue, weakening and paralysis of skeletal
+(d) It is controlled by the Luteinising hormone
+muscle
+(LH) and Follicle Stimulating Hormone
+(FSH) secreted by the anterior pituitary Muscular Dystrophy: Progressive degeneration
+of skeletal muscle mostly due to genetic
+(e) It is initiated at puberty
+disorder
+Choose the most appropriate answer from the
+Tetany: Rapid spasms in muscles due to low
+options given below:
+calcium in body fluids.
+(1) (b), (d) and (e) only
+
+=== Biology Q176 ===
+176. Regarding Meiosis, which of the statements is
+(4) Conserve only high risk species
+incorrect ?
+Sol. Answer (3)
+(1) Pairing of homologous chromosomes and
+In situ conservation conserves the whole flora
+recombination occurs in Meiosis-I
+and fauna in their local place. Examples of in-
+(23)
+(2) Four haploid cells are formed at the end of Statement I
+Meiosis-II
+Restriction endonucleases recognise specific
+(3) There are two stages in Meiosis, Meiosis-I sequence to cut DNA known as palindromic
+and II nucleotide sequence.
+(4) DNA replication occurs in S phase of Statement II
+Meiosis-II
+Restriction endonucleases cut the DNA strand
+Sol. Answer (4) a little away from the centre of the palindromic
+site.
+DNA replication always occurs in the S-phase
+of interphase (both mitosis and meiosis) In the light of the above statements, choose the
+most appropriate answer from the options
+In Meiosis-I and II there is no DNA replication.
+given below:
+
+=== Biology Q178 ===
+178. Which of the following is not a connective
+
+=== Biology Q180 ===
+180. Given below are two statements: levels of estrogen.
+(24)
+Test-4 (Code-A)
+In the light of the above statements, choose the (3) Both statement I and Statement II are
+most appropriate answer from the options correct
+given below:
+(4) Both Statement I and Statement II are
+(1) (A) is correct but (R) is not correct incorrect
+(2) (A) is not correct but (R) is correct Sol. Answer (1)
+(3) Both (A) and (R) are correct and (R) is the Rheumatoid arthritis is an autoimmune disorder
+correct explanation of (A) where body attack self-cells
+(4) Both (A) and (R) are correct but (R) is not 186. The recombination frequency between the
+the correct explanation of (A) genes a & c is 5%, b & c is 15%, b & d is 9%, a
+& b is 20%, c & d is 24 and a & d is 29%. What
+Sol. Answer (1)
+will be the sequence of these genes on a linear
+Common cause of osteoporosis is decreased
+chromosome?
+levels of estrogen
+(1) a, b, c, d
+
+=== Biology Q187 ===
+187. Match List -I with List - II.
+8
+Death rate in the population is = 0.1 List-I List-II
+80
+(Biological Molecules) (Biological functions)
+
+=== Biology Q191 ===
+191. If a colour blind female marries a man whose
+
+=== Biology Q190 ===
+190. Match List-I and List-II with respect to
+methods of Contraception and their respective xcxc-affected xcy-affected
+actions.
+List - I List - II
+(a) Diaphragms (i) Inhibit ovulation and
+Implantation
+(b) Contraceptive (ii) Increase
+Pills phagocytosis
+of sperm within
+Since male gets his x-(cid:1)(cid:3)(cid:4)(cid:5)(cid:6)(cid:5)(cid:7)(cid:5)(cid:6)(cid:8)(cid:9) from
+Uterus
+mother, in this case the man is also color blind
+(c) Intra Uterine (iii) Absence of
+and as a result, all her progeny are color blind.
+(26)
+Test-4 (Code-A)
+
+=== Biology Q196 ===
+196. Statements related to human Insulin are given
+Cyanobacteria are photosynthetic, autotrophic,
+below. Which statement(s) is/are correct about
+prokaryotes. They have chlorophyll a similar to
+genetically engineered Insulin?
+green plants (chief photosynthetic pigment)
+(a) Pro-hormone insulin contain extra stretch
+Slime moulds are saprophytic organisms
+of C-peptide
+classified under kingdom Protista not Monera
+(b) A-peptide and B-peptide chains of insulin
+Mycoplasma are smallest known organisms,
+were produced separately in E.coli,
+they lack a cell wall.
+extracted and combined by creating
+Bacteria are not exclusively heterotrophic, they disulphide bond between them.
+have diverse nutrition types
+(c) Insulin used for treating Diabetes was

@@ -1,0 +1,624 @@
+id,subject,chapter,topic,stem,options,correct_index,explanation,difficulty,language,source,status,created_by,created_at,difficulty_ai,bloom_level,ai_flags,reviewed_by,reviewed_at,updated_at,tags
+1001,Chemistry,Chemical Bonding,Molecular Structure,"Which of the following statement is not correct Sol. Answer (3)
+about diborane ?
+I forms covalent bond which is more stronger
+2","[""100 mL of solvent"", ""1000 g of solvent"", ""There are two 3-centre-2-eIectron bonds. 53. In one molal solution that contains 0.5 mole of\na solute, there is"", ""The four terminal B-H bonds are two centre\ntwo electron bonds.""]",1,"{""text"": ""Answer (2)\n(3) 500 mL of solvent\n(4) 500 g of solvent\nSol. Answer (4)\n1000\nmn \nB w\nA\nIn diborane both the boran atoms are sp3\n1000\nhybridized. 10.5\nw\nA""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.333361,,Apply,,,,2025-09-21T11:09:08.333361,"[""neet-2022"", ""chemistry""]"
+1002,Chemistry,Chemical Bonding,Molecular Structure,"Given below are two statements: one is
+w 500g
+labelled as Assertion (A) and the other is A
+labelled as Reason (R). 54. Given below are half-cell reactions :
+Assertion (A): ICl is more reactive than I 2 . MnO 4  8H 5e Mn2 4H 2 O
+Reason (R): ICl bond is weaker than I-I bond. Eo 1.510V
+Mn2/MnO
+4
+In the light of the above statements, choose the
+1
+most appropriate answer from the options O 2H 2e H O,
+given below: 2 2 2","[""Yes, because E° = + 2.733 V\ncell"", ""No, because E° = - 2.733 V\nthe correct explanation of (A). cell"", ""Yes, because E° = + 0.287 V\ncell"", ""No, because E°\ncell\n= - 0.287 V\n(1)""]",2,"{""text"": ""Answer (3) 57. RMgXCO dryYH3ORCOOH\n2 ether\n(c) MnO 8H Se Mn2 4HO\n4 2 What is Y in the above reaction?\nEo (1) RCOOX (2) (RCOO) Mg\nMnO4 /Mn21.510 2\n1 (3) RCOOMgX (4) R COMgX\n(a) H O O 2H 2e 3\n2 2 2\nSol. Answer (3)\nEo\nO2/H2O1.223V\n Eo Eo Eo\ncell c a\n1.511.223\n0.287V\nSince Eo is positive, O will be released.\ncell 2""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.333461,,Apply,,,,2025-09-21T11:09:08.333461,"[""neet-2022"", ""chemistry""]"
+1003,Chemistry,General Chemistry,Mixed,Match List - I with List - II.,"[""In an atom, all the five 3d orbitals are equal\nin energy in free state. List - I List - II"", ""The shapes of d , d , and d orbitals are (a) Li (i) absorbent for\nxy yz zx\nsimilar to each other; and d x2y2 and d z2 are carbon dioxide\nsimilar to each other.\n(b) Na (ii) electrochemical"", ""All the five 5d orbitals are different in size\ncells\nwhen compared to the respective 4d\norbitals. (c) KOH (iii) coolant in fast"", ""All the five 4d orbitals have shapes similar breeder reactors\nto the respective 3d orbitals.\n(d) Cs (iv) photoelectric cell""]",1,"{""text"": ""Answer (2)\nChoose the correct answer from the options\nIn d-subshell\ngiven below:\nd , d and d , lobes are found between the\nxy yz xz (1) (a)-(i), (b)-(iii), (c)- (iv), (d)-(ii)\naxis and their shapes are same.\n(2) (a)-(ii), (b)- (iii), (c)- (i), (d)- (iv)\nBut in d and d , the lobes are along the\nx2y2 z2\n(3) (a)-(iv), (b)-(i), (c)-(iii), (d)-(ii)\naxis and their shapes are different.\n(4) (a)-(iii), (b)- (iv), (c)- (ii), (d)-(i)""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.333877,,Apply,,,,2025-09-21T11:09:08.333877,"[""neet-2022"", ""chemistry""]"
+1004,Chemistry,General Chemistry,Mixed,"Which one is not correct mathematical equation
+for Dalton's Law of partial pressure? Here p = The boiling points of aldehydes and ketones
+total pressure of gaseous mixture are lower than the alcohols of similar molecular
+masses due to the absence of H-bonding.","[""Statement I is correct but Statement II is\nincorrect.\ngas in gaseous mixture"", ""Statement I is incorrect but Statement II is\npo = pressure of ith gas\ni correct.\nin pure state"", ""p = p + p + p correct.\n1 2 3"", ""pn n n\n1 V 2 V 3 V incorrect.""]",2,"{""text"": ""Answer (3)\nSol. Answer (2)\nThe boiling points of aldehydes and ketones\np = x po is mathematical form of Raoult’s law\ni i i are comparatively higher than those of\nrest all represents Dalton’s law\nhydrocarbons of comparable molecular mass\ni.e. due to appreciable intermolecular attraction\n(dipole-dipole) between the opposite ends of\n(i) p = x p\ni i Total\ndipoles.\n(ii) p\ntotal\n= p\n1\n+ p\n2\n+ p\n3\nRT RT RT The boiling point of aldehyde and ketones are\nn n n\n1 V 2 V 3 V lower than corresponding alcohols of\ncomparable molecular mass due to absence of""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334109,,Apply,,,,2025-09-21T11:09:08.334109,"[""neet-2022"", ""chemistry""]"
+1005,Chemistry,General Chemistry,Mixed,The IUPAC name of an element with atomic,"[""unununnium"", ""Thermosetting polymers are reusable. Sol. Answer"", ""Elastomers have polymer chains held 119  ununennium\ntogether by weak intermolecular forces. For 1  un\n9  enn is used.\n(3)"", ""unnilennium""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334209,,Apply,,,,2025-09-21T11:09:08.334209,"[""neet-2022"", ""chemistry""]"
+1006,Chemistry,Electrochemistry,Redox / Cells,"At 298 K, the standard electrode potentials of Sol. Answer","[""FeSO (aq) + Zn(s)  ZnSO (aq) + Fe(s)\n4 4"", ""2CuSO (aq) + 2Ag(s)2Cu(s) +\n4\nAg SO (aq)\n2 4"", ""CuSO (aq) + Zn(s)  ZnSO (aq) + Cu(s)\n4 4"", ""CuSO (aq) + Fe(s)  FeSO (aq) + Cu(s)\n4 4""]",1,"{""text"": ""Answer (2) The y and x axes for zero and first order\n(1) E EE reactions, respectively are\ncell c A\n(1) zero order (y = rate and x = concentration),\n=0.44(0.76)\nfirst order (y = t\n1/2\n, and x = concentration)\n 0.32V (willoccurs)\n(2) zero order (y = rate and x = concentration),\nfirst order (y = rate and x = t )\n(2) E EE 1/2\ncell c A\n(3) zero order (y = concentration and x = time),\n= 0.34(0.80) first order (y = t and x = concentration)\n1/2\n 0.46V (willnotoccurs) (4) zero order (y = concentration and x = time),\nfirst order (y = rate constant and x =\n(3) E EE\ncell c a concentration)\n= 0.34(0.76) Sol. Answer (1)\n 1.10V (willoccurs)\n(4) E EE\ncell c a\n= 0.34(0.44)\n 0.78V (willoccurs)""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334281,,Apply,,,,2025-09-21T11:09:08.334281,"[""neet-2022"", ""chemistry""]"
+1007,Chemistry,General Chemistry,Mixed,"Given below are two statements: one is 71. Given below are two statements
+labelled as Assertion (A) and the other is
+Statement I:
+labelled as Reason (R).
+In the coagulation of a negative sol, the
+Assertion (A):
+flocculating power of the three given ions is in
+In a particular point defect, an ionic solid is the order Al3+ > Ba2+ > Na+
+electrically neutral, even if few of its cations are
+Statement II:
+missing from its unit cells.
+In the coagulation of a positive sol, the
+Reason (R):
+flocculating power of the three given salts is in
+In an ionic solid, Frenkel defect arises due to the order NaCl > Na SO > Na PO
+2 4 3 4
+dislocation of cation from its lattice site to
+In the light of the above statements, choose the
+interstitial site, maintaining overall electrical
+most appropriate answer from the options
+neutrality.
+given below
+In the light of the above statements, choose the","[""(A) is correct but (R) is not correct\ncorrect"", ""(A) is not correct but (R) is correct"", ""Both (A) and (R) are correct and (R) is the correct\ncorrect explanation of (A)"", ""Both (A) and (R) are correct but (R) is not incorrect.\nthe correct explanation (A)""]",0,"{""text"": ""Answer (1)\nSol. Answer (4)\nStatement - II is incorrect. The flocculation\nIn particular point defect ionic solid remains power of anions is Na PO > Na SO > NaCl\n3 4 2 4\nelectrically neutral""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334474,,Apply,,,,2025-09-21T11:09:08.334474,"[""neet-2022"", ""chemistry""]"
+1008,Chemistry,General Chemistry,Mixed,"The IUPAC name of the complex-
+Statement I:
+[Ag(H O) ][Ag(CN) ] is:
+2 2 2
+Primary aliphatic amines react with HNO to
+2","[""dicyanidosilver(I) diaquaargentate(I)\ngive unstable diazonium salts."", ""diaquasilver(I) dicyanidoargentate(I)\nStatement II:"", ""dicyanidosilver(II) diaquaargentate(II)\nPrimary aromatic amines react with HNO to\n2"", ""diaquasilver(II) dicyanidoargentate(II) form diazonium salts which are stable even\nabove 300 K. In the light of the above""]",1,"{""text"": ""Answer (2)\nstatements, choose the most appropriate\nIUPAC name is diaquasilver (I)\nanswer from the options given below\ndicyanidoargentate (I)\n(1) Statement I is correct but Statement II is""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334572,,Apply,,,,2025-09-21T11:09:08.334572,"[""neet-2022"", ""chemistry""]"
+1009,Chemistry,General Chemistry,Mixed,"Choose the correct statement:
+incorrect.","[""Diamond is sp3 hybridised and graphite is\nsp2 hybridized."", ""Both diamond and graphite are used as dry correct.\nlubricants."", ""Diamond and graphite have two correct\ndimensional network."", ""Diamond is covalent and graphite is ionic. incorrect.""]",0,"{""text"": ""Answer (1) Sol. Answer (1)\nIn diamond carbon atom is in sp3 hybridisation Statement- II is incorrect. The aromatic\nIn graphite carbon atom is in sp2 hybridisation diazonium salts are unstable above 300 K\n(5)""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334614,,Apply,,,,2025-09-21T11:09:08.334614,"[""neet-2022"", ""chemistry""]"
+1010,Chemistry,General Chemistry,Mixed,"Gadolinium has a low value of third ionisation Sol. Answer (2)
+enthalpy because of
+Cyanohydrin  HCN","[""high electronegativity\nAcetal  Alcohol"", ""high basic character\nSchiff's base  R-NH\n2"", ""small size\nOxime  NH -OH\n2"", ""high exchange enthalpy""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334652,,Apply,,,,2025-09-21T11:09:08.334652,"[""neet-2022"", ""chemistry""]"
+1011,Chemistry,General Chemistry,Mixed,"List Match-List with I-.II
+Statement II:
+List - I List - II
+The boiling points of these hydrides increase
+(Hydrides) (Nature)
+with increase in molar mass.
+(a) MgH (i) Electron precise
+2 In the light of the above statements, choose the
+(b) GeH (ii) Electron deficient most appropriate answer from the options
+4
+given below:
+(c) B H (iii) Electron rich
+2 6","[""(a) - (i), (b) - (ii), (c) - (iv), (d) - (iii)"", ""(a) - (ii), (b) - (iii), (c) - (iv), (d) - (i)\ncorrect"", ""(a) - (iv), (b) - (i), (c) - (ii), (d) - (iii)"", ""(a) - (iii), (b) - (i), (c) - (ii), (d) - (iv) incorrect""]",2,"{""text"": ""Answer (3) Sol. Answer (4)\nMgH 2  Ionic Statement I, II are wrong as H 2 O has high\nGeH  electron precise boiling point in the group due to intermolecular\n4\nhydrogen bond.\nB H  electron deficient\n2 6""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334789,,Apply,,,,2025-09-21T11:09:08.334789,"[""neet-2022"", ""chemistry""]"
+1012,Chemistry,General Chemistry,Mixed,"List Match-List with I-.II
+[Given pK of CH COOH = 4.57]
+a 3
+List - I List - II","[""4.57"", ""2.57\n(Products formed) (Reaction of carbonyl"", ""5.57"", ""3.57\ncompound with)""]",2,"{""text"": ""Answer (3)\n(a) Cyanohydrin (i) NH OH\n2 Given solution is acidic buffer solution.\n(b) Acetal (ii) RNH\n2 [Salt]\npHpKalog\n(c) Schiff's base (iii) alcohol [Weakacid]\n(d) Oxime (iv) HCN\n1\n4.57log 5.57\nfrom the options given below correct answer 0.01\nChoose the""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334884,,Apply,,,,2025-09-21T11:09:08.334884,"[""neet-2022"", ""chemistry""]"
+1013,Chemistry,General Chemistry,Mixed,Amongst the following which one will have,"[""SF 4"", ""XeF 2"", ""ClF 3"", ""IF 5\n(6)\nNEET Test Paper""]",1,"{""text"": ""Answer (2) 82. Which compound amongst the following is not\nan aromatic compound?\nIn XeF , the central atom Xe has 3 lone pairs\n2\naround it.""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.334928,,Apply,,,,2025-09-21T11:09:08.334928,"[""neet-2022"", ""chemistry""]"
+1014,Chemistry,Organic,Hydrocarbons & Derivatives,"Which amongst the following is incorrect
+So the molecule is non-planar and non-
+statement?
+aromatic.","[""Enzymes are polysaccharides.\n2"", ""Enzymes are very specific for a particular"", ""Enzymes are biocatalysts."", ""Like chemical catalysts enzymes reduce\ndegenerate  molecular orbitals.\nthe activation energy of bio processes.""]",1,"{""text"": ""Answer (2)\nSol. Answer (1)\nO 2  is paramagnetic, as it has one unpaired Enzymes are proteins.\nelectron. (15e-) 84. Which of the following P-V curve represents\nmaximum work done?""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335044,,Apply,,,,2025-09-21T11:09:08.335044,"[""neet-2022"", ""chemistry""]"
+1015,Chemistry,General Chemistry,Mixed,"Compound X on reaction with O followed by
+3
+Zn/H O gives formaldehyde and 2-methyl
+2
+propanal as products. The compound X is","[""2-Methyylbut-2-ene"", ""Pent-2-ene"", ""3-Methylbut-1-ene"", ""2-Methylbut-1-ene""]",2,"{""text"": ""Answer (3)\n(4)\nSol. Answer (4)\nThe area covered under P-V graph is more.""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335144,,Apply,,,,2025-09-21T11:09:08.335144,"[""neet-2022"", ""chemistry""]"
+1016,Chemistry,General Chemistry,Mixed,"Given below are two statements:
+Statement I:
+The acidic strength of monosubstituted 87. 3O 2 (g)  2O 3 (g)
+nitrophenol is higher than phenol because of
+for the above reaction at 298 K, K is found to
+electron withdrawing into group. C
+be 3.0 × 10-59. If the concentration of O at
+2
+Statement II: equilibrium is 0.040 M then concentration of O
+3
+in M is
+o-nitrophenol, m-nitrophenol and p-nitrophenol
+will have same acidic strength as they have","[""Statement I is correct but Statement II is [O ]2\nK  3\nincorrect C [O ]3\n2"", ""Statement I is incorrect but Statement II is\n[O ]2\ncorrect 3.01059  3\n(4.0102)3"", ""Both statement I and Statement II are\ncorrect 3.0105964106 [O ]2\n3"", ""Both Statement I and Statement II are\nincorrect 6431065 [O 3 ]2""]",0,"{""text"": ""Answer (1) 6.431064 [O ]2\n3\n1 [O ]2.521.731032\nAcidic strength  EWG  3\nEDG\n4.3591032\n4.361032""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335221,,Apply,,,,2025-09-21T11:09:08.335221,"[""neet-2022"", ""chemistry""]"
+1017,Chemistry,General Chemistry,Mixed,"A 10.0 L flask contains 64 g of oxygen at 27°C.
+(Assume O gas is behaving ideally). The
+2
+pressure inside the flask in bar is
+(Given R = 0.0831 L bar K-1 mol-1)","[""49.8"", ""4.9"", ""2.5"", ""498.6\nStatement I is correct, Statement II incorrect.\n(8)\nNEET Test Paper""]",1,"{""text"": ""Answer (2)\nPV = nRT\nnRT (4)\nP\nV\nSol. Answer (2)\n64 0.0831300\nP \n32 10\n20.0831300\nP 4.9864.9\n10""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335267,,Apply,,,,2025-09-21T11:09:08.335267,"[""neet-2022"", ""chemistry""]"
+1018,Chemistry,General Chemistry,Mixed,"The correct IUPAC name of the following
+(c) Calamine (iii) Fe 2 O 3 compound is:
+(d) Kaolinite (iv) [Al (OH) Si O ]
+2 4 2 5","[""1-bromo-4-methyl-5-chlorohexan-3-ol"", ""6-bromo-4-methyl-2-chlorohexan-4-ol"", ""(a) - (i), (b) - (ii), (c) - (iii), (d) - (iv)"", ""(a) - (iii), (b) - (i), (c) - (ii), (d) - (iv)""]",3,"{""text"": ""Answer (4)\n(3) 1-bromo-5-chloro-4-methylhexan-3-ol\nHaematite - Fe O\n2 3\n(4) 6-bromo-2-chloro-4-methylhexan-4-ol\nMagnetite - Fe O\n3 4\nSol. Answer (3)\nCalamine - ZnCO\n3\nKaolinite - [Al (OH) Si O ]\n2 4 2 5""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335360,,Apply,,,,2025-09-21T11:09:08.335360,"[""neet-2022"", ""chemistry""]"
+1019,Chemistry,General Chemistry,Mixed,"For a first order reaction A  Products, initial
+concentration of A is 0.1 M, which becomes
+001 M after 5 minutes. Rate constant for the
+(3) reaction in min-1 is","[""0.4606"", ""0.2303"", ""1.3818"", ""0.9212\n(9)""]",3,"{""text"": ""Answer (4) 9\nr 52.9 …(ii)\nLi2,3 3\nA  Product\nt = 0 0.1 M (ii)  (i)\nt = 5 min 0.001 M r Li2,3\n\n93\n303 C 105.8 52.92\nK  log o\nt C t r 105.8 3 158.7pm\nLi2,3 2\n303 101\nK  log 96. Which one of the following is not formed when\n5 103\nacetone reacts with 2-pentanone in the\nK  2.303 log102, 2.303 2log10 presence of dilute NaOH followed by heating?\n5 5\n3032\nK  0.9212min1\n5\n(1)""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335551,,Apply,,,,2025-09-21T11:09:08.335551,"[""neet-2022"", ""chemistry""]"
+1020,Chemistry,Electrochemistry,Redox / Cells,"Copper crystallises in fcc unit cell with cell edge
+length of 3.608 × 10-8 cm. The density of
+copper is 8.92 g cm-3. Calculate the atomic
+mass of copper.","[""60 u"", ""65 u"", ""63.1 u"", ""31.55 u (2)""]",2,"{""text"": ""Answer (3)\nZM\nd\na3N\nA (3)\n4M\n92gcm3 \n(3.608108)36.0231023\n92gcm3(3.608108)3cm36.0231023\nM (4)\n4\nSol. Answer (4)\n9246.966.023101g\nM\n4\n924.6866.023\nM 63.07g/mol\n4\nAtomic mass of Cu = 63.07 u\n 63.1 u""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335594,,Apply,,,,2025-09-21T11:09:08.335594,"[""neet-2022"", ""chemistry""]"
+1021,Chemistry,General Chemistry,Mixed,"In radius of second Bohr orbit of the He+ ion is
+reaction takes place at 298 K
+8 pm, what is the radius of third Bohr orbit
+of Li2+ ion? Ni(s) + 2Ag+ (0.001 M)  Ni2+(0.001 M) +
+2Ag(s)","[""1.587 pm"", ""158.7 Å"", ""158.7 pm"", ""15.87 pm (Given that E 10.5V, 2.303RT 0.059 at\ncell F""]",2,"{""text"": ""Answer (3)\n298 K)\nn2\nr 52.9 pm (1) 0.9615 V (2) 1.05 V\nn Z\n(3) 1.0385 V (4) 1.385 V\n4\n852.9 …(i)\n2\n(10)\nNEET Test Paper\nSol. Answer (1) Sol. Answer (1)\n059 [P] Lucas test is used to distinguish 1°, 2° and 3°\nE E  log\ncell cell n [R] alcohols.\nConcHClZnCl\nE 1.05V(E 10.5V(wrongisdata) 3Alcohols 2 instant turbidity\ncell cell\nNi(s)Ni2(0.001M)2e 2Alcohols ConcHClZnCl2 turbidity after 5-10 mins\n2Ag2e 2Ag(s) 1Alcohols  Con  cH  Cl Zn  Cl 2 turbidity is not formed\n(0.001) n2 at room temperature\n0591 103 Correct order of reactivity 3° > 2° > 1°\nE E  log\ncell cell 2 (103)2 So, statement I is correct but statement II is\nincorrect\n0591\nE 1.05 3\ncell 2 99. In the neutral or faintly alkaline medium,\nKMnO oxidises iodide into iodate. The change\n4\n= 1.05 - 0.0885\nin oxidation state of manganese in this reaction\n= 0.9615 V is from""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335725,,Apply,,,,2025-09-21T11:09:08.335725,"[""neet-2022"", ""chemistry""]"
+1022,Chemistry,General Chemistry,Mixed,Given below are two statements:,"[""+7 to +3"", ""+6 to +5\nStatement -I:"", ""alcohols are distinguished on the basis of their\nreactivity with conc. HCl + ZnCl , known as\n2\nLucas Reagent."", ""+6 to +4\nIn Lucas test, primary, secondary and tertiary Sol. Answer""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335757,,Apply,,,,2025-09-21T11:09:08.335757,"[""neet-2022"", ""chemistry""]"
+1023,Chemistry,General Chemistry,Mixed,"The pollution due to oxides of sulphur gets
+Statement -II:
+enhanced due to the presence of:
+Primary alcohols are most reactive and
+(a) particulate matter (c) ozone
+immediately produce turbidity at room
+temperature on reaction with Lucas Reagent. (c) hydrocarbons (d) hydrogen peroxide
+In the light of the above statements, choose the Choose the most appropriate answer from the
+most appropriate answer from the options options given below:
+given below:","[""Statement I is correct but Statement II is"", ""(a), (c), (d) only"", ""(a), (d) only"", ""(a), (b), (d) only\nincorrect""]",3,"{""text"": ""Answer (4)\n(2) Statement I is incorrect but Statement II is\ncorrect SO (g)O (g)SO (g)\n2 2 3\n(3) Both statement I and Statement II are\nParticulate matter catalyses the oxidation SO .\n2\ncorrect\nSO (g)O (g)SO (g)O (g)\n(4) Both Statement I and Statement II are 2 3 3 2\nincorrect\nSO (g)H O (l)H SO (aq)\n2 2 2 2 4\n\n\n(11)""}",3,English,NEET 2022,active,,2025-09-21T11:09:08.335835,,Apply,,,,2025-09-21T11:09:08.335835,"[""neet-2022"", ""chemistry""]"
+1024,Physics,Optics,Geometrical / Physical Optics,"The dimensions �MLT-2A-2� belong to the: 3. A biconvex lens has radii of curvature, 20 cm
+� �
+each. If the refractive index of the material of
+the lens is 1.5, the power of the lens is:","[""+5D"", ""electric permittivity"", ""magnetic flux"", ""+20 D""]",0,"{""text"": ""Answer (1)\n(4) self inductance\n1\nSol. Answer (1) P� (F in meter)\nF\nF � i i\n� 01 2 �[� ]�[MLT-2A-2] 1 � 1 1 � 0.5 1\nL 2�r 0 �(1.5�1)� � ��� �\nF �20 20� 10 20""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.175089,,Apply,,,,2025-09-21T11:09:09.175089,"[""neet-2022"", ""physics""]"
+1025,Physics,General Physics,Mixed,"An ideal gas undergoes four different
+100
+processes from the same initial state as shown P� ��5D
+in the figure below. Those processes are 20
+adiabatic, isothermal, isobaric and isochoric. 4. The ratio of the radius of gyration of a thin
+The curve which represents the adiabatic
+uniform disc about an axis passing through its
+process among 1, 2,3 and 4 is:
+centre and normal to its plane to the radius of
+gyration of the disc about its diameter is","[""4 : 1"", ""1: 2"", ""2 : 1"", ""2:1""]",3,"{""text"": ""Answer (4)\nMR2 R\nI � �K �\ncentre 2 1 2\n(1) 3 (2) 4 MR2 R\nI � �K �\n(3) 1 (4) 2 diameter 4 2 2\nSol. Answer (4) K R 2 2\nRatio 1 � �\nK R 2 1\n2""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.175434,,Apply,,,,2025-09-21T11:09:09.175434,"[""neet-2022"", ""physics""]"
+1026,Physics,Electromagnetism,Fields & Circuits,"The angle between the electric lines of force
+and the equipotential surface is:","[""900"", ""1800"", ""00"", ""450\n(1)""]",0,"{""text"": ""Answer (1) 9. The angular speed of a fly wheel moving with\nuniform angular acceleration changes from\nElectric field lines are always perpendicular to\n1200 rpm to 3120 rpm in 16 seconds. The\nan equipotential surface.\nangular acceleration in rad/s2 is:""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.175483,,Apply,,,,2025-09-21T11:09:09.175483,"[""neet-2022"", ""physics""]"
+1027,Physics,General Physics,Mixed,"Two objects of mass 10 kg and 20 kg
+respectively are connected to the two ends of a","[""10 m"", ""5 m 2�\nw �1200rpm�1200� �40� rad/s\ni 60\n10 20"", ""m"", ""m\n3 3 2�\nw �3120rpm�3120� �104� rad/s\nf 60""]",3,"{""text"": ""Answer (4)\nw � w ��t\nf i\n104��40����16\n64�\n�� �4�rad/s2\nr 1 � m m � 2 m r � � � �10 2 � 0 20 � � � �10� 2 3 0 m 16\n1 2 10. In a Yong's double slit experiment, a student""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.175534,,Apply,,,,2025-09-21T11:09:09.175534,"[""neet-2022"", ""physics""]"
+1028,Physics,General Physics,Mixed,"The ratio of the distances travelled by a freely observed 8 fringes in a certain segment of
+falling body in the 1st, 2nd, 3rd and 4th second: screen when a monochromatic light of 600 nm
+wavelength is used. If the wavelength of light is","[""1 : 3 : 5 : 7"", ""1 : 1 : 1 : 1\nchanged to 400 nm, then the number of fringes"", ""1 : 2 : 3 : 4"", ""1 : 4 : 9 : 16 he would observe in the same region of the""]",0,"{""text"": ""Answer (1) screen is:\na (1) 9 (2) 12\nS�u� (2n�1)\n2 (3) 6 (4) 8\ng g g g Sol. Answer (2)\nS � �1 S � �3 S � �5 S � �7\n1 2 2 2 3 2 4 2\nS :S :S :S �1:3:5:7\n1 2 3 4""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.175594,,Apply,,,,2025-09-21T11:09:09.175594,"[""neet-2022"", ""physics""]"
+1029,Physics,Electromagnetism,Fields & Circuits,"A body of mass 60 g experiences a
+gravitational force of 3.0 N, when placed at a
+particular point. The magnitude of the
+gravitational field intensity at that point is:","[""20 N / kg"", ""180 N / kg"", ""0.05 N / kg"", ""50 N / kg\n(3)""]",3,"{""text"": ""Answer (4) 19. A light ray falls on a glass surface of refractive\nF�mE E = Gravitational field intensity index 3, at an angle 600. The angle between\ng g\nthe refracted and reflected rays would be:\n3\n�E (1) 900 (2) 1200\n06 g\n(3) 300 (4) 600\nE = 50 N / kg\ng\nSol. Answer (1)""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.176287,,Apply,,,,2025-09-21T11:09:09.176287,"[""neet-2022"", ""physics""]"
+1030,Physics,General Physics,Mixed,"In the given nuclear reaction, the element X is
+22Na� X�e� ��
+11","[""22Ne"", ""22Mg\n10 12"", ""23Na"", ""23Ne\n11 10""]",0,"{""text"": ""Answer (1)\n22Na ��� AX� 0e��\n11 Z �1\nGiven �I�600\nA = 22\n11 = Z + 1 Since �r ��i\nZ = 11 - 1 = 10 �r �600""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.176339,,Apply,,,,2025-09-21T11:09:09.176339,"[""neet-2022"", ""physics""]"
+1031,Physics,General Physics,Mixed,"Let T 1 and T 2 be the energy of an electron in By Snell's law at ""O""
+the first and second excited states of hydrogen
+1�sin60 �� 3�sinr�
+atom, respectively. According to the Bohr's
+model of an atom, the ratio T : T is:
+1 2 1
+sinr�� �r��300","[""4 : 9"", ""9 : 4 2"", ""1 : 4"", ""4 : 1 Angle between refracted and reflected rays will\nbe 900""]",1,"{""text"": ""Answer (2)""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.176399,,Apply,,,,2025-09-21T11:09:09.176399,"[""neet-2022"", ""physics""]"
+1032,Physics,General Physics,Mixed,"A shell of mass m is at rest initially. It explodes
+6
+E�� eV into three fragments having mass in the ratio
+n2
+2:2:1. If the fragments having equal mass fly
+�13.6 off along mutually perpendicular directions with
+First excited state n = 2 T � eV
+1 4 speed �, the speed of the third (lighter)
+fragment is:
+�13.6
+Second excited state n = 3 T � eV
+2 9","[""2 2�"", ""3 2�\nT 9\n1 �"", ""�"", ""2�\nT 4\n2""]",0,"{""text"": ""Answer (1)""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.176467,,Apply,,,,2025-09-21T11:09:09.176467,"[""neet-2022"", ""physics""]"
+1033,Physics,General Physics,Mixed,"When two monochromatic lights of frequency,
+By conservation of linear momentum
+�
+� and are incident on a photoelectric metal, ��� ��� ���
+2 P �P �P �0
+1 2 3
+their stopping potential becomes V S and V S P ��� �� � P ��� �P ����
+2 3 1 2
+respectively. The threshold frequency for this
+Given m = 2m, m = 2m, m = m
+1 2 3
+metal is:
+��� ���
+P andP are at 900 angle.
+2 3 1 2","[""�"", ""�\n3 2 � P ��� � P2 �P2\n3 1 2"", ""2�"", ""3�\nmv � 4m2v2 �4m2v2""]",0,"{""text"": ""Answer (....) 3\nTechnical Error in this questions (No option is v �2 2v\n3\ncorrect)\n(4)\nTest-4 (Code-A)""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.176547,,Apply,,,,2025-09-21T11:09:09.176547,"[""neet-2022"", ""physics""]"
+1034,Physics,General Physics,Mixed,"Two hollow conducting spheres of radii R 1 and � V 1 � tan30 � 1
+R (R >> R ) have equal charges. The
+2 1 2 V tan45 3
+2
+potential would be","[""Equal on both the spheres 24. A square loop of side 1 m and resistance 1 �\nis placed in a magnetic field of 0.5 T. If the"", ""Dependent on the material property of the\nsphere plane of loop is perpendicular to the direction"", ""More on bigger sphere of magnetic field, the magnetic flux through the"", ""More on smaller sphere loop is""]",3,"{""text"": ""Answer (4) (1) 1 weber\nWe know potential on the surface of sphere\n(2) Zero weber\nkQ\nV � (3) 2 weber\nR\n(4) 0.5 weber\n1\nV�\nSol. Answer (4)\nR\nIn question it is given R >> R We know magnetic flux ��BAcos�\n1 2\nHence V << V\n1 2 Here ��0""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.176607,,Apply,,,,2025-09-21T11:09:09.176607,"[""neet-2022"", ""physics""]"
+1035,Physics,Mechanics,Kinematics,"The displacement-time graphs of two moving
+particles make angles of 30° and 45° with the x-
+axis as shown in the figure. The ratio of their
+respective velocity is
+In the given circuits (a), (b) and (c), the potential
+drop across the two p-n junctions are equal in","[""Circuit (c) only"", ""Both circuits (a) and (c)"", ""Circuit (a) only"", ""Circuit (b) only""]",1,"{""text"": ""Answer (2)\n(1) 1 : 2\nIn circuits (a) and (c) both the diodes are\n(2) 1: 3\nconnected in forward Bias, potential drop across\n(3) 3:1 junctions will be equal.\n(4) 1 : 1""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.176787,,Apply,,,,2025-09-21T11:09:09.176787,"[""neet-2022"", ""physics""]"
+1036,Physics,Mechanics,Kinematics,"An electric lift with a maximum load of 2000 kg are connected in parallel in an electrical circuit.
+(lift + passengers) is moving up with a constant The ratio of the thermal energy developed in
+speed of 1.5 ms-1. The frictional force opposing 100� to that in 200� in a given time is :
+the motion is 3000 N. The minimum power","[""34500"", ""23500"", ""23000 Sol. Answer"", ""20000 We know thermal energy developed across\nresistors is""]",0,"{""text"": ""Answer (1)\nv2\nTotal force required to move with constant H � t\nspeed, R\nForce = weight + friction Since resistors are connected in parallel for\nsome time, v & t are constants.\nF = 20000 + 3000\n1\nF = 23000 N �H �\nR\nPower, P = F.V\nH R 200\n= 23000 × 1.5 � 1 � 2 �\nH R 100\n2 1\nP = 34500 W\nH 2""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.176985,,Apply,,,,2025-09-21T11:09:09.176985,"[""neet-2022"", ""physics""]"
+1037,Physics,Electromagnetism,Fields & Circuits,"The energy that will be ideally radiated by a
+Biot-Savart's law gives us the expression for
+100 kW transmitter in 1 hour is:
+the magnetic field strength of an infinitesimal
+current element (Idl) of a current carrying","[""36 × 105 J\nconductor only"", ""1 × 105 J\nStatement-II:"", ""36 × 107 J\nBiot-Savart's law is analogous to Coulomb's"", ""36 × 104 J\ninverse square law of charge q, with the former\n(6)\nTest-4 (Code-A)""]",2,"{""text"": ""Answer (3) Sol. Answer (1)\nWe know energy radiated In case of half wave rectifier output frequency\nwill be same as input frequency.\nE = P × t""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.177079,,Apply,,,,2025-09-21T11:09:09.177079,"[""neet-2022"", ""physics""]"
+1038,Physics,Mechanics,Kinematics,"Plane angle and solid angle have:
+Velocity of transverse wave on a string","[""No units and no dimensions"", ""Both units and dimensions T\nv �\n�"", ""Units but no dimensions"", ""Dimensions but no units T = Tension in the string""]",2,"{""text"": ""Answer (3) �= mass per unit length\nl\nWe know plane angle = T\nr v 1 � 1 ; As per question T 2 = 2T 1\n�\nA\nAnd solid angle =\nT\nr2 v � 2\n2\n�\nHence both has no dimensional formula.\nv 1 1\nUnit of plane angle is radian and solid angle 1 � �\nsteradian. v 2 2 2""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.177289,,Apply,,,,2025-09-21T11:09:09.177289,"[""neet-2022"", ""physics""]"
+1039,Physics,General Physics,Mixed,"In half wave rectification, if the input frequency 36. Two pendulums of length 121 cm and 100 cm
+is 60 Hz, then the output frequency would be: start vibrating in phase. At some instant, the
+two are at their mean position in the same","[""10"", ""8\n(7)"", ""11"", ""9 Sol. Answer (4)""]",2,"{""text"": ""Answer (3)\nTime period of simple pendulum\nL\nT �2�\ng\nT L 1.21 121 11\n1 � 1 � � �\nT L 1.00 100 10\n2 2\n10T �11T\n1 2\nFor most precise value of X the ratio P/Q needs\n10 times period of longer pendulum = 11 times\nto be equal to one. Also P, Q needs to be small\nperiod of shorter pendulum\nresistance as if student used large value of P""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.177364,,Apply,,,,2025-09-21T11:09:09.177364,"[""neet-2022"", ""physics""]"
+1040,Physics,Electromagnetism,Fields & Circuits,"A wheat stone bridge is used to determine the
+value of unknown resistance X by adjusting the 1
+(4)
+variable resistance Y as shown in the figure.
+R3
+For the most precise measurement of X, the
+resistances P and :Q Sol. Answer (4)
+Electric field due to a dipole at a point
+kp
+E � 3cos2��1
+p R3","[""Should be very large and unequal\n� 1 �\n� E � for short dipole"", ""Do not play any significant role � � p R3 � �"", ""Should be approximately equal to 2X"", ""Should be approximately equal and are\nsmall\n(8)\nTest-4 (Code-A)""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:09.177539,,Apply,,,,2025-09-21T11:09:09.177539,"[""neet-2022"", ""physics""]"
+1041,Physics,General Physics,Mixed,"Given below are two statements : One is
+(d) Gravitational (iv) [ML2T-2]
+labelled as Assertion(A) and the other is intensity
+labelled as
+Choose the correct answer from the options
+given below
+Reason(R).","[""(a) - (ii), (b) - (iv), (c) - (iii), (d) - (i)\nAssertion (A): The stretching of a spring is\ndetermined by the shear modulus of the"", ""(a) - (iv), (b) - (ii), (c) - (i), (d) - (iii)\nmaterial of the spring. Reason (R): A coil"", ""(a) - (ii), (b) - (i), (c) - (iv), (d) - (iii)\nspring of copper has more tensile strength than"", ""(a) - (ii), (b) - (iv), (c) - (i), (d) - (iii)\na steel spring of same dimensions.""]",3,"{""text"": ""Answer (4)\nIn the light of the above statements, choose the\nmost appropriate answer from the options [G]�[M�1L3T�2]\ngiven below:\n(1) (A) is true but (R) is false\n[GPE]�[ML2T�2]\n(2) (A) is false but (R) is true [Gravitational potential] = [L2T�2]\n(3) Both (A) and (R) are true and (R) is the\n[Gravitational intensity] = [LT�2]\ncorrect explanation of (A)\n(4) Both (A) and (R) are true and (R) is not the 43. The area of a rectangular field (in m2) of length\ncorrect explanation of (A) 55.3 m and breadth 25 m after rounding off the\nvalue for correct significant digits is\nSol. Answer (1)\n(1) 1382.5\nAssertion (A) is true as spring constant is\ndetermined by shear modulus of the material of (2) 14 × 102\nthe spring. (3) 138 × 101\nReason (R) is false as steel has more tensile\n(4) 1382\nstrength than copper.\nSol. Answer (2)""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.177629,,Apply,,,,2025-09-21T11:09:09.177629,"[""neet-2022"", ""physics""]"
+1042,Physics,General Physics,Mixed,"A nucleus of mass number 189 splits into two
+Area of rectangle = l × b
+nuclei having mass number 125 and 64. The
+ratio of radius of two daughter nuclei = 55.3 × 25 = 1382.5 m2
+respectively is
+Now l has 3 significant figures","[""5 : 4\nb has 2 significant figures"", ""25 : 16\nIn multiplication answer must have minimum"", ""1 : 1 significant figure."", ""4 : 5 So, answer must be 14 × 102 m2""]",0,"{""text"": ""Answer (1) 44. A big circular coil of 1000 turns and average\nradius 10 m is rotating about its horizontal\n1\nR �R (A)3 diameter at 2 rad s-1. If the vertical component\n0\nof earth’s magnetic field at that place is\n1 2 × 10-5 T and electrical resistance of the coil is\nR 125 � � � 125� � 3 � 5 12.56 �, then the maximum induced current in\nR � 64 � 4\n64 the coil will be""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.177706,,Apply,,,,2025-09-21T11:09:09.177706,"[""neet-2022"", ""physics""]"
+1043,Physics,General Physics,Mixed,Match List-I with List-II,"[""potential energy\ne �NBA�\nmax\n(c) Gravitational (iii) [LT-1]\npotential\n(9)\ne NBA� 1 1\n� � max � 2�� � �\nmax R R 0 LC 10�10�6�10\n1000�2�10�5���102�2\n2�� �100\n� 0\n56\n�50�\n2���2 12.56 � 0 � � � Hz\n� � �1A � � �\n56 12.56\n��200sin(100t)"", ""2 A\nList-I List-II"", ""0.25 A\n(a) Gravitational (i) [L2T-2]"", ""1.5 A\nconstant(G)\n(b) Gravitational (ii) [M-1L3T-2] Sol. Answer""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:09.177745,,Apply,,,,2025-09-21T11:09:09.177745,"[""neet-2022"", ""physics""]"
+1044,Physics,Electromagnetism,Fields & Circuits,"Two transparent media A and B are separated
+by a plane boundary. The speed of light in �50�
+those media are 1.5×108m/s and 2.0 × 108 m / 100�2����� � � Hz
+� � �
+s, respectively. The critical angle for a ray of
+light for these two media is 47. A capacitor of capacitance C = 900 pF is
+charges fully by 100 V battery B as shown in","[""tan-1 (0.500)\nfigure (a). Then it is disconnected from the"", ""tan-1 (0.750) battery and connected to another uncharged"", ""sin-1 (0.500) capacitor of capacitance C = 900 pF as shown\nin figure (b). The electrostatic energy stored by"", ""sin-1 (0.750)\nthe system (b) is""]",3,"{""text"": ""Answer (4)\nV 1.5�108\nD �\nV 2.0�108\nR\n�� �\nCritical angle sini �� R �\n�� D �\nC V V\nsini � . D � D\nV C V\nR R\n-6\n(1) 2.25×10 J\n5�108 �3�\nsini � � � � -6\n2�108 �4� (2) 1.5×10 J\n-6\nsini �0.75 (3) 4.5×10 J\n-6\ni �sin�1[0.75] (4) 3.25×10 J\nSol. Answer (1)""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.177819,,Apply,,,,2025-09-21T11:09:09.177819,"[""neet-2022"", ""physics""]"
+1045,Physics,General Physics,Mixed,"A series LCR circuit with inductance 10H,
+capacitance10�F, resistance 50��is connected 1 1
+U � CV2 � C�(100)2 �5000C
+to an ac source of voltage, initial 2 2
+V=200 sin(100t) volt. If there so nant frequency
+of the LCR circuit is v 0 and the frequency of the Lost �U � 1 C 1 C 2 (V �V )2 � 1C2 (100�0)2
+1 2
+ac source is v, then 2C �C 22C
+1 2
+50 1","[""� � Hz,� �50Hz � C(100)2 �2500C\n0\n� 4\n100 �U �U ��U �5000C�2500C �2500C"", ""� �100Hz,� � Hz final i\n0\n�\n�2500�900�10�12"", ""� ���50Hz\n0\n�225�10�8\n50"", ""� �� � Hz\n0 � U final �2.25�10�6 J""]",3,"{""text"": ""Answer (4) 48. From Ampere’s circuital law for a long straight\nwire of circular cross-section carrying a steady\nResonant frequency\ncurrent, the variation of magnetic field in the\ninside and outside region of the wire is\n(10)\nTest-4 (Code-A)\n(1) A linearly increasing function of distance r (4)\nupto the boundary of the wire and then\n1\ndecreasing one with dependence for the\nr\noutside region.\n(2) A linearly decreasing function of distance\nSol. Answer (1)\nupto the boundary of the wire and then a\nlinearly increasing one for the outside\nregion.\n(3) Uniform the remains constant for both the\nregions.\n(4) A linearly increasing function of distance\nupto the boundary of the wire and then\nlinearly decreasing for the outside region. Truth Table\nSol. Answer (1)\nA B Y Y C\n1 2\nFor a cylindrical wire of radius R carrying\nsteady current 0 0 1 1 1\nFor r<R, B�r increasing\n0 1 1 0 0\n1\nFor r>R, B� decreasing\nr 1 0 1 1 1""}",3,English,NEET 2022,active,,2025-09-21T11:09:09.177944,,Apply,,,,2025-09-21T11:09:09.177944,"[""neet-2022"", ""physics""]"
+1046,Biology,General Biology,Mixed,"Which of the following is incorrectly matched?
+light","[""Porphyra - Floridian Starch"", ""Volvox - Starch\nDNA strands from gel is called elution."", ""Ectocarpus - Fucoxanthin"", ""Ulothrix - Mannitol""]",0,"{""text"": ""The use of chromogenic substrate Explanation: The reserve food material found in\nis used during genetic engineering, not during Ulothrix (Green alga) is Starch.\nGel electrophoresis.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.400328,,Apply,,,,2025-09-21T11:09:11.400328,"[""neet-2022"", ""biology""]"
+1047,Biology,General Biology,Mixed,Given below are two statements,"[""Statement I is correct but Statement II is"", ""Statement I is incorrect but Statement II is"", ""Synaptonemal complex"", ""Bivalent\ncorrect""]",0,"{""text"": ""The appearance of recombination Explanation: The primary acceptor of CO in C4\n2\nnodules on homologous chromosomes during plants is PEP and is found in the mesophyll\nmeiosis characterizes the sites at which cells, whereas Rubisco enzyme is found in the\ncrossing over occurs. bundle sheath cells where it helps in fixing CO\n2\nthrough C cycle.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.400464,,Apply,,,,2025-09-21T11:09:11.400464,"[""neet-2022"", ""biology""]"
+1048,Biology,Plant Physiology,Photosynthesis / Transport,"Which of the following is not a method of ex 3
+situ conservation? 109. In old trees the greater part of secondary
+xylem is dark brown and resistant to insect","[""Micropropagation\nattack due to:"", ""Cryopreservation\n(a) secretion of secondary metabolites and"", ""Invitro fertilization\ntheir deposition in the lumen of vessels."", ""National Parks\n(b) deposition of organic compounds like""]",3,"{""text"": ""Answer (4) tannins and resins in the central layers of\nstem.\nNational parks are the example of in-situ\nconservation. (c) deposition of suberin and aromatic\nsubstances in the outer layer of stem.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.400516,,Apply,,,,2025-09-21T11:09:11.400516,"[""neet-2022"", ""biology""]"
+1049,Biology,General Biology,Mixed,"Identify the incorrect statement related to
+Pollination: (d) deposition of tannins, gum, resin and
+aromatic substances in the peripheral","[""(d) and (e) Only"", ""(b) and (d) Only"", ""Pollination by water is quite rare in\ngiven below:\nflowering plants"", ""Pollination by wind is more common\namongst abiotic pollination""]",1,"{""text"": ""The most dominant pollinating (4) (c)and(d)Only)\nagent among insects are Bees (80%).\nSol. Answer (3)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.400562,,Apply,,,,2025-09-21T11:09:11.400562,"[""neet-2022"", ""biology""]"
+1050,Biology,General Biology,Mixed,"""Girdling Experiment"" was performed by
+Statement II : Plant Physiologists to identify the plant tissue
+through which:
+Decomposition is faster if the detritus is rich in
+lignin and chitin","[""Statement I is correct but Statement II is"", ""osmosis is observed\ncorrect answer from the options given below :"", ""water is transported"", ""food is transported\nincorrect""]",3,"{""text"": ""Answer (4)\n(2) Statement I is incorrect but Statement II is\nGirdling experiment demonstrate that phloem is\ncorrect\nresponsible for translocation of food because\n(3) Both Statement I and Statement II are\nthe phloem is present outside the xylem, so\ncorrect\nwhen a ring of bark is removed from a woody\n(4) Both Statement I and Statement II are plant, the woody xylem part remains intact,\nincorrect which causes the water and the nutrients to\nreach the least.\nSol. Answer (1)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.400808,,Apply,,,,2025-09-21T11:09:11.400808,"[""neet-2022"", ""biology""]"
+1051,Biology,General Biology,Mixed,"Habitat loss and fragmentation, over
+given
+exploitation, alien species invasion and co-
+extinction are causes for:","[""Biodiversity loss"", ""Natality"", ""Population explosion"", ""Competition Sol. Answer (4)""]",0,"{""text"": ""The evil quartet for biodiversity Gulmohar and Cassia\nloss are Examples of Actinomorphic flowers :""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.400920,,Apply,,,,2025-09-21T11:09:11.400920,"[""neet-2022"", ""biology""]"
+1052,Biology,General Biology,Mixed,"Hydrocolloid carrageen is obtained from:
+to the stroma","[""Rhodophyceae only"", ""Phaeophyceae only stroma side of the membrane"", ""Breakdown of proton gradient"", ""Breakdown of electron gradient""]",0,"{""text"": ""According to chemiosmotic (2) Maize\nhypothesis, there is a breakdown of proton\n(3) Cotton\ngradient by the movement of protons across\n(4) Coriander\nthe membrane to the stroma and reduction of\nNADP to NADPH2 on the stroma side of the Sol. Answer (2)\nmembrane.\nPlants follow different pathways in response to""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.401244,,Apply,,,,2025-09-21T11:09:11.401244,"[""neet-2022"", ""biology""]"
+1053,Biology,Genetics,Molecular / Inheritance,"Read the following statements and choose the
+Reason (R):
+set of correct statements
+The ampicillin resistant gene is used as a
+(a) Euchromatin is loosely packed chromatin
+selectable marker to check transformation
+(b) Heterochromatin is transcriptionally active
+In the light of the above statements, choose the
+(c) Histone octomer is wrapped by negative
+correct answer from the options given below:
+charged DNA in nucleosome","[""(b), (e) Only"", ""(A) is not correct but (R) is correct\n(e) A typical nucleosome contains 400 bp of"", ""Both (A) and (R) are correct and (R) is the\nDNA helix\ncorrect explanation of (A)\nChoose the correct answer from the options"", ""Both (A) and (R) are correct but (R) is not\ngiven below:\nthe correct explanation of (A)""]",3,"{""text"": ""Answer (4)\n(2) (a),(c),(e)Only\n PCR enables the amplification of billions of\n(3) (b),(d),(e)Only\ncopies of temtlate DNA.\n Antibiotic resistance genes i.e. amplicillin (4) (a), (c), (d) Only\nresistant and tetracycline resistant gene act\nSol. Answer (4)\nas selectable markers to distinguish\nEuchromatin is loosely, lightly stained\nbetween transformant and non\nchromatin.\ntransformant, recombinant and non\nrecombinant. Heterochromatin is transcriptionally inactive.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.401520,,Apply,,,,2025-09-21T11:09:11.401520,"[""neet-2022"", ""biology""]"
+1054,Biology,General Biology,Mixed,"Which one of the following plants shows
+stem possess endarch protoxylem
+vexillary aestivation and diadelphous stamens?
+(e) In monocotyledonous root, usually there","[""(a), (b), (c) and (d) Only"", ""Solanum nigrum\nChoose the correct answer from the options"", ""Colchicum\ngiven below"", ""Pisum sativum autumnale""]",3,"{""text"": ""Answer (4)\n(2) (a), (c), (d) and (e) Only\nVexillary Aestivation and Diadelphous\n(3) (a), (b) and (d) Only\nstatements are feature of Fabaceae\n(4) (b), (c), (d) and (e) Only\nPisum sativum - Fabaceae\nSol. NA\nSolanum - Solanaceae""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.401703,,Apply,,,,2025-09-21T11:09:11.401703,"[""neet-2022"", ""biology""]"
+1055,Biology,Genetics,Molecular / Inheritance,"DNA polymorphism forms the basis of:
+(2) Glucosamine","[""Both genetic mapping and DNA finger"", ""Translation"", ""Cutin\nprinting"", ""Cellulose""]",0,"{""text"": ""Answer (1)\n(3) Genetic mapping\nThe exoskeleton of arthropods is composed of\n(4) DNA finger printing\nChitin.\nSol. Answer (1)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.401785,,Apply,,,,2025-09-21T11:09:11.401785,"[""neet-2022"", ""biology""]"
+1056,Biology,General Biology,Mixed,What amount of energy is released from,"[""About 10%"", ""Less than 7%"", ""Approximately 15%"", ""Six""]",0,"{""text"": ""Answer (1)\n(4) More than 18%\nOne molecule of glucose undergoes glycolysis\nSol. Answer (2)\nto form 4 molecules of ATP, two are used in\nactivation phase so net gain is of 2 ATP. Less than 7% of energy is released in lactic\nacid and alcoholic fermentation""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.401880,,Apply,,,,2025-09-21T11:09:11.401880,"[""neet-2022"", ""biology""]"
+1057,Biology,General Biology,Mixed,"Which of the following is not observed during
+apoplastic pathway? 129. Identify the correct set of statements:","[""Ethylene"", ""(a), (b), (d) and (e) Only"", ""(b) and (c) Only"", ""Gibberellin""]",0,"{""text"": ""Answer (1)\n(4) (a) and (d) Only\nIn cucumbers, ethylene is responsible for\nSol. Answer (1)\npromoting female flower production and\nAdventitious buds and not leaflets are modified thereby increasing the yield.\ninto pointed hard thorns in Citrus and""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.401939,,Apply,,,,2025-09-21T11:09:11.401939,"[""neet-2022"", ""biology""]"
+1058,Biology,General Biology,Mixed,"Which one of the following statements cannot
+enzyme catalase
+be connected to Predation?","[""Both the interacting species are negatively (b) Magnesium (ii) Required for pollen\nimpacted germination"", ""It is necessitated by nature to maintain the\n(c) Boron (iii) Activates enzymes\necological balance\nof respiration"", ""It helps in maintaining species diversity in a\ncommunity (d) Iron (iv) Functions in\nsplitting of water"", ""It might lead to extinction of a species\nduring photosynthesis""]",0,"{""text"": ""Answer (1)\nChoose the correct answer from the options\nIn Predation interaction, is + - i.e for species\ngiven below\n(Host) it is beneficial and for others (Prey) it is\ndetrimental (1) (a)-(iv), (b)- (i),(c)-(ii), (d)-(iii)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.402031,,Apply,,,,2025-09-21T11:09:11.402031,"[""neet-2022"", ""biology""]"
+1059,Biology,General Biology,Mixed,"The gaseous plant growth regulator is used in
+• Fern is a pteridophyte - Life cycle shows
+plants to:
+dominant diploid sporophyte, alternating with","[""help overcome apical dominance\nreduced free living gametophytic stage. So its"", ""kill dicotyledonous weeds in the fields Haplo-diplontic life cycle"", ""speed up the malting process • Funaria - belongs to Bryophyta. Its a moss\nplant. Exhibits haplo diplontic lifecycle."", ""promote root growth and root hair formation\nto increase the absorption surface The free living haploid gametophyte bears the\nsporophytic plant body.""]",3,"{""text"": ""Answer (4)\n• Cycas - Gymnosperms.\nGaseous plant growth regulator is ethylene\nwhich helps in root growth and root hair Gymnosperms exhibit dominant diploid\nabsorption and therefore increases the surface saprophytic plant body, with highly reduced\narea for absorption male/female gametophyte.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.402376,,Apply,,,,2025-09-21T11:09:11.402376,"[""neet-2022"", ""biology""]"
+1060,Biology,General Biology,Mixed,"Match the plant with the kind of life cycle it 137. Which part of the fruit, labelled in the given
+exhibits: figure makes it a false fruit?
+List-I List-II
+(a) Spirogyra (i) Dominant diploid
+sporophyte vascular
+plant, with highly
+reduced male or
+female gametophyte
+(b) Fern (ii) Dominant","[""C → Thalamus"", ""D → Seed\nhaploid free-living\ngametophyte"", ""A → Mesocarp"", ""B → Endocarp""]",0,"{""text"": ""Answer (1)\n(c) Funaria (iii) Dominant diploid\nsporophyte alternating C → Thalamus\nwith reduced\nA fruit developed from fertilized ovary is true\ngametophyte called\nfruit.\nprothallus\nThalamus becomes fleshy and grows around\n(b) Cycas (iv) Dominant the true fruit. This fleshy, juicy thalamus is\nhaploid leafy edible part in apple. Hence it is a False fruit.\ngametophyte""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.402455,,Apply,,,,2025-09-21T11:09:11.402455,"[""neet-2022"", ""biology""]"
+1061,Biology,General Biology,Mixed,"Which one of the following will accelerate
+alternating with
+phosphorus cycle ?
+partiaIly dependent","[""Weathering of rocks\nmulticellular\nsporophyte"", ""Rainfall and storms"", ""Burning of fossil fuels\nChoose the correct answer from the options given"", ""Volcanic activity\nbelow:""]",0,"{""text"": ""Answer (1)\n(7)\nPhosphorus cycle - ‘P’ is sedimentary cycle.\nd. Telocentric - Centromere is located\nThe natural source of phosphates is phosphate chromosome terminal end.\nrich rocks. So, phosphorus is obtained from\nweathering of phosphate rich rocks. Reservoir\nof ‘P’ is earths crust. 140. The anatomy of springwood shows some""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.402507,,Apply,,,,2025-09-21T11:09:11.402507,"[""neet-2022"", ""biology""]"
+1062,Biology,Plant Physiology,Photosynthesis / Transport,"Match List - I with List - II. peculiar features. Identify the correct set of
+statements about0020springwood.
+List-I List-II
+(a) It is also called as the earlywood
+(a) Metacentric
+(i) Centromere (b) In spring season cambium produces xylem
+chromosome
+situated close to the elements with narrow vessels
+end forming one
+(c) It is lighter in colour
+extremely short and
+(d) The springwood along with autumnwood
+one very longar
+shows alternate concentric rings forming
+(b) Acrocentric
+(ii) Centromere at annual rings
+chromosome
+the terminal end
+(e) It has lower density
+(c) Sub- metacentric
+(iii) Centromere in Choose the correct answer from the options
+the middle forming two given below:
+equal arms","[""(a)-(ii), (b)-(iii), (c)- (iv), (d)-(i)\nproduce large no. of xylary elements with wide"", ""(a)-(i), (b)-(ii), (c)-(iii), (d)-(iv) cavities and low density"", ""(a)-(iii), (b)-(i), (c)-(iv), (d)-(ii) During winters, cambium is less active,"", ""(a)-(i), (b)- (iii), (c)- (ii), (d)- (iv) produce narrow xylary elements which are\nmore dense - Autumn wood. Autumn wood""]",2,"{""text"": ""Answer (3)\nalso called as latewood\n(a) Meta centric - Centromere is at the One ring of spring wood, one ring of autumn\nchromosome middle. Forms two wood as alternate concentric rings - form one\nequal arms of the Annual ring\nchromosome""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.402592,,Apply,,,,2025-09-21T11:09:11.402592,"[""neet-2022"", ""biology""]"
+1063,Biology,Cell Biology,Division / Cell Cycle,"Given below are two statements: one is
+labelled as Assertion (A) and the other is
+(b) Acrocentric - Position of centromer
+labelled as Reason
+chromosome is close to the end -
+forms one very short Assertion (A): Mendel's law of Independent
+arm and one very assortment does not hold good for the genes
+long arm. that are located closely on the same
+chromosome.
+c. Sub meta - Position of centromer
+Reason (R): Closely located genes assort
+centric is slightly away from
+independently.
+chromosome the middle, as a result
+- one arm is shorter In the light of the above statements, choose the
+and one arm is onger. correct answer from the options given below:","[""(A) is correct but (R) is not correct\n(8)\nTest-4 (Code-A)"", ""(A) is not correct but (R) is correct Sol. Answer"", ""Both (A) and (R) are correct and (R) is the C4 plant has Kranz anatomy - large number of\ncorrect explanation of (A) Bundle sheath cells around vascular bundles\nhelp for two things."", ""Both (A) and (R) are correct but (R) is not\nthe correct explanation of (A) (a) makes these cells impervious to gases""]",0,"{""text"": ""Answer (1) (b) increase the number of chloroplasts for\noperation of Calvin cycle\nMendel’s law of independent assortment based\non dihybrid cross stated that when the 144. In the following palindromic base sequences of\ninheritance pattern of two pair of genes were DNA, which one can be cut easily by particular\ncombinedly observed the segregation of one restriction enzyme?\npair of alleles is independent of another pair of\n(1) 5' C T C A G T 3' ; 3' G A G T C A 5'\nalleles. This law is true only when\n(2) 5'T A TT C 3' ; 3' CAT A A G 5'\n• genes are present on separate chromosomes\n(3) 5'G A T A C T 3' ; 3' C T A T G A 5'\n• genes present on same chromosome but\n(4) 5' G A A T T C 3' ; 3' Y C T T A A G 5'\ndistantly placed from each other.\nSol. Answer (4)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.402701,,Apply,,,,2025-09-21T11:09:11.402701,"[""neet-2022"", ""biology""]"
+1064,Biology,General Biology,Mixed,"The entire fleet of buses in Delhi were
+(c) Gingelly oil has lower melting point, hence converted to CNG from diesel. In reference to
+remains as oil in winter this, which one of the following statements is
+false?
+(d) Lipids are generally insoluble in water but
+soluble in some organic solvents","[""(c), (d) and (e) only"", ""It can not be adulterated like diesel\nmonoglycerides are formed"", ""CNG burns more efficiently than diesel\nChoose the correct answer from the options"", ""The same diesel engine is used in CNG\ngiven below:\nbuses making the cost of conversion low""]",3,"{""text"": ""Answer (4)\n(2) (a), (b) and (d) only\nSame diesel engine cannot be used in CNG\n(3) (a), (b) and (c) only buses.\n(4) (a), (d) and (e) only 146. Addition of more solutes in a given solution will:\n(1) make its water potential zero .\nSol. Answer (1)\n(2) not affect the water potential at all\nLecithin is a phospholipid, saturated fatty acids\nlack double bonds. (3) raise its water potential""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.402841,,Apply,,,,2025-09-21T11:09:11.402841,"[""neet-2022"", ""biology""]"
+1065,Biology,General Biology,Mixed,"What is the role of large bundle shealth cells (4) lower its water potential
+found around the vascular bundles in C
+4 Sol. Answer (4)
+plants?
+Water potential is a measure of free energy in","[""To enable the plant to tolerate high\nwater (closed system)\ntemperature\nWhen more solute is added to a given solution"", ""To protect the vascular tissue from high\nthe free energy of water decreased further, so it\nlight intensity\nwould further lower its water potential (less"", ""To provide the site for photorespiratory negative to more negative)\npathway"", ""plants?\nWater potential is a measure of free energy in""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:11.402890,,Apply,,,,2025-09-21T11:09:11.402890,"[""neet-2022"", ""biology""]"
+1066,Biology,General Biology,Mixed,"Transposons can be used during which one of
+(4) To increase the number of chloroplast for
+the following?
+the operation of Calvin cycle
+(9)","[""Haemophilia"", ""Thalessemia"", ""Sickle cell anaemia"", ""Gene silencing""]",3,"{""text"": ""Answer (4)\n(4) Myotonic dystrophy\nTransposons are “jumping genes” or mobile\ngenetic elements that replicate via RNA Sol. Answer (4)\nintermediate and can induce RNA interference\nMyotonic dystrophy is an autosomal dominant\nby introducing complementary RNA in\ngene disorder.\neukaryotic cell. RNAi technology is developed\nAffected people have muscle degeneracy. 101.\nbased on gene silencing mechanism.\nWhich one of the following statement is not""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.402952,,Apply,,,,2025-09-21T11:09:11.402952,"[""neet-2022"", ""biology""]"
+1067,Biology,General Biology,Mixed,"While explaining interspecific interaction of
+true regarding gel electrophoresis technique?
+population, ( +) sign is assigned for beneficial","[""Commensalism"", ""Competition"", ""Predation"", ""The separated DNA fragments are stained""]",2,"{""text"": ""The use of chromogenic substrate\npositively affected is predation is used during genetic engineering, not during\nGel electrophoresis.\nPredation - species - A (+) - species B (-)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.403006,,Apply,,,,2025-09-21T11:09:11.403006,"[""neet-2022"", ""biology""]"
+1068,Biology,Genetics,Molecular / Inheritance,"If a geneticist uses the blind approach for
+Inheritance.
+sequencing the whole genome of an organism,
+Statement II :
+followed by assignment of function to different
+segments, the methodology adopted by him is Seven characters examined by Mendel in his
+called as experiment on pea plants were seed shape and
+colour, flower colour, pod shape and colour,","[""Statement I is correct but Statement II is"", ""Bioinformatics\nIn the light of the above statements, choose the"", ""Sequence annotation\ncorrect answer from the options given below:"", ""Gene mapping""]",2,"{""text"": ""Both the statements are correct (3) Pollination by water is quite rare in\nflowering plants""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.403109,,Apply,,,,2025-09-21T11:09:11.403109,"[""neet-2022"", ""biology""]"
+1069,Biology,General Biology,Mixed,"XO type of sex determination can be found in :
+phosphoenolpyruvate and is found in the","[""Grasshoppers\nmesophyll cells"", ""Monkeys\nStatement II:"", ""Drosophila\nMesophyll cells of C4 plants lack RuBisCo"", ""Birds enzyme. In the light of the above statements,\nchoose the correct answer from the options""]",0,"{""text"": ""Answer (1)\ngiven below:\nXO type of sex determination can be found in\n(1) Statement I is correct but Statement II is\nGrasshopper.\nincorrect""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.403255,,Apply,,,,2025-09-21T11:09:11.403255,"[""neet-2022"", ""biology""]"
+1070,Biology,Cell Biology,Division / Cell Cycle,"The appearance of recombination nodules on
+(2) Statement I is incorrect but Statement II is
+homologous chromosomes during meiosis
+correct
+characterizes:
+(3) Both Statement I and Statement II are","[""Sites at which crossing over occurs\ncorrect"", ""Terminalization"", ""Synaptonemal complex incorrect"", ""Bivalent Sol. Answer (3)""]",0,"{""text"": ""The primary acceptor of CO in C4\n2\nExplanation: The appearance of recombination plants is PEP and is found in the mesophyll\nnodules on homologous chromosomes during cells, whereas Rubisco enzyme is found in the\nmeiosis characterizes the sites at which bundle sheath cells where it helps in fixing CO 2\ncrossing over occurs. through C 3 cycle.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.403310,,Apply,,,,2025-09-21T11:09:11.403310,"[""neet-2022"", ""biology""]"
+1071,Biology,Plant Physiology,Photosynthesis / Transport,"Which of the following is not a method of ex 109. In old trees the greater part of secondary
+situ conservation? xylem is dark brown and resistant to insect
+attack due to:","[""Micropropagation\n(a) secretion of secondary metabolites and"", ""Cryopreservation\ntheir deposition in the lumen of vessels."", ""Invitro fertilization\n(b) deposition of organic compounds like"", ""National Parks tannins and resins in the central layers of\nstem.""]",3,"{""text"": ""Answer (4)\n(c) deposition of suberin and aromatic\nNational parks are the example of in-situ\nsubstances in the outer layer of stem.\nconservation.\n(d) deposition of tannins, gum, resin and""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.403360,,Apply,,,,2025-09-21T11:09:11.403360,"[""neet-2022"", ""biology""]"
+1072,Biology,General Biology,Mixed,"Identify the incorrect statement related to
+aromatic substances in the peripheral
+Pollination:
+layers of stem.","[""(d) and (e) Only\nlignin and chitin, the rate of decomposition is"", ""(b) and (d) Only\nlow and for nitrogen rich detritus rate of"", ""(a) and (b) Only decompostion is fast."", ""(c)and(d)Only) 112. Habitat loss and fragmentation, over\nexploitation, alien species invasion and co-""]",2,"{""text"": ""In older trees the greater part of\n(1) Biodiversity loss\nsecondary xylem is dark brown and resistant to\ninsect attack due to secretion of secondary (2) Natality\nmetabolites and their deposition in the lumen of\n(3) Population explosion\nvessels and deposition of organic compounds\n(4) Competition\nlike tannins and resins in the central layer of\nstem. Sol. Answer (1)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.403421,,Apply,,,,2025-09-21T11:09:11.403421,"[""neet-2022"", ""biology""]"
+1073,Biology,General Biology,Mixed,"Which one of the following produces nitrogen Explanation: The evil quartet for biodiversity
+fixing nodules on the roots of Alnus? loss are","[""Rhodospirillum 1. Habitat loss and fragmentation"", ""Beijernickia 2. Over exploitation"", ""Rhizobium 3. Alien species invasion"", ""Frankia 4. Co-extinction""]",3,"{""text"": ""Frankia is a gram positive species (1) Rhodophyceae only\nof actinomycete filamentous bacterium that\n(2) Phaeophyceae only\nlives in symbiosis with actinorhizal plants in the\n(3) Chlorophyceae and Phaeophyceae\ngenus Alnus.\n(4) Phaeophyceae and Rhodophyceae""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.403470,,Apply,,,,2025-09-21T11:09:11.403470,"[""neet-2022"", ""biology""]"
+1074,Biology,General Biology,Mixed,"The device which can remove particulate
+matter present in the exhaust from a thermal Plants follow different pathways in response to
+power plant is: environment or phases of life to form different
+kinds of structures The ability is called","[""Electrostatic Precipitator\nplasticity, e.g., heterophylly in cotton, coriander"", ""Catalytic Convertor\nand larkspur. In such plants, the leaves of the"", ""STP juvenile plant are different in shape from those\nin mature plants."", ""Incinerator""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:11.403804,,Apply,,,,2025-09-21T11:09:11.403804,"[""neet-2022"", ""biology""]"
+1075,Biology,Genetics,Molecular / Inheritance,"What is the net gain of ATP when each
+charged DNA in nucleosome
+molecule of glucose is converted to two
+(d) Histones are rich in lysine and arginine
+molecules of pyruvic acid?
+(e) A typical nucleosome contains 400 bp of","[""(b), (e) Only"", ""Eight\nChoose the correct answer from the options"", ""Four\ngiven below:"", ""Six""]",0,"{""text"": ""Answer (1)\n(2) (a),(c),(e)Only\nOne molecule of glucose undergoes glycolysis\n(3) (b),(d),(e)Only\nto form 4 molecules of ATP, two are used in\n(4) (a), (c), (d) Only\nactivation phase so net gain is of 2 ATP.\nSol. Answer (4)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404002,,Apply,,,,2025-09-21T11:09:11.404002,"[""neet-2022"", ""biology""]"
+1076,Biology,General Biology,Mixed,"Which one of the following plants shows
+stem possess endarch protoxylem
+vexillary aestivation and diadelphous stamens?
+(e) In monocotyledonous root, usually there","[""(a), (b), (c) and (d) Only"", ""Solanum nigrum\nChoose the correct answer from the options"", ""Colchicum\ngiven below"", ""Pisum sativum autumnale""]",3,"{""text"": ""Answer (4)\n(2) (a), (c), (d) and (e) Only\nVexillary Aestivation and Diadelphous\n(3) (a), (b) and (d) Only\nstatements are feature of Fabaceae\n(4) (b), (c), (d) and (e) Only\n(14)\nTest-4 (Code-A)\nPisum sativum - Fabaceae 130. Which one of the following statements cannot\nbe connected to Predation?\nSolanum - Solanaceae\n(1) Both the interacting species are negatively\nColchicum, Allium - Liliaceae\nimpacted""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404173,,Apply,,,,2025-09-21T11:09:11.404173,"[""neet-2022"", ""biology""]"
+1077,Biology,Genetics,Molecular / Inheritance,"DNA polymorphism forms the basis of:
+(2) It is necessitated by nature to maintain the","[""Both genetic mapping and DNA finger\necological balance\nprinting"", ""Translation\ncommunity"", ""Genetic mapping"", ""DNA finger printing""]",0,"{""text"": ""Answer (1)\nSol. Answer (1)\nIn Predation interaction, is + - i.e for species\nDNA polymorphism is the basis of genetic (Host) it is beneficial and for others (Prey) it is\nmapping of genome and of DNA fingerprinting. detrimental""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404215,,Apply,,,,2025-09-21T11:09:11.404215,"[""neet-2022"", ""biology""]"
+1078,Biology,General Biology,Mixed,"What amount of energy is released from 131. Given below are two statements:
+glucose during lactic acid fermentation
+Statement I: Cleistogamous flowers are","[""About 10% invariably autogamous"", ""Less than 7% Statement II: Cleistogamy is disadvantageous\nas there is no chance for cross pollination"", ""Approximately 15%\nIn the light of the above statements, choose the"", ""More than 18%\ncorrect answer from the options given below :""]",1,"{""text"": ""Answer (2)\n(1) Statement I is correct but Statement II is\nLess than 7% of energy is released in lactic incorrect\nacid and alcoholic fermentation\n(2) Statement I is incorrect but Statement II is""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404262,,Apply,,,,2025-09-21T11:09:11.404262,"[""neet-2022"", ""biology""]"
+1079,Biology,General Biology,Mixed,"Production of Cucumber has increased
+Choose the correct answer from the options manifold in recent years. Application of which
+given below : of the following phytohormones has resulted in","[""Ethylene"", ""Cytokinin"", ""ABA"", ""(a) and (d) Only""]",0,"{""text"": ""Answer (1)\nSol. Answer (1)\nIn cucumbers, ethylene is responsible for\nAdventitious buds and not leaflets are modified\npromoting female flower production and\ninto pointed hard thorns in Citrus and\nthereby increasing the yield.\nBougainvillea""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404400,,Apply,,,,2025-09-21T11:09:11.404400,"[""neet-2022"", ""biology""]"
+1080,Biology,Plant Physiology,Photosynthesis / Transport,"Match List- I with List- II.
+(15)
+Gaseous plant growth regulator is ethylene
+(a) Manganese (i) Activates the
+which helps in root growth and root hair
+enzyme catalase
+absorption and therefore increases the surface
+(b) Magnesium (ii) Required for pollen area for absorption
+germination 136. Match the plant with the kind of life cycle it
+exhibits:
+(c) Boron (iii) Activates enzymes
+of respiration
+(d) Iron (iv) Functions in List-I List-II
+splitting of water
+(a) Spirogyra (i) Dominant diploid
+during photosynthesis
+sporophyte vascular
+Choose the correct answer from the options plant, with highly
+given below reduced male or
+female gametophyte","[""(a)-(iv), (b)- (i),(c)-(ii), (d)-(iii)"", ""(a)- (iii), (b)-(i), (c)-(ii), (d)- (iv) (b) Fern (ii) Dominant\nhaploid free-living"", ""(a)-(iii), (b)- (iv), (c)-(i), (d)-(ii)\ngametophyte"", ""(a)-(iv), (b)- (iii), (c)- (ii), (d)-(i)\n(c) Funaria (iii) Dominant diploid""]",3,"{""text"": ""Answer (4)\nsporophyte alternating\nIron - Activate catalase with reduced\nBoron - Help in pollen germination gametophyte called\nprothallus\nManganese - Plays major role in splitting of\nwater and release of oxygen during (b) Cycas (iv) Dominant\nphotosynthesis haploid leafy\nMagnesium - Activate several enzymes during gametophyte\nphotosynthesis and respiration. alternating with\npartiaIly dependent""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404483,,Apply,,,,2025-09-21T11:09:11.404483,"[""neet-2022"", ""biology""]"
+1081,Biology,Cell Biology,Division / Cell Cycle,"Which one of the following never occurs during
+multicellular
+mitotic cell division?
+sporophyte","[""(a)-(iii), (b)-(iv), (c)-(i), (d)-(ii)"", ""(a)-(ii), (b)-(iv), (c)-(i), (d)-(iii)\npoles"", ""(a)- (iv),(b)-(i), (c)-(ii), (d)- (iii)"", ""Movement of centrioles towards opposite""]",0,"{""text"": ""Answer (1) (4) (a)-(ii), (b)-(iii), (c)-(iv), (d)-(i)\nPairing of homologous chromosome (Synapsis) Sol. Answer (4)\noccurs during meiosis\n• Spirogyra is a green alage, haplontic life""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404529,,Apply,,,,2025-09-21T11:09:11.404529,"[""neet-2022"", ""biology""]"
+1082,Biology,General Biology,Mixed,"The gaseous plant growth regulator is used in cycle.
+plants to:
+• Fern is a pteridophyte - Life cycle shows","[""help overcome apical dominance dominant diploid sporophyte, alternating with"", ""kill dicotyledonous weeds in the fields reduced free living gametophytic stage. So its\nHaplo-diplontic life cycle"", ""speed up the malting process\n• Funaria - belongs to Bryophyta. Its a moss"", ""promote root growth and root hair formation\nplant. Exhibits haplo diplontic lifecycle.\nto increase the absorption surface\nThe free living haploid gametophyte bears the""]",3,"{""text"": ""Answer (4)\nsporophytic plant body.\n• Cycas - Gymnosperms.\n(16)\nTest-4 (Code-A)\nGymnosperms exhibit dominant diploid the middle forming two\nsaprophytic plant body, with highly reduced equal arms\nmale/female gametophyte. chromosomes""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404579,,Apply,,,,2025-09-21T11:09:11.404579,"[""neet-2022"", ""biology""]"
+1083,Biology,Cell Biology,Division / Cell Cycle,"Which part of the fruit, labelled in the given (d) Telocentric
+Centromere slightly
+figure makes it a false fruit? chromosome
+away from the middle
+forming one shorter
+arm and one longer
+arm
+Choose the correct answer from the options
+given below:","[""C → Thalamus"", ""D → Seed"", ""A → Mesocarp"", ""B → Endocarp""]",2,"{""text"": ""Answer (3)\nSol. Answer (1)\n(a) Meta centric - Centromere is at the\nC → Thalamus\nchromosome middle. Forms two\nA fruit developed from fertilized ovary is true equal arms of the\nfruit. chromosome\nThalamus becomes fleshy and grows around\n(b) Acrocentric - Position of centromer\nthe true fruit. This fleshy, juicy thalamus is\nchromosome is close to the end -\nedible part in apple. Hence it is a False fruit.\nforms one very short""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404648,,Apply,,,,2025-09-21T11:09:11.404648,"[""neet-2022"", ""biology""]"
+1084,Biology,General Biology,Mixed,"Which one of the following will accelerate arm and one very
+phosphorus cycle ? long arm.","[""Weathering of rocks\nc. Sub meta - Position of centromer"", ""Rainfall and storms centric is slightly away from"", ""Burning of fossil fuels chromosome the middle, as a result\n- one arm is shorter"", ""Volcanic activity\nand one arm is onger.""]",0,"{""text"": ""Answer (1)\nd. Telocentric - Centromere is located\nPhosphorus cycle - ‘P’ is sedimentary cycle.\nchromosome terminal end.\nThe natural source of phosphates is phosphate\nrich rocks. So, phosphorus is obtained from\nweathering of phosphate rich rocks. Reservoir 140. The anatomy of springwood shows some\nof ‘P’ is earths crust. peculiar features. Identify the correct set of""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404700,,Apply,,,,2025-09-21T11:09:11.404700,"[""neet-2022"", ""biology""]"
+1085,Biology,Plant Physiology,Photosynthesis / Transport,"Match List - I with List - II. statements about0020springwood.
+(a) It is also called as the earlywood
+List-I List-II
+(b) In spring season cambium produces xylem
+(a) Metacentric
+(i) Centromere elements with narrow vessels
+chromosome
+situated close to the
+(c) It is lighter in colour
+end forming one
+extremely short and (d) The springwood along with autumnwood
+one very longar shows alternate concentric rings forming
+annual rings
+(b) Acrocentric
+(ii) Centromere at
+chromosome (e) It has lower density
+the terminal end
+Choose the correct answer from the options
+(c) Sub- metacentric
+(iii) Centromere in given below:
+(17)","[""(a), (b) and (d) Only (a) Lecithin found in the plasma membrane is a\nglycolipid"", ""(c), (d) and (e) Only\n(b) Saturated fatty acids possess one or more"", ""(a), (b), (d) and (e) Only\nc = c bonds"", ""(a), (c), (d) and (e) Only\n(c) Gingelly oil has lower melting point, hence""]",3,"{""text"": ""Answer (4)\nremains as oil in winter\nBased on the activity of cambium, in temperate\n(d) Lipids are generally insoluble in water but\nregions - two types of woods ae conspicuously\nsoluble in some organic solvents\nseen.\n(e) When fatty acid is esterified with glycerol,\nCambium is more active during spring season,\nmonoglycerides are formed\nproduce large no. of xylary elements with wide\nChoose the correct answer from the options\ncavities and low density\ngiven below:\nDuring winters, cambium is less active,\n(1) (c), (d) and (e) only\nproduce narrow xylary elements which are\nmore dense - Autumn wood. Autumn wood (2) (a), (b) and (d) only\nalso called as latewood\n(3) (a), (b) and (c) only\nOne ring of spring wood, one ring of autumn\n(4) (a), (d) and (e) only\nwood as alternate concentric rings - form one\nSol. Answer (1)\nAnnual ring\nLecithin is a phospholipid, saturated fatty acids""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404793,,Apply,,,,2025-09-21T11:09:11.404793,"[""neet-2022"", ""biology""]"
+1086,Biology,General Biology,Mixed,"Given below are two statements: one is
+lack double bonds.
+labelled as Assertion (A) and the other is
+labelled as Reason 143. What is the role of large bundle shealth cells
+found around the vascular bundles in C
+Assertion (A): Mendel's law of Independent 4
+plants?
+assortment does not hold good for the genes
+that are located closely on the same","[""(A) is correct but (R) is not correct\nthe operation of Calvin cycle"", ""(A) is not correct but (R) is correct"", ""To provide the site for photorespiratory\ncorrect answer from the options given below: pathway"", ""To increase the number of chloroplast for""]",3,"{""text"": ""Answer (4)\n(3) Both (A) and (R) are correct and (R) is the\nC4 plant has Kranz anatomy - large number of\ncorrect explanation of (A)\nBundle sheath cells around vascular bundles\n(4) Both (A) and (R) are correct but (R) is not\nhelp for two things.\nthe correct explanation of (A)\n(a) makes these cells impervious to gases\nSol. Answer (1)\n(b) increase the number of chloroplasts for\nMendel’s law of independent assortment based\noperation of Calvin cycle\non dihybrid cross stated that when the""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404873,,Apply,,,,2025-09-21T11:09:11.404873,"[""neet-2022"", ""biology""]"
+1087,Biology,Genetics,Molecular / Inheritance,"In the following palindromic base sequences of
+inheritance pattern of two pair of genes were
+DNA, which one can be cut easily by particular
+combinedly observed the segregation of one
+restriction enzyme?
+pair of alleles is independent of another pair of
+alleles. This law is true only when","[""5' C T C A G T 3' ; 3' G A G T C A 5'\n• genes are present on separate chromosomes"", ""5'T A TT C 3' ; 3' CAT A A G 5'\n• genes present on same chromosome but"", ""5'G A T A C T 3' ; 3' C T A T G A 5'\ndistantly placed from each other."", ""5' G A A T T C 3' ; 3' Y C T T A A G 5'""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:11.404907,,Apply,,,,2025-09-21T11:09:11.404907,"[""neet-2022"", ""biology""]"
+1088,Biology,General Biology,Mixed,"The entire fleet of buses in Delhi were Sol. Answer (3)
+converted to CNG from diesel. In reference to
+The interspecific interactions are of numerous
+this, which one of the following statements is
+types. The interaction in which one species is
+false?
+negatively affected and the other species is","[""It is cheaper than diesel positively affected is predation"", ""It can not be adulterated like diesel Predation - species - A (+) - species B (-)"", ""CNG burns more efficiently than diesel Commensalism - (+/o)"", ""The same diesel engine is used in CNG Competition - (-/-)\nbuses making the cost of conversion low\nAmensalism - (-/o)""]",3,"{""text"": ""Answer (4)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405024,,Apply,,,,2025-09-21T11:09:11.405024,"[""neet-2022"", ""biology""]"
+1089,Biology,General Biology,Mixed,"Addition of more solutes in a given solution will:
+called as","[""Expressed sequence tags"", ""Bioinformatics"", ""Sequence annotation"", ""Gene mapping""]",3,"{""text"": ""Answer (4)\nSol. Answer (3)\nWater potential is a measure of free energy in\nwater (closed system) In Human genome project, two\nmethodologies/approaches were used to\nWhen more solute is added to a given solution\nthe free energy of water decreased further, so it The method by which the whole genome was\nwould further lower its water potential (less sequenced and later coding and non coding\nnegative to more negative) regions were identified and functions were\nannotated. This method is known as sequence""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405127,,Apply,,,,2025-09-21T11:09:11.405127,"[""neet-2022"", ""biology""]"
+1090,Biology,General Biology,Mixed,Which of the following occurs due to the,"[""Haemophilia"", ""Thalessemia"", ""Sickle cell anaemia"", ""Gene silencing""]",3,"{""text"": ""Answer (4)\n(4) Myotonic dystrophy\nTransposons are “jumping genes” or mobile\nSol. Answer (4)\ngenetic elements that replicate via RNA\nintermediate and can induce RNA interference Myotonic dystrophy is an autosomal dominant\nby introducing complementary RNA in gene disorder.\neukaryotic cell. RNAi technology is developed\nAffected people have muscle degeneracy.\nbased on gene silencing mechanism.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405217,,Apply,,,,2025-09-21T11:09:11.405217,"[""neet-2022"", ""biology""]"
+1091,Biology,General Biology,Mixed,"While explaining interspecific interaction of
+acquire specific character value other than the
+population, ( +) sign is assigned for beneficial
+mean character value, leads to:
+interaction, (-) sign is assigned for detrimental","[""Disruptive change\ninteraction and (0) for neutral interaction. Which\nof the following interactions can be assigned"", ""Random change\n(19)"", ""RER has ribosomes attached to ER"", ""SER is devoid of ribosomes""]",3,"{""text"": ""Answer (4) Sol. Answer (1)\nDirectional selection occurs if selection does In prokaryotes, membrane bound organelles\nnot favour the mean character value, rather it like endoplasmic reticulum is absent.\nfavors the extreme value and only in one\nRest all statement are correct.\ndirection.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405313,,Apply,,,,2025-09-21T11:09:11.405313,"[""neet-2022"", ""biology""]"
+1092,Biology,Cell Biology,Division / Cell Cycle,"Given below are two statements:
+(2) Prothorax and Mesothorax
+Statement I: Mycoplasma can pass through
+(3) Prothorax
+less than 1 micron filter size.
+(4) Mesothorax
+Statement II : Mycoplasma are bacteria with
+cell wall. Sol. Answer (4)
+In the light of the above statements, choose the Tegmina in cockroach arises from mesothroax.
+most appropriate answer from the options They are not used for flight but cover and
+given below: protect the metathoracic wings.","[""3.3 × 106 bp"", ""6.6 × 106 bp\ncorrect"", ""3.3 × 109 bp"", ""6.6 × 109 bp\nincorrect""]",2,"{""text"": ""Answer (3)\nSol. Answer (1)\nIn 2.2 meters of length of DNA, 6.6 × 109 bp are\nMycoplasma can pass through less than 1\npresent, so in half length i.e. 1.1 meters\nmicron filter size.\n3 × 109 bp should be present.\nMycoplasma are bacteria without a cell wall, so""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405434,,Apply,,,,2025-09-21T11:09:11.405434,"[""neet-2022"", ""biology""]"
+1093,Biology,General Biology,Mixed,A dehydration reaction links two glucose,"[""C 12 H 22 O 11"", ""C 12 H 24 O 11 Sol. Answer"", ""C 12 H 20 O 10 Penicillium belongs to Ascomycetes."", ""C 12 H 24 O 12 In ascomycetes asexual reproductive structure""]",0,"{""text"": ""Answer (1) is conidia.\n(C H O + C H O ) - H O = C H O 158. Given below are two statements: one is\n6 12 6 6 12 6 2 12 22 11.\nlabelled as Assertion (A) and the other is\nOne water molecule is removed during\nlabelled as Reason (R).\nglyosidic bond formation.\nAssertion (A):""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405521,,Apply,,,,2025-09-21T11:09:11.405521,"[""neet-2022"", ""biology""]"
+1094,Biology,General Biology,Mixed,"Which of the following statement with respect
+to Endoplasmic Reticulum is incorrect? All vertebrates are chordates but all chordates
+are not vertebrates.","[""In prokaryotes only RER are present\nReason (R):"", ""SER are the sites for lipid synthesis\n(20)\nTest-4 (Code-A)\nNotochord is replaced by vertebral column in"", ""Corvus, Columba, Chameleon\nthe adult vertebrates"", ""Bufo, Balaenoptera, Bangarus\nIn the light of the above statements, choose the""]",1,"{""text"": ""Answer (2)\nmost appropriate answer from the options\nThe digestive tract of Aves has additional\ngiven below:\nchambers in their digestive system as crop (for\n(1) (A) is correct but (R) is not correct\nstorage of food) and Gizzard (mastication of\n(2) (A) is not correct but (R) is correct food).\n(3) Both (A) and (R) are correct and (R) is the Pavo-Peacock, Psittacula-Parrot, Corvus-crow\ncorrect explanation of (A)\n(4) Both (A) and (R) are correct but (R) is not 162. Which of the following functions is not\ncorrect explanation of (A) performed by secretions from salivary glands?\nSol. Answer (3) (1) Lubrication of oral cavity\nChordates include Urochordates, (2) Digestion of disaccharides\nCephalochordates (protochordates) and\n(3) Control bacterial population in mouth\nvertebrates. In vertebrates notochord is\n(4) Digestion of complex carbohydrates\nreplaced by vertebral column, however\nvertebral column is not present in Sol. Answer (2)\nprotochordates. Therefore, All vertebrates are\nDisaccharides are digested by disaccharidases\nchordates but all chordates are not vertebrates.\nin intestinal juice.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405604,,Apply,,,,2025-09-21T11:09:11.405604,"[""neet-2022"", ""biology""]"
+1095,Biology,General Biology,Mixed,"Nitrogenous waste is excreted in the form of
+and minerals or higher proteins and healthier
+pellet or paste by :
+fats is called:","[""Bio-fortification"", ""Bio-accumulation"", ""Bio-magnification"", ""Bio-remediation""]",1,"{""text"": ""Answer (2)\nSol. Answer (1)\nReptiles (e.g. lizards), birds, land snails and\nBiofortification is breeding crops with higher\ninsects excrete nitrogenous wastes, as uric\nlevel of vitamins and minerals, proteins and\nacid in the form of pellet or paste and are\nhealthier fats.\ncalled as uricotelic animals.""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405697,,Apply,,,,2025-09-21T11:09:11.405697,"[""neet-2022"", ""biology""]"
+1096,Biology,Genetics,Molecular / Inheritance,"In an E. Coli strain i gene gets mutated and its
+human being every 100 ml of oxygenated blood
+product can not bind the inducer molecule. If
+can deliver ______ ml of O to the tissues.
+2 growth medium is provided with lactose, what","[""z, y, a genes will not be translated"", ""RNA polymerase will bind the promoter\nregion"", ""Only z gene will get transcribed"", ""5 ml""]",3,"{""text"": ""Answer (4)\n(4) z, y, a genes will be transcribed\nEvery 100 ml of oxygenated blood delivers\nabout 5 ml of oxygen to the tissues under Sol. Answer (1)\nnormal physiological conditions.\nProduct of i gene is repressor and if it cannot""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405780,,Apply,,,,2025-09-21T11:09:11.405780,"[""neet-2022"", ""biology""]"
+1097,Biology,General Biology,Mixed,"Which of the following is present between the (4) Spindle fibres attach to centromere of
+adjacent bones of the vertebral column? chromosomes","[""Areolar tissue Sol. Answer"", ""Smooth muscle Explanation : During metaphase, spindle fibres\nattach to kinetochore and chromatin fibres"", ""Intercalated discs\nstarts condensing at prophase and"", ""Cartilage\nchromosomes decondense at telophase.""]",3,"{""text"": ""Answer (4)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405873,,Apply,,,,2025-09-21T11:09:11.405873,"[""neet-2022"", ""biology""]"
+1098,Biology,General Biology,Mixed,"Given below are two statements :
+Spermiogenesis is the process of formation of
+Statement I :
+sperms from spermatogonia.
+Fatty acids and glycerols cannot be absorbed
+In the light of the above statements, choose the
+into the blood.
+most appropriate answer from the options
+Statement II :
+given below :
+Specialized lymphatic capillaries called lacteals","[""Statement I is correct but Statement II is"", ""Statement I is incorrect but Statement II is"", ""Both Statement I and Statement II are\ngiven below:\ncorrect"", ""Both Statement I and Statement II are\nincorrect\nincorrect)""]",0,"{""text"": ""Answer (1)\ncorrect\nThe process conversion of spermatids into\n(3) Both Statement I and Statement II are\nspermatozoa is called spermiogenesis.\ncorrect""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.405983,,Apply,,,,2025-09-21T11:09:11.405983,"[""neet-2022"", ""biology""]"
+1099,Biology,Cell Biology,Division / Cell Cycle,"Select the incorrect statement with reference to correct
+mitosis:
+(3) Both Statement I and Statement II are","[""Chromosomes decondense at telophase correct"", ""(22)\nTest-4 (Code-A)\nThe coagulum is formed of a network of threads Situ conservations are National parks, wildlife\nof fibrins. sanctuary and sacred groves etc."", ""All the chromosomes lie at the equator at\nmetaphase Sol. Answer"", ""Both Statement I and Statement II are\nincorrect""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406096,,Apply,,,,2025-09-21T11:09:11.406096,"[""neet-2022"", ""biology""]"
+1100,Biology,General Biology,Mixed,"Identify the microorganism which is responsible 173. Lippe's loop is a type of contraceptive
+for the production of an immunosuppressive","[""Aspergillus niger"", ""Streptococcus cerevisiae"", ""Trichoderma polysporum"", ""Vault barrier""]",0,"{""text"": ""Answer (1)\n(4) Clostridium butylicum\nLippe’s Loop is an inert or non-medicated IUD.\nSol. Answer (3)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406141,,Apply,,,,2025-09-21T11:09:11.406141,"[""neet-2022"", ""biology""]"
+1101,Biology,General Biology,Mixed,"Which of the following is not the function 0f
+(2) (b), (c) and (e) only
+conducting part of respiratory system ?
+(3) (c) and (e) only","[""Temperature of inhaled air is brought to"", ""(b), (c) and (e) only\nconducting part of respiratory system ?"", ""(c) and (e) only"", ""(b) and (c) only body temperature""]",1,"{""text"": ""Answer (2) (2) Provides surface for diffusion of O and\n2\nCO\nStatements (a) and (d) hold true for both 2\nspermatogenesis and oogenesis. (3) It clears inhaled air from foreign particles""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406343,,Apply,,,,2025-09-21T11:09:11.406343,"[""neet-2022"", ""biology""]"
+1102,Biology,General Biology,Mixed,In-situ conservation refers to: (4) Inhaled air is humidified,"[""Conserve only endangered species Sol. Answer"", ""Conserve only extinct species The gaseous exchange is done by the\nrespiratory part of the respiratory system."", ""Protect and conserve the whole ecosystem"", ""Inhaled air is humidified""]",0,"{""text"": """"}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406374,,Apply,,,,2025-09-21T11:09:11.406374,"[""neet-2022"", ""biology""]"
+1103,Biology,General Biology,Mixed,Detritivores breakdown detritus into smaller,"[""Humification"", ""Decomposition\ncorrect"", ""Both Statement I and Statement II are"", ""Fragmentation correct""]",3,"{""text"": ""Answer (4) (4) Both Statement I and Statement II are\nincorrect\nThe process of the breakdown of detritus into\nsmaller parts by detritus like earthworms called Sol. Answer (3)\nfragmentation.\nBoth the statements are correct""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406494,,Apply,,,,2025-09-21T11:09:11.406494,"[""neet-2022"", ""biology""]"
+1104,Biology,Genetics,Molecular / Inheritance,"In gene therapy of Adenosine Deaminase
+tissue?
+(ADA) deficiency, the patient requires periodic","[""Lymphocytes from patient’s blood are"", ""Genetically engineered lymphocytes are"", ""Blood\ngrown in culture, outside the body."", ""Adipose tissue""]",1,"{""text"": ""Answer (2) not immortal cells.\nNeuroglial cells are components of nervous (3) Retroviral vector is introduced into these\ntissue. lymphocytes""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406574,,Apply,,,,2025-09-21T11:09:11.406574,"[""neet-2022"", ""biology""]"
+1105,Biology,Genetics,Molecular / Inheritance,"In the taxonomic categories which hierarchical (4) Gene isolated from marrow cells producing
+arrangement in ascending order is correct in ADA is introduced into cells at embryonic
+the case of animals ? states","[""Kingdom, Order, Class, Phylum, Family, Sol. Answer"", ""Kingdom, Phylum, Class, Order, Family, limited life span. Thus, periodic infusion is\nGenus, Species required."", ""Kingdom, Phylum, Class, Order, Family, 182. Given below are two statements: one is\nGenus, Species labelled as Assertion (A) and the other is"", ""Kingdom, Class, Phylum, Family, Order, labelled as Reason (R).\nGenus, Species Assertion (A):""]",2,"{""text"": ""Answer (3) Osteoporosis is characterised by decreased\nThe correct hierarchical arrangements in bone mass and increased chances o( fractures.\nascending order in animals is species, genus, Reason(R):\nfamily, order, class, phylum and kingdom.\nCommon cause of osteoporosis is increased""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406622,,Apply,,,,2025-09-21T11:09:11.406622,"[""neet-2022"", ""biology""]"
+1106,Biology,General Biology,Mixed,"At which stage of life the oogenesis process is
+(2) a, c, b, d
+initiated?
+(3) a, d, b, c","[""Birth"", ""Adult"", ""a, d, b, c"", ""d, b, a, c""]",1,"{""text"": ""Answer (2)\n(3) Puberty\nRecombination frequency between genes\n(4) Embryonic development stage\nac - 5 %\nSol. Answer (4)\nbc - 15 %\nOogenesis starts at embryonic development\nstage in females. bd - 9 %""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406752,,Apply,,,,2025-09-21T11:09:11.406752,"[""neet-2022"", ""biology""]"
+1107,Biology,General Biology,Mixed,"If '8' Drosophila in a laboratory population of ab - 20 %
+'80' died during a week, the death rate in the
+cd - 24 %
+population is _____ individuals per Drosophila
+ad - 29 %
+per week.","[""1.0"", ""zero"", ""0.1"", ""10""]",2,"{""text"": ""Answer (3)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406793,,Apply,,,,2025-09-21T11:09:11.406793,"[""neet-2022"", ""biology""]"
+1108,Biology,General Biology,Mixed,"Given below are two statements:
+(a) Glycogen (i) Hormone
+Statement I:
+(b) Globulin (ii) Biocatalyst
+Autoimmune disorder is a condition where body
+(c) Steroids (iii) Antibody
+defense mechanism recognizes its own cells as
+foreign bodies. (d) Thrombin (iv) Storage product
+Statement II : Choose the correct answer from the options
+given below:
+Rheumatoid arthritis is a condition where body
+does not attack self cells.","[""Statement I is correct but Statement II is"", ""(a) - (iv), (b) - (iii), (c) - (i), (d) - (ii)\nmost appropriate answer from the options"", ""(a) - (iii), (b) - (ii), (c) - (iv), (d) - (i)\ngiven below:"", ""(a) - (iv), (b) - (ii), (c) - (i), (d) - (iii)""]",1,"{""text"": ""Answer (2)\nincorrect\nGlycogen - Storage form of glucose in animals\n(2) Statement I is incorrect but statement II is\ncorrect Globulin - Fighting infection\n(25)\nSteroids - Hormone Devices Menstrual cycle and\nThrombin - Biocatalyst ovulation following""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406909,,Apply,,,,2025-09-21T11:09:11.406909,"[""neet-2022"", ""biology""]"
+1109,Biology,General Biology,Mixed,"Which of the following are not the effects of parturition
+Parathyroid hormone ?
+(d) Lactational (iv) They cover the
+(a) Stimulates the process of bone resorption
+Amenorrhea cervix blocking the
+(b) Decreases Ca2+ level in blood
+entry of sperms
+(c) Reabsorption of Ca2+ by renal tubules
+Choose the correct answer from the options
+(d) Decreases the absorption of Ca2+ from given below :
+digested food","[""(a) and (e) only"", ""(a) - (iii), (b) - (ii), (c) - (i), (d) - (iv)\nChoose the most appropriate answer from the"", ""(a) - (iv), (b) - (i), (c) - (iii), (d) - (ii)\noptions given below:"", ""(a) - (iv), (b) - (i), (c) - (ii), (d) - (iii)""]",3,"{""text"": ""Answer (4)\n(2) (b) and (c) only\nDiaphragms - They cover the cervix and block\n(3) (a) and (c) only\nthe entry of sperms\n(4) (b), (d) and (e) only\nContraceptive pills - Inhibit ovulation and\nSol. Answer (4) Implantation\nIncreases Ca2+ level in blood IUDs - Increase phagocytosis of sperm within\nUterus\nIncrease the absorption of Ca2+ from digested\nfood Lactational Amenorrhea - Absence of\nMenstrual cycle and ovulation following\nNo direct relation with metabolism of\nparturition\ncarbohydrates""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.406990,,Apply,,,,2025-09-21T11:09:11.406990,"[""neet-2022"", ""biology""]"
+1110,Biology,General Biology,Mixed,"Which of the following is not a desirable feature
+mother was also colour blind, what are the
+of a cloning vector?
+chances of her progeny having colour","[""75%"", ""100%"", ""25%"", ""Presence of a marker gene""]",1,"{""text"": ""Answer (2)\nSol. Answer (2)\nColor blindness is X-linked recessive disorder.\nPresence of more than one recognition site\nFemale genotype Male genotype\nwithin vector will create multiple fragments\nxx-Normal xy-Normal\nwhich will complicate gene cloning.\nxcx-Normal, carrier""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.407081,,Apply,,,,2025-09-21T11:09:11.407081,"[""neet-2022"", ""biology""]"
+1111,Biology,General Biology,Mixed,Which of the following statements is not true? 195. Match List-I with List-II.,"[""Homology indicates common ancestry List- I List-II"", ""Flippers of penguins and dolphins are a (a) Bronchioles (i) Dense Regular\npair of homologous organs Connective Tissue"", ""Analogous structures are a result of (b) Goblet cell (ii) Loose Connective\nconvergent evolution Tissue"", ""Sweet potato and potato is an example of (c) Tendons (iii) Glandular Tissue\nanalogy\n(d) Adipose Tissue (iv) Ciliated Epithelium""]",1,"{""text"": ""Answer (2)\nChoose the correct answer from the options\nFlippers of Penguins and Dolphins are a pair of given below:\nanalogous organs\n(1) (a)-(ii), (b)-(i), (c)- (iv), (d)- (iii)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.407182,,Apply,,,,2025-09-21T11:09:11.407182,"[""neet-2022"", ""biology""]"
+1112,Biology,General Biology,Mixed,"Which of the following is a correct statement?
+(2) (a)-(iii), (b)- (iv), (c)- (ii), (d)-(i)","[""Slime moulds are saprophytic organisms"", ""Mycoplasma have DNA, Ribosome and cell\nwall Sol. Answer"", ""Cyanobacteria are a group of autotrophic (a) Bronchioles - Ciliated Epithelium\norganisms classified under Kingdom\n(b) Goblet cell - Glandular Tissue\nMonera\n(c) Tendons - Dense Regular Connective"", ""Bacteria are exclusively heterotrophic\nTissue\norganisms.\n(d) Adipose Tissue - Loose Connective Tissue""]",2,"{""text"": ""Answer (3)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.407225,,Apply,,,,2025-09-21T11:09:11.407225,"[""neet-2022"", ""biology""]"
+1113,Biology,General Biology,Mixed,"Select the incorrect statement with respect to extracted from Cattles and Pigs.
+acquired immunity.
+(d) Pro-hormone Insulin needs to be","[""(c) and (d) only"", ""(c), (d) and (e) only\nsubsequent encounters with the same"", ""(a), (b) and (d) only\npathogen"", ""(b) only""]",1,"{""text"": ""Answer (2)\nSol. Answer (4)\nAcquired immunity is a specific type of\nimmunity and acquired during life time.\n(27)\n(a), (c), (d) and (e) are not related with 199. Select the incorrect statement regarding\ngenetically engineered Insulin synapses:""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.407361,,Apply,,,,2025-09-21T11:09:11.407361,"[""neet-2022"", ""biology""]"
+1114,Biology,General Biology,Mixed,Given below are two statements:,"[""Chemical synapses use neurotransmitters\nStatement I:"", ""Impulse transmission across a chemical\nsynapse is always faster than the across\nIn a scrubber the exhaust from the thermal\nan electrical synapse.\nplant is passed through the electric wires to\ncharge the dust particles."", ""The membranes of presynaptic and\npostsynaptic neurons are in close\nStatement II:\nproximity in an electrical synapse.\nParticulate matter (PM 2.5) can not be removed"", ""Electrical current can flow directly from\nby scrubber but can be removed by an\none neuron into the other across the\nelectrostatic precipitator.\nelectrical synapse.\nIn the light of the above statements, choose the""]",1,"{""text"": ""Answer (2)\nmost appropriate answer from the options given\nbelow: Impulse transmission across a chemical\nsynapse is always slower than across an\n(1) Statement I is correct but Statement II is\nelectrical synapse.\nincorrect""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.407406,,Apply,,,,2025-09-21T11:09:11.407406,"[""neet-2022"", ""biology""]"
+1115,Biology,General Biology,Mixed,"Which one of the following statements is
+(2) Statement I is incorrect but Statement II is
+correct?
+correct","[""Blood moves freely from atrium to the"", ""Increased ventricular pressure causes"", ""The atrio-ventricular node (AVN)"", ""Both Statement I and Statement II are\nclosing of the semilunar valves.\nincorrect""]",1,"{""text"": ""Answer (2)\ngenerates an action potential to stimulate\nStatement-I is incorrect.\natrial contraction\nStatement-II is correct\n(4) The tricuspid and the bicuspid valves open\nScrubber is meant to remove gases, like SO2. due to the pressure exerted by the\nsimultaneous contraction of the atria\nElectrostatic precipitator is meant to remove\nparticulate matter. About 99% of particulate Sol. Answer (1)\nmatter can be removed from exhaust of thermal\nNearly 70% of ventricles get filled with blood\npowerplants.\nduring joint diastole (blood moves freely from""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.407466,,Apply,,,,2025-09-21T11:09:11.407466,"[""neet-2022"", ""biology""]"
+1116,Biology,Genetics,Molecular / Inheritance,"The E.coli cells with 15N-dsDNA are incubated atria to ventricles)
+in medium containing 14N nucleotide. After 60
+Ventricular systole causes closure of AV values
+minutes, how may E.coli cells will have DNA
+SA node generates action potential to stimulate
+totally free from 15N?
+atrial contraction.","[""60 cells"", ""80 cells"", ""20 cells"", ""40 cells""]",0,"{""text"": ""Answer (1)\n1 cell with N15 DNA after 3 generations or 60\nmins will form two cells with hybrid DNA\n(N15-N14) and 6 cells with light DNA (N14-N14)\nIf we are starting with 10 cells then 60 cells with\nhave only light DNA (N14-N14)\n\n(28)""}",3,English,NEET 2022,active,,2025-09-21T11:09:11.407516,,Apply,,,,2025-09-21T11:09:11.407516,"[""neet-2022"", ""biology""]"
