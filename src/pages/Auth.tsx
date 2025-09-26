@@ -24,6 +24,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import Logo from '@/components/Logo'
 import { Mail, ArrowLeft } from 'lucide-react'
+import { normalizeNextPath } from '@/utils/url'
 
 const authSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -63,7 +64,7 @@ const Auth: React.FC = () => {
   const onSubmit = async (data: AuthFormData) => {
     setIsLoading(true)
     try {
-      const next = searchParams.get('next') || '/app'
+      const next = normalizeNextPath(searchParams.get('next'))
       
       if (isSignUp) {
         const { error } = await signUpWithEmail(data.email, data.password)
@@ -134,7 +135,7 @@ const Auth: React.FC = () => {
   const onGoogleSignIn = async () => {
     setIsLoading(true)
     try {
-      const next = searchParams.get('next') || '/app'
+      const next = normalizeNextPath(searchParams.get('next'))
       const { error } = await signInWithGoogle(next)
       if (error) {
         toast({

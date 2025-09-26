@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/integrations/supabase/client'
+import { normalizeNextPath } from '@/utils/url'
 
 export default function AuthCallback() {
   const navigate = useNavigate()
@@ -9,7 +10,7 @@ export default function AuthCallback() {
     (async () => {
       try {
         const qs = new URLSearchParams(window.location.search)
-        const next = qs.get('next') || '/app'
+        const next = normalizeNextPath(qs.get('next'))
 
         // Handle both OAuth (PKCE) and magic-link/hash flows
         const { error } = await supabase.auth.exchangeCodeForSession(window.location.href)
