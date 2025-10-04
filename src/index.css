@@ -140,6 +140,36 @@ All colors MUST be HSL.
   }
 }
 
+/* Math Rendering Styles */
+.math-content {
+  line-height: 1.8;
+}
+
+.math-stem {
+  display: block;
+  padding: 0.5rem 0;
+}
+
+.math-stem .math-display {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  font-size: 1.2em;
+}
+
+.math-stem .katex {
+  font-size: 1.1em;
+}
+
+.math-option .katex {
+  font-size: 1em;
+}
+
+.katex-display {
+  margin: 1rem 0;
+  text-align: center;
+}
+
 @layer base {
   * {
     @apply border-border;

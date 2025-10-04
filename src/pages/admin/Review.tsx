@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
+import { MathRenderer } from '@/components/MathRenderer';
 import { 
   ChevronRight, 
   ChevronLeft, 
@@ -232,7 +233,9 @@ const Review: React.FC = () => {
             <CardContent className="space-y-6">
               <div className="p-4 bg-muted/50 rounded-lg">
                 <h3 className="font-medium mb-2">Question:</h3>
-                <p className="text-sm leading-relaxed">{currentQuestion.stem}</p>
+                <div className="text-sm leading-relaxed">
+                  <MathRenderer content={currentQuestion.stem} />
+                </div>
               </div>
 
               <div className="space-y-3">
@@ -249,7 +252,7 @@ const Review: React.FC = () => {
                         <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-muted text-xs font-medium mr-3">
                           {String.fromCharCode(65 + index)}
                         </span>
-                        {option}
+                        <MathRenderer content={option} isOption />
                       </Label>
                     </div>
                   ))}

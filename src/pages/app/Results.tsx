@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { MathRenderer } from '@/components/MathRenderer';
 import { 
   Trophy, 
   Target, 
@@ -526,9 +527,9 @@ const Results: React.FC = () => {
                         {index + 1}
                       </Badge>
                       <div className="text-left">
-                        <p className="font-medium truncate max-w-[400px]">
-                          {result.question.stem}
-                        </p>
+                        <div className="font-medium truncate max-w-[400px]">
+                          <MathRenderer content={result.question.stem} />
+                        </div>
                         <p className="text-xs text-muted-foreground">
                           {result.question.subject} • {result.question.chapter}
                         </p>
@@ -563,7 +564,9 @@ const Results: React.FC = () => {
                               <XCircle className="h-4 w-4 text-red-600" />
                             )}
                             <span className="font-medium">{String.fromCharCode(65 + optionIndex)}.</span>
-                            <span>{option}</span>
+                            <span className="flex-1">
+                              <MathRenderer content={option} isOption />
+                            </span>
                           </div>
                         </div>
                       ))}

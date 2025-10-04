@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { MathRenderer } from '@/components/MathRenderer';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -344,7 +345,7 @@ const TestPlayer: React.FC = () => {
                   )}
                 </div>
                 <CardTitle className="text-lg leading-relaxed">
-                  {currentQuestion.stem}
+                  <MathRenderer content={currentQuestion.stem} />
                 </CardTitle>
               </div>
               
@@ -380,7 +381,9 @@ const TestPlayer: React.FC = () => {
                     }`}>
                       {optionLabel}
                     </div>
-                    <span className="flex-1">{option}</span>
+                    <span className="flex-1">
+                      <MathRenderer content={option} isOption />
+                    </span>
                     {isSelected && <CheckCircle className="h-5 w-5 text-primary" />}
                   </div>
                 </button>

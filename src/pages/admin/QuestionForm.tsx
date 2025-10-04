@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Badge } from '@/components/ui/badge';
+import { MathRenderer } from '@/components/MathRenderer';
 import { 
   Save, 
   Copy, 
@@ -559,7 +560,9 @@ const QuestionForm: React.FC = () => {
                 <div className="space-y-4">
                   <div className="p-4 border rounded-lg bg-muted/50">
                     <h3 className="font-medium mb-2">Question:</h3>
-                    <p className="text-sm">{formData.stem}</p>
+                    <div className="text-sm">
+                      <MathRenderer content={formData.stem} />
+                    </div>
                   </div>
                   
                   <div className="space-y-2">
@@ -576,7 +579,9 @@ const QuestionForm: React.FC = () => {
                         <span className="w-6 h-6 rounded-full border border-border flex items-center justify-center text-xs">
                           {String.fromCharCode(65 + index)}
                         </span>
-                        <span className="text-sm">{option || `Option ${String.fromCharCode(65 + index)}`}</span>
+                        <span className="text-sm flex-1">
+                          <MathRenderer content={option || `Option ${String.fromCharCode(65 + index)}`} isOption />
+                        </span>
                         {formData.correct_index === index && (
                           <Badge className="ml-auto bg-admin-success text-white text-xs">Correct</Badge>
                         )}
