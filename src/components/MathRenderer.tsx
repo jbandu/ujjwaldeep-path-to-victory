@@ -41,7 +41,7 @@ const renderMathContent = (text: string): string => {
       }
     })
 
-    // Handle display math $$...$$ or blocks with LaTeX commands
+    // Handle display math $$...$$ 
     processed = processed.replace(/\$\$([^\$]+)\$\$/g, (_, math) => {
       try {
         return `<div class="math-display">${katex.renderToString(math, { 
@@ -53,17 +53,20 @@ const renderMathContent = (text: string): string => {
       }
     })
 
-    // If text contains LaTeX commands but no $ delimiters, try to render the whole thing
-    if (hasLatex(processed) && !processed.includes('katex')) {
+    // Auto-wrap LaTeX expressions that aren't already wrapped
+    // Match patterns like \command{...}, x^{...}, x_{...}, etc.
+    processed = processed.replace(/\\[a-zA-Z]+(?:\{[^}]*\})?|[a-zA-Z]\^?\{[^}]+\}|[a-zA-Z]_\{[^}]+\}/g, (match) => {
+      // Skip if already inside katex HTML
+      if (processed.includes('katex')) return match
       try {
-        return katex.renderToString(processed, { 
+        return katex.renderToString(match, { 
           throwOnError: false,
           displayMode: false 
         })
       } catch {
-        return processed
+        return match
       }
-    }
+    })
 
     return processed
   } catch (error) {
