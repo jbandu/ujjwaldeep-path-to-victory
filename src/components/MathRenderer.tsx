@@ -1,6 +1,6 @@
-import { useMemo } from 'react'
+import React from 'react'
 import 'katex/dist/katex.min.css'
-import katex from 'katex'
+import { BlockMath, InlineMath } from 'react-katex'
 
 interface MathRendererProps {
   content: string
@@ -8,71 +8,50 @@ interface MathRendererProps {
   isOption?: boolean
 }
 
-const hasLatex = (text: string): boolean => {
-  const latexPatterns = [
-    /\\boldsymbol/,
-    /\\frac/,
-    /\\sqrt/,
-    /\\cdot/,
-    /\^{/,
-    /_{/,
-    /\\[a-zA-Z]+/,
-    /\$.*\$/,
-    /[xyz]\s*[\(\[\{]/
-  ]
-  return latexPatterns.some(pattern => pattern.test(text))
+// Quick check: does text look mathy?
+const MATH_HINTS = [
+  /\\[a-zA-Z]+/,        // \frac, \sqrt, \boldsymbol, ...
+  /\$.*\$/,             // $...$
+  /\\\(|\\\)/,          // \( ... \)
+  /\\\[|\\\]/,          // \[ ... \]
+  /[xyz]\^|_\{/,        // x^2, _{i}
+]
+
+function isMathy(s?: string): boolean {
+  if (!s) return false
+  return MATH_HINTS.some((rx) => rx.test(s))
 }
 
-const renderMathContent = (text: string): string => {
-  if (!hasLatex(text)) {
-    return text
+// Split into text / inline / block segments for KaTeX rendering
+function tokenizeMath(s: string): Array<{ type: 'text' | 'inline' | 'block'; content: string }> {
+  // Order matters: $$...$$ (block), \[...\] (block), \(..\) (inline), $...$ (inline)
+  const pattern = /(\$\$[\s\S]+?\$\$|\\\[([\s\S]+?)\\\]|\\\(([\s\S]+?)\\\)|\$(.+?)\$)/g
+  const out: Array<{ type: 'text' | 'inline' | 'block'; content: string }> = []
+  let last = 0
+  let m: RegExpExecArray | null
+
+  while ((m = pattern.exec(s))) {
+    if (m.index > last) out.push({ type: 'text', content: s.slice(last, m.index) })
+    const full = m[0]
+    if (full.startsWith('$$')) {
+      out.push({ type: 'block', content: full.slice(2, -2).trim() })
+    } else if (full.startsWith('\\[')) {
+      out.push({ type: 'block', content: (m[2] ?? '').trim() })
+    } else if (full.startsWith('\\(')) {
+      out.push({ type: 'inline', content: (m[3] ?? '').trim() })
+    } else if (full.startsWith('$')) {
+      out.push({ type: 'inline', content: (m[4] ?? '').trim() })
+    }
+    last = pattern.lastIndex
   }
+  if (last < s.length) out.push({ type: 'text', content: s.slice(last) })
+  return out
+}
 
-  try {
-    // Handle inline math $...$ 
-    let processed = text.replace(/\$([^\$]+)\$/g, (_, math) => {
-      try {
-        return katex.renderToString(math, { 
-          throwOnError: false,
-          displayMode: false 
-        })
-      } catch {
-        return `$${math}$`
-      }
-    })
-
-    // Handle display math $$...$$ 
-    processed = processed.replace(/\$\$([^\$]+)\$\$/g, (_, math) => {
-      try {
-        return `<div class="math-display">${katex.renderToString(math, { 
-          throwOnError: false,
-          displayMode: true 
-        })}</div>`
-      } catch {
-        return `$$${math}$$`
-      }
-    })
-
-    // Auto-wrap LaTeX expressions that aren't already wrapped
-    // Match patterns like \command{...}, x^{...}, x_{...}, etc.
-    processed = processed.replace(/\\[a-zA-Z]+(?:\{[^}]*\})?|[a-zA-Z]\^?\{[^}]+\}|[a-zA-Z]_\{[^}]+\}/g, (match) => {
-      // Skip if already inside katex HTML
-      if (processed.includes('katex')) return match
-      try {
-        return katex.renderToString(match, { 
-          throwOnError: false,
-          displayMode: false 
-        })
-      } catch {
-        return match
-      }
-    })
-
-    return processed
-  } catch (error) {
-    console.error('Math rendering error:', error)
-    return text
-  }
+// Normalize common LaTeX macros
+function normalizeLatex(s: string): string {
+  // Replace \boldsymbol{...} with \mathbf{...} (KaTeX-friendly)
+  return s.replace(/\\boldsymbol\{/g, '\\mathbf{')
 }
 
 export const MathRenderer: React.FC<MathRendererProps> = ({ 
@@ -80,17 +59,28 @@ export const MathRenderer: React.FC<MathRendererProps> = ({
   className = '',
   isOption = false 
 }) => {
-  const renderedContent = useMemo(() => renderMathContent(content), [content])
-  const containsMath = useMemo(() => hasLatex(content), [content])
-
-  if (!containsMath) {
+  // Treat plain text quickly
+  if (!isMathy(content)) {
     return <span className={className}>{content}</span>
   }
 
+  const segments = tokenizeMath(content)
+  
   return (
-    <div 
-      className={`math-content ${isOption ? 'math-option' : 'math-stem'} ${className}`}
-      dangerouslySetInnerHTML={{ __html: renderedContent }}
-    />
+    <div className={`math-content ${isOption ? 'math-option' : 'math-stem'} ${className}`}>
+      {segments.map((seg, i) => {
+        if (seg.type === 'text') {
+          return <span key={i}>{seg.content}</span>
+        }
+        if (seg.type === 'inline') {
+          return <InlineMath key={i} math={normalizeLatex(seg.content)} />
+        }
+        return (
+          <div key={i} className="my-2 text-center">
+            <BlockMath math={normalizeLatex(seg.content)} />
+          </div>
+        )
+      })}
+    </div>
   )
 }
